@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recruit | Recologne</title>
+<meta name="description" content="Recologneの採用情報ページです。挑戦・たのしさ・成長を仲間とともに創り出す、Recologneのメンバーを募集しています。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800&family=Unbounded:wght@700&display=swap" rel="stylesheet">
+<!-- signature font: only the six glyphs of the CEO name are downloaded -->
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&text=%E4%BB%A3%E8%A1%A8%E6%BE%A4%E9%87%8E%E5%84%AA%E4%BB%8B&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#09090b;--fog:#f2f0ea;--fog-dim:#9a988f;--line:#232329;
+    --teal:#2ec4b6;--orange:#ff7a1a;--pink:#ff3d7a;--violet:#8b5cf6;--lime:#7ed957;--sky:#38bdf8;
+    --ink:#1c1c1e;--ink-dim:#6b6b70;--page-bg:#f2f2f2;
+    --mono:"Orbitron", ui-monospace,"Cascadia Code","Roboto Mono","SFMono-Regular",Menlo,Consolas,"Courier New",monospace;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Meiryo",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#fff;color:var(--ink);font-family:var(--sans);overflow-x:clip;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;padding:0;}
+  ul{list-style:none;margin:0;padding:0;}
+
+  .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--teal),var(--sky),var(--pink),var(--orange),var(--lime));z-index:100;}
+
+  /* ---- nav: white text, this page runs dark end-to-end ---- */
+  .nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;z-index:50;background:none;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-logo{height:28px;width:auto;display:block;}
+  .menu{display:flex;gap:32px;font-family:var(--mono);font-size:12.5px;letter-spacing:.09em;color:var(--ink);}
+  .menu a{color:inherit;text-decoration:none;}
+  .menu-item{position:relative;padding-bottom:16px;margin-bottom:-16px;}
+  .nav-flip{display:inline-block;overflow:hidden;height:1.3em;line-height:1.3em;perspective:240px;vertical-align:top;}
+  .nav-flip-inner{position:relative;display:block;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.16,1,.3,1);}
+  .nav-flip-face{backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+  .nav-flip-face--front{position:relative;transform:rotateX(0deg);}
+  .nav-flip-face--back{position:absolute;left:0;top:0;width:100%;height:100%;transform:rotateX(180deg);}
+  .menu a:hover .nav-flip-inner,.menu span:hover .nav-flip-inner{transform:rotateX(360deg);}
+  .menu-dropdown{position:absolute;top:100%;left:50%;min-width:240px;background:#fff;border:1px solid #e3e1da;border-radius:10px;padding:8px;opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,4px);transition:opacity .25s ease,transform .25s ease,visibility .25s;box-shadow:0 18px 40px rgba(0,0,0,.12);z-index:70;}
+  .menu-item:hover .menu-dropdown,.menu-item:focus-within .menu-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0);}
+  .menu-dropdown a{display:block;padding:9px 14px;border-radius:6px;font-size:11.5px;letter-spacing:.05em;white-space:nowrap;color:var(--ink);}
+  .menu-dropdown a:hover{background:var(--page-bg);color:var(--teal);}
+  .cta{font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.04em;color:var(--ink);background:transparent;border:1px solid var(--ink);padding:11px 25px;border-radius:99px;white-space:nowrap;transition:background .2s ease,color .2s ease;}
+  .cta:hover{background:var(--ink);color:#fff;}
+  @media (max-width:900px){.menu{display:none;}}
+  @media (max-width:768px){.nav{padding-left:10px;padding-right:10px;}}
+
+  /* ---- mobile nav: hamburger button + full-screen drawer (900px breakpoint
+     matches where .menu/.cta disappear above). Burger sits OUTSIDE .nav as a
+     fixed sibling so its z-index isn't trapped inside .nav's own stacking
+     context. ---- */
+  .nav-burger{display:none;position:fixed;top:26px;right:20px;z-index:65;width:28px;height:18px;padding:0;border:0;background:none;cursor:pointer;}
+  .nav-burger span{position:absolute;left:0;width:100%;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .25s ease;}
+  .nav-burger span:nth-child(1){top:0;}
+  .nav-burger span:nth-child(2){top:8px;}
+  .nav-burger span:nth-child(3){bottom:0;}
+  .nav-burger.is-active span:nth-child(1){transform:translateY(8px) rotate(45deg);}
+  .nav-burger.is-active span:nth-child(2){opacity:0;}
+  .nav-burger.is-active span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+  .nav-burger.is-active span{background:#fff;}
+
+  .mobile-menu{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:100px 32px 48px;background:rgba(9,9,11,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s ease,visibility .4s;overflow-y:auto;}
+  .mobile-menu.is-open{opacity:1;visibility:visible;pointer-events:auto;}
+  .mobile-menu-nav{display:flex;flex-direction:column;}
+  .mobile-menu-row{border-bottom:1px solid var(--line);}
+  .mobile-menu-link{display:flex;align-items:baseline;gap:16px;width:100%;margin:0;padding:16px 0;border:0;background:none;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(20px,6.5vw,26px);letter-spacing:.02em;color:#eee;text-decoration:none;text-align:left;cursor:pointer;opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1),color .25s ease;}
+  .mobile-menu.is-open .mobile-menu-link{opacity:1;transform:translateY(0);}
+  .mobile-menu-row:nth-child(1) .mobile-menu-link{transition-delay:.06s;}
+  .mobile-menu-row:nth-child(2) .mobile-menu-link{transition-delay:.1s;}
+  .mobile-menu-row:nth-child(3) .mobile-menu-link{transition-delay:.14s;}
+  .mobile-menu-row:nth-child(4) .mobile-menu-link{transition-delay:.18s;}
+  .mobile-menu-row:nth-child(5) .mobile-menu-link{transition-delay:.22s;}
+  .mobile-menu-row:nth-child(6) .mobile-menu-link{transition-delay:.26s;}
+  .mobile-menu-link.is-current{color:var(--teal);}
+  .mobile-menu-num{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--fog-dim);}
+  .mobile-menu-expand{display:flex;align-items:center;}
+  .mobile-menu-caret{margin-left:auto;width:9px;height:9px;border-right:1.5px solid #eee;border-bottom:1.5px solid #eee;transform:rotate(45deg);transition:transform .35s cubic-bezier(.16,1,.3,1);}
+  .mobile-menu-expand[aria-expanded="true"] .mobile-menu-caret{transform:rotate(225deg);}
+  .mobile-menu-sub{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .4s cubic-bezier(.16,1,.3,1);}
+  .mobile-menu-sub-inner{min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:0 0 0 34px;}
+  .mobile-menu-row--expand.is-expanded .mobile-menu-sub{grid-template-rows:1fr;}
+  .mobile-menu-sub-inner a{padding:9px 0;font-family:var(--sans);font-size:14px;color:var(--fog-dim);text-decoration:none;}
+  .mobile-menu-sub-inner a:last-child{margin-bottom:14px;}
+  .mobile-menu-sub-inner a:active{color:var(--teal);}
+  .mobile-menu-cta{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:4px;padding:16px;border:1px solid #fff;border-radius:99px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.08em;color:#eee;text-decoration:none;opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.16,1,.3,1) .3s,transform .5s cubic-bezier(.16,1,.3,1) .3s;}
+  .mobile-menu.is-open .mobile-menu-cta{opacity:1;transform:translateY(0);}
+  @media (max-width:900px){
+    .cta{display:none;}
+    .nav-burger{display:block;}
+  }
+
+  .rc-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.05em;padding:16px 32px;border-radius:99px;white-space:nowrap;transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease;}
+  .rc-btn:active{transform:scale(.97);}
+  .rc-btn--primary{position:relative;z-index:0;overflow:hidden;background:var(--ink);color:#fff;border:1px solid var(--ink);}
+  .rc-btn--primary:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(135deg,var(--teal),var(--sky) 35%,var(--pink) 70%,var(--orange));opacity:0;transition:opacity .35s ease;}
+  .rc-btn--primary:hover{border-color:transparent;}
+  .rc-btn--primary:hover:before{opacity:1;}
+
+  /* ================= shared section chrome ================= */
+  /* content column matches the 1400px max-width used by about.html / works.html /
+     contact.html. A large gradient-outline index number is clipped to each
+     section's top-right corner as a quiet "chapter marker" — decorative
+     only, purely derived from section order. */
+  .rc-section{position:relative;padding:96px 40px;overflow:hidden;}
+  .rc-section-inner{position:relative;z-index:1;max-width:1400px;margin:0 auto;}
+  .rc-eyebrow{position:relative;z-index:1;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;color:var(--ink-dim);display:flex;align-items:center;gap:10px;}
+  .rc-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex:none;animation:rcDotPulse 2.4s ease-in-out infinite;}
+  @keyframes rcDotPulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.45;transform:scale(.75);}}
+  .rc-reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease, transform .7s ease;}
+  .rc-reveal.is-inview{opacity:1;transform:translateY(0);}
+
+  .rc-index{position:absolute;top:-16px;right:-8px;z-index:0;margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(100px,15vw,190px);line-height:1;letter-spacing:-.02em;background:linear-gradient(135deg,var(--violet),var(--pink) 30%,var(--orange) 55%,var(--lime) 75%,var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.07;user-select:none;pointer-events:none;}
+  .rc-index--dark{opacity:.16;}
+
+  @media (max-width:768px){
+    .rc-section{padding:64px 30px;}
+    .rc-index{font-size:clamp(70px,24vw,120px);top:-6px;right:-4px;}
+  }
+
+  /* ---- Value: full-bleed manifesto list, no card — each line is its own
+     oversized statement that nudges right and tints on hover ---- */
+  .rc-value{background:#fff;}
+  /* shared section head (Value / CEO message): oversized black
+     wordmark with a staggered letter rise, a chapter marker whose rule
+     draws in, and a hashtag lead line */
+  .rc-head{position:relative;margin-bottom:56px;}
+  .rc-head.rc-reveal{transform:none;}
+  .rc-head-meta{display:flex;align-items:center;gap:16px;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.24em;color:var(--ink-dim);}
+  .rc-head-chapter{font-size:13px;letter-spacing:.08em;color:var(--ink);}
+  .rc-head-rule{position:relative;width:72px;height:1px;background:rgba(0,0,0,.12);overflow:hidden;}
+  .rc-head-rule:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--teal),var(--pink),var(--orange));transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.16,1,.3,1) .2s;}
+  .rc-head.is-inview .rc-head-rule:after{transform:scaleX(1);}
+  .rc-head-title{margin:22px 0 0;display:flex;font-family:"Unbounded",var(--sans);font-weight:700;font-size:clamp(64px,13vw,200px);line-height:.9;letter-spacing:-.04em;overflow:hidden;padding-bottom:.06em;}
+  .rc-head-title .ch{display:inline-block;color:var(--ink);transform:translateY(105%);transition:transform 1s cubic-bezier(.16,1,.3,1) calc(var(--i) * .07s);}
+  .rc-head.is-inview .rc-head-title .ch{transform:translateY(0);}
+  .rc-head-lead{margin:20px 0 0;display:flex;align-items:baseline;gap:6px;font-family:var(--sans);font-weight:700;font-size:clamp(15px,1.6vw,20px);letter-spacing:.06em;color:var(--ink);opacity:0;transform:translateY(10px);transition:opacity .8s ease .45s,transform .8s cubic-bezier(.16,1,.3,1) .45s;}
+  .rc-head-lead .hash{font-family:"Unbounded",var(--sans);font-size:1.25em;color:var(--ink);}
+  .rc-head.is-inview .rc-head-lead{opacity:1;transform:none;}
+  @media (max-width:768px){
+    .rc-head{margin-bottom:36px;}
+    .rc-head-meta{font-size:10px;letter-spacing:.18em;gap:12px;}
+    .rc-head-rule{width:44px;}
+    .rc-head-title{font-size:clamp(56px,20vw,96px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rc-head-title .ch,.rc-head-lead,.rc-head-rule:after{transition:none;transform:none;opacity:1;}
+  }
+  .rc-value-list{margin-top:10px;display:flex;flex-direction:column;}
+  .rc-value-row{position:relative;display:flex;align-items:baseline;gap:28px;padding:30px 0;border-top:1px solid rgba(0,0,0,.08);}
+  .rc-value-row:last-child{border-bottom:1px solid rgba(0,0,0,.08);}
+  .rc-value-row:before{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,var(--row-a,var(--teal)),transparent 55%);opacity:0;transition:opacity .35s ease;}
+  .rc-value-row:hover:before{opacity:.06;}
+  .rc-value-row .num{position:relative;z-index:1;font-family:var(--mono);font-weight:800;font-size:14px;letter-spacing:.02em;background:linear-gradient(135deg,var(--row-a,var(--teal)),var(--row-b,var(--violet)));-webkit-background-clip:text;background-clip:text;color:transparent;flex:none;}
+  .rc-value-row .txt{position:relative;z-index:1;font-family:var(--sans);font-weight:800;font-size:clamp(19px,2.8vw,32px);line-height:1.4;color:var(--ink);transition:color .3s ease,transform .35s cubic-bezier(.16,1,.3,1);}
+  .rc-value-row:hover .txt{color:var(--row-a,var(--teal));transform:translateX(12px);}
+
+  /* ---- Numbers: lead intro panel (2/3) + one stat (1/3) on row one,
+     remaining stats wrap 3-up beneath — mirrors a corporate "figures" module ---- */
+  .rc-numbers{background:radial-gradient(circle at 10% 12%, rgba(139,92,246,.14), transparent 42%), radial-gradient(circle at 90% 88%, rgba(46,196,182,.16), transparent 45%), radial-gradient(circle at 70% 10%, rgba(255,122,26,.08), transparent 35%), #f7f7fa;color:var(--ink);}
+  .rc-numbers .rc-eyebrow{color:var(--ink-dim);}
+  .rc-numbers-layout{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .rc-numbers-intro{grid-column:span 2;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:34px;display:flex;flex-direction:column;justify-content:center;gap:12px;}
+  .rc-numbers-intro-eyebrow{margin:0;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.14em;background:linear-gradient(135deg,var(--teal),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .rc-numbers-intro-title{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(20px,2.2vw,27px);line-height:1.4;color:var(--ink);}
+  .rc-numbers-intro-desc{margin:0;max-width:420px;font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.8;color:var(--ink-dim);}
+  .rc-tile{position:relative;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;gap:2px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03),0 18px 36px -24px rgba(0,0,0,.14);transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s ease,box-shadow .3s ease;}
+  .rc-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--tile-accent,var(--teal)),transparent 60%);opacity:0;transition:opacity .3s ease;}
+  .rc-tile:hover{transform:translateY(-6px);border-color:rgba(0,0,0,.1);box-shadow:0 1px 2px rgba(0,0,0,.03),0 26px 44px -24px rgba(0,0,0,.22);}
+  .rc-tile:hover:before{opacity:.1;}
+  .rc-tile-index{position:relative;line-height:1.2;font-family:var(--mono);font-weight:700;font-size:11px;color:var(--tile-accent,var(--teal));}
+  .rc-tile-label{position:relative;line-height:1.2;font-family:var(--sans);font-weight:700;font-size:12.5px;color:#444;}
+  .rc-tile-num{position:relative;margin-top:0;line-height:1.05;font-family:var(--sans);font-weight:900;font-size:32px;color:var(--ink);}
+  .rc-tile-desc{position:relative;margin-top:0;font-family:var(--sans);font-weight:400;font-size:11.5px;line-height:1.5;color:var(--ink-dim);}
+  @media (max-width:900px){
+    .rc-numbers-layout{grid-template-columns:repeat(2,1fr);}
+    .rc-numbers-intro{grid-column:span 2;}
+  }
+  @media (max-width:560px){
+    .rc-numbers-layout{grid-template-columns:1fr;}
+    .rc-numbers-intro{grid-column:span 1;}
+  }
+
+  /* ---- CEO message: editorial split — sticky portrait that wipes in
+     on the left, an oversized pull quote with a gradient marker sweep
+     on the right, and an outlined keyword marquee closing the section.
+     A faint blueprint grid sits behind everything. ---- */
+  /* overflow:clip (not hidden) so the sticky portrait still sticks */
+  .rc-ceo{background:#fff;padding-bottom:0;overflow:clip;}
+  .rc-ceo:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,0,0,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.045) 1px,transparent 1px);background-size:80px 80px;-webkit-mask:radial-gradient(ellipse at 70% 40%,#000 10%,transparent 70%);mask:radial-gradient(ellipse at 70% 40%,#000 10%,transparent 70%);}
+  .rc-ceo-grid{display:grid;grid-template-columns:minmax(260px,5fr) 7fr;gap:clamp(40px,7vw,110px);align-items:start;}
+
+  .rc-ceo-figure{margin:0;position:sticky;top:120px;}
+  .rc-ceo-photo{position:relative;aspect-ratio:4/5;border-radius:4px;overflow:hidden;background:linear-gradient(155deg,#ececec,#d2d2d2);clip-path:inset(100% 0 0 0);transition:clip-path 1.3s cubic-bezier(.77,0,.18,1) .1s;}
+  .rc-ceo-figure.is-inview .rc-ceo-photo{clip-path:inset(0 0 0 0);}
+  .rc-ceo-photo:after{content:"";position:absolute;inset:0;opacity:.07;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .rc-ceo-crop{position:absolute;width:18px;height:18px;border-color:var(--ink);border-style:solid;border-width:0;}
+  .rc-ceo-crop--tl{top:-10px;left:-10px;border-top-width:1px;border-left-width:1px;}
+  .rc-ceo-crop--br{right:-10px;bottom:-10px;border-right-width:1px;border-bottom-width:1px;}
+  .rc-ceo-frame{position:relative;}
+
+  .rc-ceo-text{min-width:0;padding-top:8px;}
+  .rc-ceo-quote{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(28px,3.8vw,54px);line-height:1.45;letter-spacing:.01em;color:var(--ink);}
+  .rc-ceo-quote mark{color:inherit;background:linear-gradient(90deg,rgba(46,196,182,.55),rgba(56,189,248,.45) 50%,rgba(255,61,122,.4)) no-repeat 0 88%/0% 38%;transition:background-size 1.1s cubic-bezier(.16,1,.3,1) .5s;padding:0 .04em;}
+  .rc-ceo-quote.is-inview mark{background-size:100% 38%;}
+  .rc-ceo-body{margin-top:clamp(36px,4vw,56px);max-width:620px;display:grid;gap:1.4em;}
+  .rc-ceo-body p{margin:0;font-family:var(--sans);font-weight:500;font-size:15px;line-height:2.15;letter-spacing:.04em;color:#333;}
+  .rc-ceo-sign{margin-top:44px;display:flex;align-items:center;gap:18px;font-family:var(--sans);font-weight:700;font-size:14px;letter-spacing:.14em;color:var(--ink);}
+  .rc-ceo-sign .line{width:48px;height:1px;background:var(--ink);}
+  /* handwritten signature: brush-script face */
+  .rc-ceo-sign .name{font-family:"Yuji Syuku",serif;font-weight:400;font-size:clamp(18px,1.6vw,22px);letter-spacing:.1em;line-height:1.2;}
+
+  .rc-ceo-marquee{position:relative;z-index:1;margin:clamp(72px,9vw,120px) -40px 0;padding:28px 0 34px;border-top:1px solid rgba(0,0,0,.1);overflow:hidden;white-space:nowrap;}
+  /* translateX is driven by scroll position (see script) */
+  .rc-ceo-marquee .track{display:inline-flex;will-change:transform;}
+  .rc-ceo-marquee span{font-family:"Unbounded",var(--sans);font-weight:700;font-size:clamp(44px,7vw,104px);line-height:1;letter-spacing:-.02em;color:var(--ink);padding-right:.5em;}
+  .rc-ceo-marquee span:nth-child(even){color:rgba(0,0,0,.1);}
+
+  @media (max-width:900px){
+    .rc-ceo-grid{grid-template-columns:1fr;}
+    .rc-ceo-figure{position:relative;top:auto;max-width:420px;margin-left:auto;margin-right:auto;}
+  }
+  @media (max-width:768px){
+    /* 7-letter wordmark: scale down so it never clips on narrow screens */
+    .rc-ceo .rc-head-title{font-size:clamp(36px,13.5vw,96px);}
+    .rc-ceo-marquee{margin-left:-30px;margin-right:-30px;}
+    .rc-ceo-body p{font-size:14px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rc-ceo-photo{clip-path:none;transition:none;}
+    .rc-ceo-quote mark{background-size:100% 38%;transition:none;}
+  }
+
+  /* ---- Member voice: intro + arrows on the left, a peeking horizontal
+     carousel of quote cards on the right — light cards, gradient avatar
+     ring and quote-mark cycling through the accent palette per card ---- */
+  .rc-voice{background:#fff;}
+  .rc-voice-layout{margin-top:40px;display:grid;grid-template-columns:minmax(220px,.5fr) 1.5fr;gap:40px;align-items:center;}
+  .rc-voice-intro{display:flex;flex-direction:column;gap:20px;}
+  .rc-voice-intro-eyebrow{margin:0;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.14em;color:var(--ink-dim);}
+  .rc-voice-intro-title{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(22px,2.8vw,32px);line-height:1.35;color:var(--ink);}
+  .rc-voice-arrows{display:flex;gap:12px;margin-top:8px;}
+  .rc-voice-arrow{width:52px;height:52px;border-radius:50%;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--ink);transition:background .25s ease,color .25s ease,transform .25s ease,border-color .25s ease;}
+  .rc-voice-arrow:hover{background:var(--ink);color:#fff;border-color:transparent;transform:scale(1.08);}
+  .rc-voice-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 2px 44px;margin-bottom:-30px;scrollbar-width:none;-ms-overflow-style:none;}
+  .rc-voice-track::-webkit-scrollbar{display:none;}
+  .rc-voice-card{position:relative;flex:0 0 auto;width:min(86%,420px);scroll-snap-align:start;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:32px 26px 26px;display:flex;flex-direction:column;gap:18px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 20px 40px -24px rgba(0,0,0,.16);transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;}
+  .rc-voice-card:hover{transform:translateY(-8px);box-shadow:0 30px 56px -22px rgba(0,0,0,.2);}
+  .rc-voice-card:before{content:"“";position:absolute;top:-4px;right:22px;font-family:Georgia,serif;font-size:70px;background:linear-gradient(135deg,var(--card-a,var(--teal)),var(--card-b,var(--violet)));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.5;}
+  .rc-voice-avatar{width:56px;height:56px;padding:2px;border-radius:16px;background:linear-gradient(135deg,var(--card-a,var(--teal)),var(--card-b,var(--violet)));}
+  .rc-voice-avatar:after{content:"";display:block;width:100%;height:100%;border-radius:14px;background:linear-gradient(155deg,#e4e4e4,#cfcfcf);}
+  .rc-voice-quote{position:relative;margin:0;font-family:var(--sans);font-weight:400;font-size:13.5px;line-height:1.9;color:var(--ink);}
+  .rc-voice-meta{margin:0;font-family:var(--sans);font-weight:700;font-size:11.5px;color:var(--ink-dim);}
+  @media (max-width:900px){.rc-voice-layout{grid-template-columns:1fr;gap:26px;}}
+  @media (max-width:768px){
+    .rc-voice-intro{display:grid;grid-template-columns:1fr auto;grid-template-areas:"eyebrow eyebrow" "title arrows";column-gap:12px;row-gap:8px;}
+    .rc-voice-intro-eyebrow{grid-area:eyebrow;}
+    .rc-voice-intro-title{grid-area:title;}
+    .rc-voice-arrows{grid-area:arrows;margin-top:0;align-self:center;justify-self:end;}
+  }
+
+  /* ---- Ideal person: Swiss-style spec grid. Hairline-ruled cells
+     (1px gap over a tinted backdrop), each with an index, an English
+     keyword and the trait itself; hovering floods the cell black from
+     the bottom. The ruled grid fades in as one
+     block, then each cell's copy staggers up. ---- */
+  .rc-ideal{background:#fff;}
+  .rc-ideal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(0,0,0,.12);border:1px solid rgba(0,0,0,.12);}
+  .rc-ideal-cell{position:relative;overflow:hidden;background:#fff;min-height:220px;padding:28px 28px 30px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;color:var(--ink);}
+  .rc-ideal-cell:before{content:"";position:absolute;inset:0;z-index:0;background:var(--ink);transform:scaleY(0);transform-origin:bottom;transition:transform .55s cubic-bezier(.77,0,.18,1);}
+  .rc-ideal-cell:hover:before{transform:scaleY(1);}
+  .rc-ideal-cell > *{position:relative;z-index:1;opacity:0;transform:translateY(14px);transition:opacity .7s ease calc(.15s + var(--i) * .07s),transform .7s cubic-bezier(.16,1,.3,1) calc(.15s + var(--i) * .07s),color .35s ease;}
+  .rc-ideal-grid.is-inview .rc-ideal-cell > *{opacity:1;transform:none;}
+  .rc-ideal-top{display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.2em;color:var(--ink-dim);}
+  .rc-ideal-cell:hover .rc-ideal-top{color:rgba(255,255,255,.6);}
+  .rc-ideal-text{margin:0;word-break:keep-all;overflow-wrap:anywhere;font-family:var(--sans);font-weight:900;font-size:clamp(19px,1.9vw,26px);line-height:1.5;letter-spacing:.02em;}
+  .rc-ideal-cell:hover .rc-ideal-text{color:#fff;}
+  @media (max-width:900px){
+    .rc-ideal-grid{grid-template-columns:repeat(2,1fr);}
+    .rc-ideal-cell{min-height:180px;}
+    /* 9 items in 2 columns: let the odd last cell span the row so no
+       empty (tinted) slot shows through */
+    .rc-ideal-cell:last-child:nth-child(odd){grid-column:span 2;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rc-ideal-cell > *{opacity:1;transform:none;transition:none;}
+  }
+  @media (max-width:560px){
+    .rc-ideal-grid{grid-template-columns:1fr;}
+    .rc-ideal-cell:last-child:nth-child(odd){grid-column:auto;}
+    .rc-ideal-cell{min-height:0;padding:22px 22px 24px;gap:22px;}
+  }
+
+  /* ---- Benefits: editorial index. Six columns of type, no cards or
+     hover states (nothing here is clickable): a ruled top edge that
+     draws in left-to-right, index + key fact in mono, an oversized
+     English keyword, then the Japanese title and description. ---- */
+  .rc-benefits{background:#f5f5f3;}
+  .rc-bnf-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);column-gap:clamp(24px,3vw,48px);row-gap:clamp(48px,5vw,72px);}
+  .rc-bnf-item{position:relative;padding-top:22px;display:flex;flex-direction:column;}
+  .rc-bnf-item:before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(.16,1,.3,1) calc(var(--i) * .08s);}
+  .rc-bnf-list.is-inview .rc-bnf-item:before{transform:scaleX(1);}
+  .rc-bnf-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.18em;color:var(--ink-dim);}
+  .rc-bnf-top .idx{color:var(--ink);}
+  .rc-bnf-word{margin:clamp(28px,3vw,44px) 0 0;font-family:"Unbounded",var(--sans);font-weight:700;font-size:clamp(34px,4.2vw,64px);line-height:1;letter-spacing:-.03em;color:var(--ink);}
+  .rc-bnf-item h3{margin:22px 0 0;font-family:var(--sans);font-weight:900;font-size:17px;letter-spacing:.04em;color:var(--ink);}
+  .rc-bnf-item .desc{margin:10px 0 0;font-family:var(--sans);font-weight:400;font-size:13px;line-height:1.9;color:var(--ink-dim);}
+  @media (max-width:900px){
+    .rc-bnf-list{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:768px){
+    /* 8-letter wordmark: scale down so it never clips on narrow screens */
+    .rc-benefits .rc-head-title{font-size:clamp(34px,12vw,88px);}
+  }
+  @media (max-width:560px){
+    .rc-bnf-list{grid-template-columns:1fr;row-gap:44px;}
+    .rc-bnf-word{margin-top:22px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rc-bnf-item:before{transform:none;transition:none;}
+  }
+
+  /* ---- Selection flow: a single ink timeline that draws in left to
+     right, with a node per step that fills in sequence as the line
+     reaches it. Big Unbounded step numbers, English label in mono,
+     Japanese step name. The final node is solid ink. No hover states. ---- */
+  .rc-flow{background:#fff;}
+  .rc-flow-list{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);}
+  .rc-flow-list:before,.rc-flow-list:after{content:"";position:absolute;left:0;right:0;top:6px;height:1px;}
+  .rc-flow-list:before{background:rgba(0,0,0,.12);}
+  .rc-flow-list:after{background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform 1.6s cubic-bezier(.65,0,.35,1) .2s;}
+  .rc-flow-list.is-inview:after{transform:scaleX(1);}
+  .rc-flow-item{position:relative;padding:44px 20px 0 0;}
+  .rc-flow-dot{position:absolute;top:0;left:0;width:13px;height:13px;border-radius:50%;background:#fff;border:1px solid var(--ink);transition:background .3s ease calc(.2s + var(--i) * .32s);}
+  .rc-flow-list.is-inview .rc-flow-dot{background:var(--ink);}
+  .rc-flow-item.is-final .rc-flow-dot{width:13px;height:13px;box-shadow:0 0 0 6px rgba(0,0,0,.06);}
+  .rc-flow-num{display:block;font-family:"Unbounded",var(--sans);font-weight:700;font-size:clamp(44px,5vw,76px);line-height:1;letter-spacing:-.04em;color:var(--ink);}
+  .rc-flow-en{margin:22px 0 0;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.2em;color:var(--ink-dim);}
+  .rc-flow-name{margin:8px 0 0;font-family:var(--sans);font-weight:900;font-size:clamp(16px,1.4vw,19px);letter-spacing:.04em;color:var(--ink);}
+  @media (max-width:900px){
+    /* vertical timeline */
+    .rc-flow-list{grid-template-columns:1fr;row-gap:36px;padding-left:40px;}
+    .rc-flow-list:before,.rc-flow-list:after{left:6px;right:auto;top:0;bottom:0;width:1px;height:auto;}
+    .rc-flow-list:after{transform:scaleY(0);transform-origin:top;}
+    .rc-flow-list.is-inview:after{transform:scaleY(1);}
+    .rc-flow-item{padding:0;display:grid;grid-template-columns:auto 1fr;column-gap:22px;align-items:end;}
+    .rc-flow-dot{left:-40px;top:.4em;}
+    .rc-flow-num{grid-row:span 2;min-width:2.1em;font-size:clamp(40px,11vw,60px);}
+    .rc-flow-en{margin:0;}
+    .rc-flow-name{margin:4px 0 2px;}
+  }
+  @media (max-width:768px){
+    .rc-flow .rc-head-title{font-size:clamp(36px,13.5vw,96px);}
+    .rc-ideal .rc-head-title{font-size:clamp(36px,15.5vw,96px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .rc-flow-list:after{transform:none !important;transition:none;}
+    .rc-flow-dot{background:var(--ink);transition:none;}
+  }
+
+  /* ---- FAQ: two-column editorial — the FAQ wordmark sticks on the left
+     while hairline-ruled questions run down the right. Each row opens
+     with a smooth height animation (grid-rows 0fr -> 1fr); the thin
+     plus rotates into a cross. ---- */
+  .rc-faq{background:#f5f5f3;overflow:clip;}
+  .rc-faq-layout{display:grid;grid-template-columns:4fr 7fr;gap:clamp(40px,6vw,96px);align-items:start;}
+  .rc-faq-layout .rc-head{position:sticky;top:120px;margin-bottom:0;}
+  .rc-faq .rc-head-title{font-size:clamp(64px,9vw,150px);}
+  .rc-faq-list{border-top:1px solid var(--ink);}
+  .rc-faq-item{border-bottom:1px solid rgba(0,0,0,.14);}
+  .rc-faq-q{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:24px;width:100%;padding:30px 0;background:none;border:0;text-align:left;cursor:pointer;color:var(--ink);}
+  /* fixed-width Q/A labels so question and answer text share one left edge */
+  .rc-faq-q .no,.rc-faq-a p .no{width:44px;}
+  .rc-faq-q .no{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.16em;color:var(--ink-dim);}
+  .rc-faq-q .q{font-family:var(--sans);font-weight:900;font-size:clamp(16px,1.6vw,21px);line-height:1.5;letter-spacing:.03em;}
+  .rc-faq-q .plus{position:relative;flex:none;width:22px;height:22px;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+  .rc-faq-q .plus:before,.rc-faq-q .plus:after{content:"";position:absolute;top:50%;left:0;width:100%;height:1px;background:var(--ink);}
+  .rc-faq-q .plus:after{transform:rotate(90deg);}
+  .rc-faq-item.is-open .rc-faq-q .plus{transform:rotate(135deg);}
+  .rc-faq-q:focus-visible{outline:1px solid var(--ink);outline-offset:4px;}
+  .rc-faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.16,1,.3,1);}
+  .rc-faq-item.is-open .rc-faq-a{grid-template-rows:1fr;}
+  .rc-faq-a > div{overflow:hidden;}
+  .rc-faq-a p{margin:0;padding:0 46px 32px 0;display:grid;grid-template-columns:auto 1fr;gap:24px;font-family:var(--sans);font-weight:400;font-size:14px;line-height:2;color:#333;}
+  .rc-faq-a p .no{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.16em;line-height:2.5;color:var(--ink);}
+  @media (max-width:900px){
+    .rc-faq-layout{grid-template-columns:1fr;gap:36px;}
+    .rc-faq-layout .rc-head{position:relative;top:auto;}
+  }
+  @media (max-width:560px){
+    .rc-faq-q{gap:16px;padding:24px 0;}
+    .rc-faq-a p{gap:16px;padding-right:0;}
+  }
+
+  /* ---- CTA: the whole block is one link. A mono chapter line, the
+     Japanese call to action, then an oversized ENTRY wordmark with a
+     round ink arrow button on the right and a rule underneath. Unlike
+     the info sections above this IS clickable, so it gets a hover:
+     the rule floods with the brand gradient, the arrow turns and grows,
+     and the wordmark nudges right. ---- */
+  .rc-cta{background:#fff;padding-top:clamp(96px,10vw,150px);padding-bottom:clamp(96px,10vw,150px);}
+  .rc-cta .rc-head{margin-bottom:clamp(28px,3vw,40px);}
+  .rc-cta-link{display:block;color:var(--ink);text-decoration:none;}
+  .rc-cta-title{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(22px,2.6vw,34px);letter-spacing:.04em;}
+  .rc-cta-sub{margin:12px 0 0;font-family:var(--sans);font-weight:500;font-size:14px;letter-spacing:.06em;color:var(--ink-dim);}
+  .rc-cta-row{margin-top:clamp(24px,3vw,40px);display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  .rc-cta-word{font-family:"Unbounded",var(--sans);font-weight:700;font-size:clamp(72px,17vw,260px);line-height:.85;letter-spacing:-.05em;transition:transform .6s cubic-bezier(.16,1,.3,1);}
+  .rc-cta-arrow{flex:none;width:clamp(72px,9vw,140px);height:clamp(72px,9vw,140px);border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:clamp(26px,3vw,46px);transition:transform .6s cubic-bezier(.16,1,.3,1);}
+  .rc-cta-rule{position:relative;display:block;margin-top:clamp(24px,3vw,40px);height:2px;background:rgba(0,0,0,.12);overflow:hidden;}
+  .rc-cta-rule:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--teal),var(--sky) 30%,var(--pink) 65%,var(--orange));transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.65,0,.35,1);}
+  .rc-cta-link:hover .rc-cta-word{transform:translateX(14px);}
+  .rc-cta-link:hover .rc-cta-arrow{transform:rotate(45deg) scale(1.08);}
+  .rc-cta-link:hover .rc-cta-rule:after{transform:scaleX(1);}
+  .rc-cta-link:focus-visible{outline:2px solid var(--ink);outline-offset:8px;}
+  .rc-cta-link:active .rc-cta-arrow{transform:rotate(45deg) scale(.96);}
+  @media (max-width:768px){
+    .rc-cta-row{gap:14px;}
+    .rc-cta-word{font-size:15vw;}
+    .rc-cta-arrow{width:52px;height:52px;font-size:22px;}
+    .rc-cta-sub{font-size:13px;}
+  }
+
+  /* ---- site footer (shared across pages) ---- */
+  /* position:relative + z-index:1 -- otherwise any fixed, z-index:0 ambient
+     background layers on the page (vignette/fog/etc, if present) paint on top
+     of it and hide it. */
+  .site-footer{position:relative;z-index:1;background:var(--void);color:var(--fog);font-family:var(--sans);}
+
+  /* CONTACT/RECRUIT masthead: full-bleed (not constrained to .footer-inner's
+     max-width), with the original bg photo fading in on hover behind a small
+     cross-to-line icon morph. */
+  .footer-cta-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
+  .footer-cta-link{position:relative;display:flex;align-items:center;justify-content:center;gap:22px;padding:76px 56px;font-family:var(--mono);font-weight:700;font-size:clamp(34px,5vw,66px);letter-spacing:-.01em;color:#eee;text-decoration:none;overflow:hidden;transition:color .4s ease;}
+  .footer-cta-link:first-child{border-right:1px solid var(--line);}
+  .footer-cta-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;z-index:0;}
+  .footer-cta-link:hover .footer-cta-bg{opacity:.4;}
+  .footer-cta-shade{position:absolute;inset:0;z-index:0;background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,.35) 60%,rgba(0,0,0,.65));opacity:0;transition:opacity .5s ease;}
+  .footer-cta-link:hover .footer-cta-shade{opacity:1;}
+  .footer-cta-icon{position:relative;z-index:1;width:26px;height:26px;flex:none;}
+  .footer-cta-icon .h,.footer-cta-icon .v{position:absolute;background:#6b6862;transition:transform .35s cubic-bezier(.16,1,.3,1),background .3s ease,opacity .3s ease;}
+  .footer-cta-icon .h{top:50%;left:0;width:100%;height:2px;transform:translateY(-50%);}
+  .footer-cta-icon .v{left:50%;top:0;height:100%;width:2px;transform:translateX(-50%);}
+  .footer-cta-link:hover .footer-cta-icon .h,.footer-cta-link:hover .footer-cta-icon .v{background:#fff;}
+  .footer-cta-link:hover .footer-cta-icon .v{transform:translateX(-50%) scaleY(0);opacity:0;}
+  .footer-cta-link:hover .footer-cta-icon .h{transform:translateY(-50%) scaleX(1.3);}
+  .footer-cta-word{position:relative;z-index:1;}
+  .footer-cta-link:hover{color:#fff;}
+  @media (max-width:768px){
+    .footer-cta-row{grid-template-columns:1fr;}
+    .footer-cta-link{padding:54px 28px;}
+    .footer-cta-link:first-child{border-right:none;border-bottom:1px solid var(--line);}
+  }
+
+  .footer-inner{max-width:1400px;margin:0 auto;padding:44px 40px 30px;}
+  .footer-nav{display:flex;flex-wrap:wrap;align-items:center;gap:24px 32px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--fog-dim);}
+  .footer-nav a{color:var(--fog-dim);text-decoration:none;}
+  .footer-nav a:hover{color:#fff;}
+  .footer-copyright{margin-left:auto;color:var(--fog-dim);}
+  @media (max-width:768px){.footer-inner{padding-left:30px;padding-right:30px;}}
+
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.001ms !important;}}
+
+  /* ---- cursor stalker: circular "VIEW" badge that follows the pointer with
+     a soft lag and appears over clickable preview cards ([data-view-cursor]).
+     mix-blend-mode:difference means one white ring/text design self-adjusts
+     contrast over anything behind it, so this is identical on every page. ---- */
+  .view-stalker{position:fixed;top:0;left:0;width:92px;height:92px;border-radius:50%;pointer-events:none;z-index:90;display:flex;align-items:center;justify-content:center;gap:5px;background:transparent;border:1px solid #fff;color:#fff;mix-blend-mode:difference;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;opacity:0;transform:translate(-50%,-50%) scale(.5);transition:opacity .4s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);will-change:transform,opacity;}
+  .view-stalker::before{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(255,255,255,.4);transform:scale(.8);opacity:0;transition:opacity .5s ease, transform .6s cubic-bezier(.16,1,.3,1);}
+  .view-stalker.is-active{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  .view-stalker.is-active::before{opacity:1;transform:scale(1);}
+  .view-stalker .vs-arrow{display:inline-block;font-size:13px;transition:transform .4s cubic-bezier(.16,1,.3,1);}
+  .view-stalker.is-active .vs-arrow{transform:translate(1px,-1px);}
+  @media (max-width:768px), (hover:none){.view-stalker{display:none;}}
+
+  /* ---- floating ENTRY button: pinned bottom-right, follows scroll; fades
+     out while the ENTRY section itself is on screen so it never doubles up
+     with the big CTA (see the IntersectionObserver in the script). ---- */
+  .rc-float-cta{position:fixed;right:32px;bottom:32px;z-index:45;display:flex;align-items:center;gap:12px;padding:22px 36px;border-radius:99px;background:var(--ink);border:2px solid #fff;color:#fff;font-family:var(--mono);font-weight:700;font-size:16px;letter-spacing:.07em;text-decoration:none;box-shadow:0 18px 36px -16px rgba(0,0,0,.4);opacity:0;transform:translateY(18px);pointer-events:none;transition:opacity .4s ease,transform .4s cubic-bezier(.16,1,.3,1),background .25s ease;}
+  .rc-float-cta.is-visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+  .rc-float-cta:hover{background:var(--teal);}
+  .rc-float-cta-arrow{display:inline-block;font-size:1.2em;transition:transform .3s cubic-bezier(.16,1,.3,1);}
+  .rc-float-cta:hover .rc-float-cta-arrow{transform:translate(2px,-2px);}
+  @media (max-width:768px){.rc-float-cta{right:18px;bottom:18px;padding:16px 26px;font-size:14px;}}
+  @media (prefers-reduced-motion:reduce){.rc-float-cta{transition:opacity .3s ease;}}
+
+  /* ---- Culture Essences: two columns of ruled cards with a coloured
+     left bar (as in the source slide), the right column dropped half a
+     step. Cards rise in one after another. ---- */
+  .rc-culture{background:#f5f5f3;}
+  .rc-cul-list{list-style:none;margin:0;padding:0 0 clamp(28px,4vw,56px);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(6,auto);grid-auto-flow:column;gap:14px clamp(20px,3vw,44px);}
+  .rc-cul-item{position:relative;display:flex;align-items:center;padding:clamp(18px,2vw,26px) 28px clamp(18px,2vw,26px) 32px;background:#fff;border:1px solid rgba(0,0,0,.1);font-family:var(--sans);font-weight:700;font-size:clamp(15px,1.5vw,19px);line-height:1.6;letter-spacing:.03em;color:var(--ink);opacity:0;transform:translateY(16px);transition:opacity .7s ease calc(.1s + var(--i) * .06s),transform .8s cubic-bezier(.16,1,.3,1) calc(.1s + var(--i) * .06s);}
+  .rc-cul-item:before{content:"";position:absolute;left:-1px;top:-1px;bottom:-1px;width:5px;background:var(--c);}
+  .rc-cul-item:nth-child(n+7){translate:0 clamp(28px,4vw,56px);}
+  .rc-cul-item .n{display:none;}
+  .rc-cul-list.is-inview .rc-cul-item{opacity:1;transform:none;}
+  @media (max-width:768px){
+    .rc-cul-list{grid-template-columns:1fr;grid-template-rows:none;grid-auto-flow:row;padding-bottom:0;}
+    .rc-cul-item:nth-child(n+7){translate:none;}
+    .rc-culture .rc-head-title{font-size:clamp(36px,13.5vw,96px);}
+  }
+  @media (prefers-reduced-motion:reduce){.rc-cul-item{opacity:1;transform:none;transition:none;}}
+
+  /* ===== background layer (from the background-play pattern) — only the
+     number / interview / FAQ sections are transparent, so only they show it ===== */
+  @property --b1{syntax:"<color>";inherits:true;initial-value:rgba(46,196,182,.30);}
+  @property --b2{syntax:"<color>";inherits:true;initial-value:rgba(56,189,248,.26);}
+  @property --b3{syntax:"<color>";inherits:true;initial-value:rgba(126,217,87,.24);}
+  @property --b4{syntax:"<color>";inherits:true;initial-value:rgba(139,92,246,.16);}
+  html{background:#fff;}
+  body{background:transparent;}
+  .bgp{--b1:rgba(46,196,182,.30);--b2:rgba(56,189,248,.26);--b3:rgba(126,217,87,.24);--b4:rgba(139,92,246,.16);transition:--b1 1.6s ease,--b2 1.6s ease,--b3 1.6s ease,--b4 1.6s ease;}
+  body[data-mood="numbers"] .bgp{--b1:rgba(139,92,246,.26);--b2:rgba(46,196,182,.26);--b3:rgba(56,189,248,.24);--b4:rgba(255,61,122,.12);}
+  body[data-mood="voice"] .bgp{--b1:rgba(56,189,248,.28);--b2:rgba(255,61,122,.20);--b3:rgba(126,217,87,.22);--b4:rgba(139,92,246,.14);}
+  .rc-numbers{background:transparent !important;}
+  /* 05 interview: its own solid area, so it reads as a separate block from the 04 colour field above */
+  .rc-voice{background:#f5f5f3 !important;box-shadow:inset 0 1px 0 rgba(0,0,0,.1);}
+  .rc-faq{background:#fff !important;}
+  .rc-numbers-intro{background:rgba(255,255,255,.72);}
+  .bgp{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;}
+  .bgp-blob{position:absolute;border-radius:50%;will-change:transform,translate;}
+  .bgp-b1{width:70vw;height:70vw;left:-18vw;top:-16vw;background:radial-gradient(closest-side,var(--b1),transparent);translate:calc(var(--mx,0) * 4vw) calc(var(--sp,0) * -26vh + var(--my,0) * 3vh);animation:bgpDriftA 26s ease-in-out infinite;}
+  .bgp-b2{width:62vw;height:62vw;right:-16vw;top:6vh;background:radial-gradient(closest-side,var(--b2),transparent);translate:calc(var(--mx,0) * -5vw) calc(var(--sp,0) * 22vh + var(--my,0) * -3vh);animation:bgpDriftB 31s ease-in-out infinite;}
+  .bgp-b3{width:66vw;height:66vw;left:12vw;bottom:-30vw;background:radial-gradient(closest-side,var(--b3),transparent);translate:calc(var(--mx,0) * 3vw) calc(var(--sp,0) * -34vh + var(--my,0) * -4vh);animation:bgpDriftC 23s ease-in-out infinite;}
+  .bgp-b4{width:46vw;height:46vw;right:8vw;bottom:-8vw;background:radial-gradient(closest-side,var(--b4),transparent);translate:calc(var(--mx,0) * -6vw) calc(var(--sp,0) * 40vh);animation:bgpDriftA 37s ease-in-out infinite reverse;}
+  @keyframes bgpDriftA{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(6vw,5vh) scale(1.12);}}
+  @keyframes bgpDriftB{0%,100%{transform:translate(0,0) scale(1.05);}50%{transform:translate(-7vw,4vh) scale(.92);}}
+  @keyframes bgpDriftC{0%,100%{transform:translate(0,0) scale(.95);}50%{transform:translate(5vw,-6vh) scale(1.1);}}
+  .bgp-dots,.bgp-dots-lit{position:absolute;inset:0;background-image:radial-gradient(rgba(0,0,0,.9) 1px,transparent 1.6px);background-size:30px 30px;}
+  .bgp-dots{opacity:.05;}
+  .bgp-dots-lit{opacity:.5;-webkit-mask-image:radial-gradient(circle 240px at var(--px,50%) var(--py,40%),#000,transparent);mask-image:radial-gradient(circle 240px at var(--px,50%) var(--py,40%),#000,transparent);}
+  @media (hover:none){.bgp-dots-lit{display:none;}}
+  @media (max-width:768px){.bgp-blob{opacity:.9;}.bgp-dots{opacity:.04;}}
+  @media (prefers-reduced-motion:reduce){.bgp-blob{animation:none;translate:none;}.bgp-dots-lit{display:none;}.bgp{transition:none;}}
+
+  /* ===== brush strokes (from the brush pattern): VALUE, MESSAGE and PROCESS ===== */
+  /* painted-on reveal: the stroke is dragged left->right. The mask is 24 overlapping horizontal
+     "bristle" bands; each has its own lead/lag and tip softness, so the front of the stroke breaks
+     into long uneven streaks like a dry, loaded brush. --p (registered) is what animates. */
+  @property --p{syntax:"<percentage>";inherits:false;initial-value:-30%;}
+  .rc-brush{position:absolute;z-index:0;display:block;max-width:none;height:auto;pointer-events:none;user-select:none;opacity:var(--op,.9);--p:-30%;-webkit-mask-image:linear-gradient(90deg,#000 calc(var(--p) - 9.3%),transparent calc(var(--p) - 1.4%)),linear-gradient(90deg,#000 calc(var(--p) + 5.4%),transparent calc(var(--p) + 12.7%)),linear-gradient(90deg,#000 calc(var(--p) - 7.9%),transparent calc(var(--p) + 0.2%)),linear-gradient(90deg,#000 calc(var(--p) - 17.1%),transparent calc(var(--p) - 9.5%)),linear-gradient(90deg,#000 calc(var(--p) - 5.7%),transparent calc(var(--p) + 3.9%)),linear-gradient(90deg,#000 calc(var(--p) - 18.3%),transparent calc(var(--p) - 12.2%)),linear-gradient(90deg,#000 calc(var(--p) - 22%),transparent calc(var(--p) - 12.3%)),linear-gradient(90deg,#000 calc(var(--p) + 1.5%),transparent calc(var(--p) + 5.8%)),linear-gradient(90deg,#000 calc(var(--p) + 3.7%),transparent calc(var(--p) + 14.5%)),linear-gradient(90deg,#000 calc(var(--p) - 3.7%),transparent calc(var(--p) + 4.6%)),linear-gradient(90deg,#000 calc(var(--p) - 14.4%),transparent calc(var(--p) - 10.3%)),linear-gradient(90deg,#000 calc(var(--p) - 3.5%),transparent calc(var(--p) + 0.9%)),linear-gradient(90deg,#000 calc(var(--p) - 15%),transparent calc(var(--p) - 9.3%)),linear-gradient(90deg,#000 calc(var(--p) - 21.3%),transparent calc(var(--p) - 14.1%)),linear-gradient(90deg,#000 calc(var(--p) - 11.7%),transparent calc(var(--p) - 1.8%)),linear-gradient(90deg,#000 calc(var(--p) - 7.9%),transparent calc(var(--p) + 0.6%)),linear-gradient(90deg,#000 calc(var(--p) - 8.6%),transparent calc(var(--p) + -0%)),linear-gradient(90deg,#000 calc(var(--p) - 7.2%),transparent calc(var(--p) - 1.3%)),linear-gradient(90deg,#000 calc(var(--p) + 3.9%),transparent calc(var(--p) + 14.9%)),linear-gradient(90deg,#000 calc(var(--p) + 1.2%),transparent calc(var(--p) + 10.2%)),linear-gradient(90deg,#000 calc(var(--p) - 11.1%),transparent calc(var(--p) - 5.5%)),linear-gradient(90deg,#000 calc(var(--p) - 10.8%),transparent calc(var(--p) - 6.3%)),linear-gradient(90deg,#000 calc(var(--p) + 1.2%),transparent calc(var(--p) + 8%)),linear-gradient(90deg,#000 calc(var(--p) + 3.7%),transparent calc(var(--p) + 10.4%));mask-image:linear-gradient(90deg,#000 calc(var(--p) - 9.3%),transparent calc(var(--p) - 1.4%)),linear-gradient(90deg,#000 calc(var(--p) + 5.4%),transparent calc(var(--p) + 12.7%)),linear-gradient(90deg,#000 calc(var(--p) - 7.9%),transparent calc(var(--p) + 0.2%)),linear-gradient(90deg,#000 calc(var(--p) - 17.1%),transparent calc(var(--p) - 9.5%)),linear-gradient(90deg,#000 calc(var(--p) - 5.7%),transparent calc(var(--p) + 3.9%)),linear-gradient(90deg,#000 calc(var(--p) - 18.3%),transparent calc(var(--p) - 12.2%)),linear-gradient(90deg,#000 calc(var(--p) - 22%),transparent calc(var(--p) - 12.3%)),linear-gradient(90deg,#000 calc(var(--p) + 1.5%),transparent calc(var(--p) + 5.8%)),linear-gradient(90deg,#000 calc(var(--p) + 3.7%),transparent calc(var(--p) + 14.5%)),linear-gradient(90deg,#000 calc(var(--p) - 3.7%),transparent calc(var(--p) + 4.6%)),linear-gradient(90deg,#000 calc(var(--p) - 14.4%),transparent calc(var(--p) - 10.3%)),linear-gradient(90deg,#000 calc(var(--p) - 3.5%),transparent calc(var(--p) + 0.9%)),linear-gradient(90deg,#000 calc(var(--p) - 15%),transparent calc(var(--p) - 9.3%)),linear-gradient(90deg,#000 calc(var(--p) - 21.3%),transparent calc(var(--p) - 14.1%)),linear-gradient(90deg,#000 calc(var(--p) - 11.7%),transparent calc(var(--p) - 1.8%)),linear-gradient(90deg,#000 calc(var(--p) - 7.9%),transparent calc(var(--p) + 0.6%)),linear-gradient(90deg,#000 calc(var(--p) - 8.6%),transparent calc(var(--p) + -0%)),linear-gradient(90deg,#000 calc(var(--p) - 7.2%),transparent calc(var(--p) - 1.3%)),linear-gradient(90deg,#000 calc(var(--p) + 3.9%),transparent calc(var(--p) + 14.9%)),linear-gradient(90deg,#000 calc(var(--p) + 1.2%),transparent calc(var(--p) + 10.2%)),linear-gradient(90deg,#000 calc(var(--p) - 11.1%),transparent calc(var(--p) - 5.5%)),linear-gradient(90deg,#000 calc(var(--p) - 10.8%),transparent calc(var(--p) - 6.3%)),linear-gradient(90deg,#000 calc(var(--p) + 1.2%),transparent calc(var(--p) + 8%)),linear-gradient(90deg,#000 calc(var(--p) + 3.7%),transparent calc(var(--p) + 10.4%));-webkit-mask-size:100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%;mask-size:100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%,100% 5.6%;-webkit-mask-position:0 0.0%,0 4.414%,0 8.828%,0 13.242%,0 17.655%,0 22.069%,0 26.483%,0 30.897%,0 35.311%,0 39.725%,0 44.138%,0 48.552%,0 52.966%,0 57.38%,0 61.794%,0 66.208%,0 70.621%,0 75.035%,0 79.449%,0 83.863%,0 88.277%,0 92.691%,0 97.105%,0 101.518%;mask-position:0 0.0%,0 4.414%,0 8.828%,0 13.242%,0 17.655%,0 22.069%,0 26.483%,0 30.897%,0 35.311%,0 39.725%,0 44.138%,0 48.552%,0 52.966%,0 57.38%,0 61.794%,0 66.208%,0 70.621%,0 75.035%,0 79.449%,0 83.863%,0 88.277%,0 92.691%,0 97.105%,0 101.518%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;transition:--p 2.8s cubic-bezier(.4,0,.1,1);will-change:transform;}
+  .rc-brush.is-inview{--p:145%;}
+  .rc-brush.is-drawn{-webkit-mask-image:none;mask-image:none;will-change:auto;}
+  .rc-value .rc-brush--v{width:min(62vw,900px);right:-14vw;top:-6%;--op:.92;}
+  .rc-ceo .rc-brush--c{width:min(58vw,820px);right:-12vw;top:-4%;--op:.82;}
+  .rc-flow .rc-brush--f{width:min(46vw,680px);right:-6vw;top:-3%;--op:.95;}
+  .rc-cta .rc-brush--e{width:min(50vw,720px);right:-10vw;top:-4%;--op:.9;}
+  @media (max-width:768px){
+    .rc-brush{--op:.55 !important;}
+    .rc-value .rc-brush--v,.rc-ceo .rc-brush--c{width:92vw;right:-34vw;}
+    .rc-flow .rc-brush--f{width:78vw;right:-24vw;top:-1%;}
+    .rc-cta .rc-brush--e{width:80vw;right:-26vw;top:-1%;}
+  }
+  @media (prefers-reduced-motion:reduce){.rc-brush{--p:145%;transition:none;}}
+
+  /* ===== CULTURE: night panel (background pattern) + two scroll-driven rows (text pattern) ===== */
+  .rc-culture{background:#0a0a0c !important;color:#fff;position:relative;}
+  .rc-culture:before,.rc-culture:after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.9) 1px,transparent 1.6px);background-size:34px 34px;}
+  .rc-culture:before{opacity:.12;}
+  .rc-culture:after{opacity:.75;-webkit-mask-image:radial-gradient(circle 230px at var(--cx,-500px) var(--cy,-500px),#000,transparent);mask-image:radial-gradient(circle 230px at var(--cx,-500px) var(--cy,-500px),#000,transparent);}
+  .rc-culture .rc-head-title .ch,.rc-culture .rc-head-lead,.rc-culture .rc-head-lead .hash,.rc-culture .rc-head-chapter{color:#fff;}
+  .rc-culture .rc-head-meta{color:#a8a8ae;}
+  .rc-culture .rc-head-rule{background:rgba(255,255,255,.22);}
+  .rc-cul-rows{display:flex;flex-direction:column;gap:18px;margin:0 -40px;}
+  .rc-cul-row{overflow:hidden;padding:6px 40px 26px;}
+  .rc-cul-track{list-style:none;margin:0;padding:0;display:inline-flex;gap:18px;white-space:nowrap;will-change:transform;}
+  .rc-cul-item{flex:none;opacity:1;transform:none;padding:clamp(11px,1.1vw,16px) clamp(15px,1.7vw,26px) clamp(11px,1.1vw,16px) clamp(17px,1.9vw,28px);font-weight:900;font-size:clamp(11px,1.1vw,15px);background:rgba(255,255,255,.06);border:1px solid var(--c);color:#fff;box-shadow:0 20px 40px -24px var(--c);}
+  .rc-cul-item:nth-child(n+7){translate:none;}
+  .rc-cul-item:before{width:6px;}
+  body.nav-on-dark .menu,body.nav-on-dark .cta{color:#fff;border-color:rgba(255,255,255,.7);}
+  body.nav-on-dark .nav-burger span{background:#fff;}
+  .menu,.cta,.nav-burger span{transition:color .3s ease,border-color .3s ease,background .3s ease;}
+  .rc-cul-rows--mobile{display:none;}
+  @media (max-width:768px){
+    .rc-cul-rows{margin:0 -30px;}
+    .rc-cul-row{padding-left:30px;padding-right:30px;}
+    .rc-cul-rows--desktop{display:none;}
+    .rc-cul-rows--mobile{display:flex;}
+  }
+  @media (prefers-reduced-motion:reduce){.rc-cul-row{overflow:visible;}.rc-cul-track{display:flex;flex-wrap:wrap;white-space:normal;}.rc-culture:after{display:none;}}
+
+  /* PEOPLE photo: wipes open left->right when it arrives, then drifts
+     slowly inside its frame as the page scrolls (see script). */
+  .rc-ideal-photo{position:relative;margin:0;}
+  .rc-ideal-photo-frame{position:relative;overflow:hidden;border-radius:4px;aspect-ratio:2880/1559;background:#ececec;clip-path:inset(0 100% 0 0);transition:clip-path 1.5s cubic-bezier(.65,0,.35,1) .1s;}
+  .rc-ideal-photo.is-inview .rc-ideal-photo-frame{clip-path:inset(0 0 0 0);}
+  .rc-ideal-photo-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);will-change:transform;}
+  @media (prefers-reduced-motion:reduce){.rc-ideal-photo-frame{clip-path:none;transition:none;}}
+
+  /* ===== PEOPLE + PROCESS: layout-play versions ===== */
+  @media (min-width:901px){
+    .rc-ideal-split{position:relative;display:grid;grid-template-columns:repeat(12,1fr);align-items:start;}
+    .rc-ideal-split .rc-ideal-photo{grid-column:1 / span 8;grid-row:1;rotate:-1.6deg;}
+    .rc-ideal-split .rc-ideal-grid{grid-column:8 / span 5;grid-row:1;z-index:2;margin-top:clamp(70px,13vw,210px) !important;display:block;background:#fff;border:1px solid var(--ink);box-shadow:0 40px 70px -36px rgba(0,0,0,.4);}
+    .rc-ideal-split .rc-ideal-cell{min-height:0;flex-direction:row;align-items:baseline;justify-content:flex-start;gap:20px;padding:15px 24px;border-bottom:1px solid rgba(0,0,0,.12);}
+    .rc-ideal-split .rc-ideal-cell:last-child{border-bottom:0;}
+    .rc-ideal-split .rc-ideal-top{flex:none;width:158px;}
+    .rc-ideal-split .rc-ideal-text{font-size:clamp(16px,1.55vw,21px);}
+
+    .rc-flow-list:before,.rc-flow-list:after{display:none;}
+    .rc-flow-item{margin-top:calc(var(--i) * clamp(34px,4.6vw,70px));padding-top:22px;border-top:1px solid var(--ink);}
+    .rc-flow-dot{display:none;}
+    .rc-flow-num{font-size:clamp(56px,8.4vw,132px);}
+  }
+  @media (max-width:900px){
+    .rc-ideal-split .rc-ideal-photo{margin-bottom:28px;}
+    .rc-ideal-split .rc-ideal-grid{display:block;border:1px solid var(--ink);background:#fff;}
+    .rc-ideal-split .rc-ideal-cell{min-height:0;flex-direction:row;align-items:baseline;justify-content:flex-start;gap:16px;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,.12);}
+    .rc-ideal-split .rc-ideal-top{flex:none;width:120px;}
+    .rc-ideal-split .rc-ideal-text{font-size:16px;}
+  }
+
+  /* ===== FIRST VIEW — shared ===== */
+  .fv{position:relative;height:100svh;min-height:640px;overflow:hidden;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;}
+  .fv h1,.fv p{margin:0;}
+  .fv .rise{display:block;overflow:hidden;}
+  .fv .rise>span{display:inline-block;transform:translateY(108%);animation:fvRise 1.2s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--d,0s);}
+  @keyframes fvRise{to{transform:none;}}
+  .fv .fade{opacity:0;animation:fvFade 1.2s ease forwards;animation-delay:var(--d,0s);}
+  @keyframes fvFade{to{opacity:1;}}
+  .fv-sub{font-weight:700;letter-spacing:.14em;}
+  @media (prefers-reduced-motion:reduce){.fv .rise>span{transform:none;animation:none;}.fv .fade{opacity:1;animation:none;}}
+
+  .fv2d{background:#fff;}
+  .fv2d-tiles{position:absolute;inset:0;z-index:2;}
+  .fv2d .t{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);object-fit:cover;display:block;background:#e9e9e9;translate:0 calc(var(--py,0) * var(--k,0) * 1px);clip-path:inset(100% 0 0 0);animation:fv2dUp 1.3s cubic-bezier(.65,0,.35,1) forwards;animation-delay:calc(.1s + var(--n,0) * .12s);}
+  @keyframes fv2dUp{to{clip-path:inset(0 0 0 0);}}
+  .fv .rc-brush{mix-blend-mode:normal;}
+  .fv .rc-brush--d1{width:min(46vw,700px);left:-10vw;top:-8vh;--op:1;z-index:3;}
+  .fv .rc-brush--d2{width:min(52vw,780px);left:24vw;bottom:-14vh;--op:1;z-index:3;}
+  .fv .rc-brush--d3{width:min(30vw,460px);right:-8vw;top:4vh;--op:1;z-index:3;}
+  .fv2d-fun,.fv2d-title,.fv2d-sub{position:absolute;z-index:4;color:#fff;mix-blend-mode:difference;}
+  .fv2d-fun{left:clamp(14px,2vw,34px);top:clamp(86px,13vh,140px);font-weight:900;font-size:clamp(44px,9.2vw,160px);line-height:1;letter-spacing:.02em;}
+  .fv2d-title{left:clamp(8px,1.4vw,24px);right:0;bottom:clamp(40px,8vh,90px);font-weight:900;font-size:clamp(60px,17.4vw,320px);line-height:1.15;letter-spacing:-.02em;white-space:nowrap;}
+  .fv2d-sub{right:clamp(14px,2vw,34px);bottom:clamp(14px,3vh,30px);font-size:clamp(12px,1.2vw,16px);}
+  @media (max-width:768px){
+    .fv2d .t:nth-child(n+7){display:none;}
+    /* photos fill the upper area; the type stacks underneath: 挑戦×成長 -> たのしさ (smaller) -> sub copy */
+    .fv2d .t:nth-child(1){--x:2vw !important;--w:34vw !important;--y:15vh !important;--h:26vh !important;}
+    .fv2d .t:nth-child(2){--x:24vw !important;--w:26vw !important;--y:37vh !important;--h:18vh !important;}
+    .fv2d .t:nth-child(3){--x:38vw !important;--w:32vw !important;--y:14vh !important;--h:22vh !important;}
+    .fv2d .t:nth-child(4){--x:68vw !important;--w:30vw !important;--y:22vh !important;--h:36vh !important;}
+    .fv2d .t:nth-child(5){--x:4vw !important;--w:30vw !important;--y:52vh !important;--h:14vh !important;}
+    .fv2d .t:nth-child(6){--x:42vw !important;--w:36vw !important;--y:46vh !important;--h:23vh !important;}
+    .fv2d .t{translate:none;}
+    .fv2d-fun,.fv2d-title,.fv2d-sub{mix-blend-mode:normal;color:#111;}
+    .fv2d-title{font-size:20vw;bottom:204px;}
+    .fv2d-fun{font-size:9vw;top:auto;bottom:162px;letter-spacing:.06em;}
+    .fv2d-sub{left:14px;right:auto;bottom:126px;font-size:13px;}
+    /* two brush strokes laid over the photos, clear of the type */
+    .fv .rc-brush--d1{width:80vw;left:-22vw;top:7vh;--op:1 !important;z-index:3;}
+    .fv .rc-brush--d2{display:block;width:58vw;left:auto;right:-16vw;bottom:auto;top:50vh;--op:1 !important;z-index:3;}
+    .fv .rc-brush--d3{display:block;width:34vw;right:-12vw;left:auto;top:16vh;bottom:auto;--op:1 !important;z-index:3;}
+  }
+  @media (prefers-reduced-motion:reduce){.fv2d .t{clip-path:none;animation:none;}}
+</style>
+</head>
+<body>
+  <div class="bgp" aria-hidden="true">
+    <i class="bgp-blob bgp-b1"></i><i class="bgp-blob bgp-b2"></i><i class="bgp-blob bgp-b3"></i><i class="bgp-blob bgp-b4"></i>
+    <span class="bgp-dots"></span><span class="bgp-dots-lit"></span>
+  </div>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <div class="nav" id="siteNav">
+    <div class="brand"><a href="index.html"><img class="brand-logo" src="assets/logo-dark.svg" alt="Recologne"></a></div>
+    <div class="menu">
+      <a href="index.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">HOME</span><span class="nav-flip-face nav-flip-face--back">HOME</span></span></span></a>
+      <a href="about.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">ABOUT</span><span class="nav-flip-face nav-flip-face--back">ABOUT</span></span></span></a>
+      <div class="menu-item">
+        <a href="business.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">BUSINESS</span><span class="nav-flip-face nav-flip-face--back">BUSINESS</span></span></span></a>
+        <div class="menu-dropdown">
+          <a href="business.html">SNSマーケティング</a>
+          <a href="business-creative.html">クリエイティブ制作事業</a>
+          <a href="business-d2c.html">D2C（Direct to Consumer）</a>
+        </div>
+      </div>
+      <a href="works.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">WORKS</span><span class="nav-flip-face nav-flip-face--back">WORKS</span></span></span></a>
+      <a href="column.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">COLUMN</span><span class="nav-flip-face nav-flip-face--back">COLUMN</span></span></span></a>
+      <a href="recruit.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">RECRUIT</span><span class="nav-flip-face nav-flip-face--back">RECRUIT</span></span></span></a>
+    </div>
+    <a class="cta" href="contact.html">CONTACT</a>
+  </div>
+
+  <button type="button" class="nav-burger" id="navBurger" aria-expanded="false" aria-controls="mobileMenu" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu-nav">
+      <div class="mobile-menu-row">
+        <a href="index.html" class="mobile-menu-link" data-view-cursor><span class="mobile-menu-num">00</span>HOME</a>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="about.html" class="mobile-menu-link" data-view-cursor><span class="mobile-menu-num">01</span>ABOUT</a>
+      </div>
+      <div class="mobile-menu-row mobile-menu-row--expand">
+        <button type="button" class="mobile-menu-link mobile-menu-expand" id="mobileBizToggle" aria-expanded="false" aria-controls="mobileBizSub">
+          <span class="mobile-menu-num">02</span>BUSINESS<span class="mobile-menu-caret" aria-hidden="true"></span>
+        </button>
+        <div class="mobile-menu-sub" id="mobileBizSub">
+          <div class="mobile-menu-sub-inner">
+            <a href="business.html" data-view-cursor>SNSマーケティング</a>
+            <a href="business-creative.html" data-view-cursor>クリエイティブ制作事業</a>
+            <a href="business-d2c.html" data-view-cursor>D2C（Direct to Consumer）</a>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="works.html" class="mobile-menu-link" data-view-cursor><span class="mobile-menu-num">03</span>WORKS</a>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="column.html" class="mobile-menu-link" data-view-cursor><span class="mobile-menu-num">04</span>COLUMN</a>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="recruit.html" class="mobile-menu-link is-current" data-view-cursor><span class="mobile-menu-num">05</span>RECRUIT</a>
+      </div>
+    </nav>
+    <a class="mobile-menu-cta" href="contact.html" data-view-cursor>CONTACT<span class="mobile-menu-cta-arrow">&#8599;</span></a>
+  </div>
+
+  <script>
+  (function(){
+    var burger = document.getElementById('navBurger');
+    var menu = document.getElementById('mobileMenu');
+    var bizToggle = document.getElementById('mobileBizToggle');
+    var bizRow = bizToggle ? bizToggle.closest('.mobile-menu-row') : null;
+    if(!burger || !menu) return;
+
+    function closeMenu(){
+      burger.classList.remove('is-active');
+      menu.classList.remove('is-open');
+      burger.setAttribute('aria-expanded','false');
+      menu.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    function openMenu(){
+      burger.classList.add('is-active');
+      menu.classList.add('is-open');
+      burger.setAttribute('aria-expanded','true');
+      menu.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    burger.addEventListener('click', function(){
+      if(menu.classList.contains('is-open')) closeMenu(); else openMenu();
+    });
+    menu.querySelectorAll('a.mobile-menu-link, .mobile-menu-sub a, .mobile-menu-cta').forEach(function(a){
+      a.addEventListener('click', closeMenu);
+    });
+    if(bizToggle && bizRow){
+      bizToggle.addEventListener('click', function(){
+        var isOpen = bizRow.classList.toggle('is-expanded');
+        bizToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closeMenu();
+    });
+    window.addEventListener('resize', function(){
+      if(window.innerWidth > 900) closeMenu();
+    });
+  })();
+  </script>
+
+  <header class="fv fv2d" id="fv">
+    <!-- FIRST VIEW PHOTOS: each .t below is its own slot. Replace assets/fv/fv-01.webp ... fv-09.webp with different
+         photos (same file name); object-fit:cover crops to the slot, so only the aspect ratio matters. -->
+    <div class="fv2d-tiles" aria-hidden="true">
+      <img class="t" src="assets/fv/fv-01.webp" alt="" width="216" height="270" style="--x:1.0vw;--w:15vw;--y:12vh;--h:30vh;--k:-0.1;--n:0">
+      <img class="t" src="assets/fv/fv-02.webp" alt="" width="173" height="198" style="--x:13.0vw;--w:12vw;--y:37vh;--h:22vh;--k:0.14;--n:3">
+      <img class="t" src="assets/fv/fv-03.webp" alt="" width="288" height="306" style="--x:27.0vw;--w:20vw;--y:8vh;--h:34vh;--k:0.05;--n:1">
+      <img class="t" src="assets/fv/fv-04.webp" alt="" width="187" height="360" style="--x:40.0vw;--w:13vw;--y:27vh;--h:40vh;--k:-0.13;--n:4">
+      <img class="t" src="assets/fv/fv-05.webp" alt="" width="432" height="360" style="--x:55.0vw;--w:30vw;--y:14vh;--h:40vh;--k:-0.04;--n:2">
+      <img class="t" src="assets/fv/fv-06.webp" alt="" width="202" height="216" style="--x:70.0vw;--w:14vw;--y:46vh;--h:24vh;--k:0.12;--n:5">
+      <img class="t" src="assets/fv/fv-07.webp" alt="" width="173" height="432" style="--x:87.0vw;--w:12vw;--y:10vh;--h:48vh;--k:0.09;--n:1">
+      <img class="t" src="assets/fv/fv-08.webp" alt="" width="158" height="153" style="--x:18.0vw;--w:11vw;--y:50vh;--h:17vh;--k:-0.08;--n:6">
+      <img class="t" src="assets/fv/fv-09.webp" alt="" width="187" height="198" style="--x:86.0vw;--w:13vw;--y:60vh;--h:22vh;--k:0.11;--n:5">
+    </div>
+    <img class="rc-brush rc-brush--d1" src="assets/brush/brush-orange.webp" alt="" aria-hidden="true" loading="eager" decoding="async" data-speed="-.06" data-rot="-4" data-base="-10">
+    <img class="rc-brush rc-brush--d2" src="assets/brush/brush-pink.webp" alt="" aria-hidden="true" loading="eager" decoding="async" data-speed=".08" data-rot="4" data-base="190" data-flip="1">
+    <img class="rc-brush rc-brush--d3" src="assets/brush/brush-green.webp" alt="" aria-hidden="true" loading="eager" decoding="async" data-speed="-.07" data-rot="5" data-base="14" data-depth="40">
+    <p class="fv2d-fun rise" style="--d:.6s"><span>たのしさ</span></p>
+    <h1 class="fv2d-title rise" aria-label="挑戦×成長"><span style="--d:.4s" aria-hidden="true">挑戦×成長</span></h1>
+    <p class="fv-sub fv2d-sub fade" style="--d:1.3s">未来の仕事の喜びを創り出す</p>
+  </header>
+  <main>
+    <section class="rc-section rc-value" id="value">
+      <img class="rc-brush rc-brush--v" src="assets/brush/brush-green.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" data-speed="-.10" data-rot="-6" data-base="-10">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">01</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">OUR VALUES &mdash; 4 PRINCIPLES</span>
+          </div>
+          <h2 class="rc-head-title" aria-label="VALUE">
+            <span class="ch" aria-hidden="true" style="--i:0">V</span><span class="ch" aria-hidden="true" style="--i:1">A</span><span class="ch" aria-hidden="true" style="--i:2">L</span><span class="ch" aria-hidden="true" style="--i:3">U</span><span class="ch" aria-hidden="true" style="--i:4">E</span>
+          </h2>
+          <p class="rc-head-lead"><span class="hash">#</span>Recologneが大切にする価値観</p>
+        </div>
+        <div class="rc-value-list">
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--teal);--row-b:var(--sky);"><span class="num">01</span><span class="txt">新しいこと・ものや変化にワクワクできているか</span></div>
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--pink);--row-b:var(--orange);"><span class="num">02</span><span class="txt">とにかくアクションを起こし続けられているか</span></div>
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--lime);--row-b:var(--teal);"><span class="num">03</span><span class="txt">まわりに仕事がたのしいと言えているか</span></div>
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--violet);--row-b:var(--pink);"><span class="num">04</span><span class="txt">仲間が困っている時は時間を惜しまず手を差し伸べられているか</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="rc-section rc-culture" id="culture">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">02</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">11 PRINCIPLES OF OUR CULTURE</span>
+          </div>
+          <h2 class="rc-head-title" aria-label="CULTURE">
+            <span class="ch" aria-hidden="true" style="--i:0">C</span><span class="ch" aria-hidden="true" style="--i:1">U</span><span class="ch" aria-hidden="true" style="--i:2">L</span><span class="ch" aria-hidden="true" style="--i:3">T</span><span class="ch" aria-hidden="true" style="--i:4">U</span><span class="ch" aria-hidden="true" style="--i:5">R</span><span class="ch" aria-hidden="true" style="--i:6">E</span>
+          </h2>
+          <p class="rc-head-lead"><span class="hash">#</span>Culture Essences</p>
+        </div>
+        <div class="rc-cul-rows rc-cul-rows--desktop rc-reveal">
+          <div class="rc-cul-row" data-dir="-1"><ul class="rc-cul-track" role="list">
+          <li class="rc-cul-item" style="--i:0;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-6deg"><span class="n" aria-hidden="true">01</span><span class="t">かっこいい大人になろう</span></li>
+          <li class="rc-cul-item" style="--i:1;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:4deg"><span class="n" aria-hidden="true">02</span><span class="t">自分の意志がある人が正義</span></li>
+          <li class="rc-cul-item" style="--i:2;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:-3deg"><span class="n" aria-hidden="true">03</span><span class="t">仕事を通じて自己実現</span></li>
+          <li class="rc-cul-item" style="--i:3;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:7deg"><span class="n" aria-hidden="true">04</span><span class="t">若手が主役の会社</span></li>
+          <li class="rc-cul-item" style="--i:4;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-8deg"><span class="n" aria-hidden="true">05</span><span class="t">悩んだら挑戦する</span></li>
+          <li class="rc-cul-item" style="--i:5;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:5deg"><span class="n" aria-hidden="true">06</span><span class="t">現状維持は衰退、変化を恐れない</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:0;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-6deg"><span class="n">01</span><span class="t">かっこいい大人になろう</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:1;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:4deg"><span class="n">02</span><span class="t">自分の意志がある人が正義</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:2;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:-3deg"><span class="n">03</span><span class="t">仕事を通じて自己実現</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:3;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:7deg"><span class="n">04</span><span class="t">若手が主役の会社</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:4;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-8deg"><span class="n">05</span><span class="t">悩んだら挑戦する</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:5;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:5deg"><span class="n">06</span><span class="t">現状維持は衰退、変化を恐れない</span></li>
+          </ul></div>
+          <div class="rc-cul-row" data-dir="1"><ul class="rc-cul-track" role="list">
+          <li class="rc-cul-item" style="--i:6;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-4deg"><span class="n" aria-hidden="true">07</span><span class="t">Team Recologne</span></li>
+          <li class="rc-cul-item" style="--i:7;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:6deg"><span class="n" aria-hidden="true">08</span><span class="t">Work Hard Play Hard</span></li>
+          <li class="rc-cul-item" style="--i:8;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-7deg"><span class="n" aria-hidden="true">09</span><span class="t">正当な評価と挑戦機会を提供する</span></li>
+          <li class="rc-cul-item" style="--i:9;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:3deg"><span class="n" aria-hidden="true">10</span><span class="t">仲間に求めるのは人柄と熱量だ</span></li>
+          <li class="rc-cul-item" style="--i:10;--c:var(--lime);--paint:url(assets/brush/brush-green.webp);--r:-5deg"><span class="n" aria-hidden="true">11</span><span class="t">他者へのrespectを忘れない</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:6;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-4deg"><span class="n">07</span><span class="t">Team Recologne</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:7;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:6deg"><span class="n">08</span><span class="t">Work Hard Play Hard</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:8;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-7deg"><span class="n">09</span><span class="t">正当な評価と挑戦機会を提供する</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:9;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:3deg"><span class="n">10</span><span class="t">仲間に求めるのは人柄と熱量だ</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:10;--c:var(--lime);--paint:url(assets/brush/brush-green.webp);--r:-5deg"><span class="n">11</span><span class="t">他者へのrespectを忘れない</span></li>
+          </ul></div>
+        </div>
+        <div class="rc-cul-rows rc-cul-rows--mobile rc-reveal">
+          <div class="rc-cul-row" data-dir="-1"><ul class="rc-cul-track" role="list">
+          <li class="rc-cul-item" style="--i:0;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-6deg"><span class="n" aria-hidden="true">01</span><span class="t">かっこいい大人になろう</span></li>
+          <li class="rc-cul-item" style="--i:1;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:4deg"><span class="n" aria-hidden="true">02</span><span class="t">自分の意志がある人が正義</span></li>
+          <li class="rc-cul-item" style="--i:2;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:-3deg"><span class="n" aria-hidden="true">03</span><span class="t">仕事を通じて自己実現</span></li>
+          <li class="rc-cul-item" style="--i:3;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:7deg"><span class="n" aria-hidden="true">04</span><span class="t">若手が主役の会社</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:0;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-6deg"><span class="n">01</span><span class="t">かっこいい大人になろう</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:1;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:4deg"><span class="n">02</span><span class="t">自分の意志がある人が正義</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:2;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:-3deg"><span class="n">03</span><span class="t">仕事を通じて自己実現</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:3;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:7deg"><span class="n">04</span><span class="t">若手が主役の会社</span></li>
+          </ul></div>
+          <div class="rc-cul-row" data-dir="1"><ul class="rc-cul-track" role="list">
+          <li class="rc-cul-item" style="--i:4;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-8deg"><span class="n" aria-hidden="true">05</span><span class="t">悩んだら挑戦する</span></li>
+          <li class="rc-cul-item" style="--i:5;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:5deg"><span class="n" aria-hidden="true">06</span><span class="t">現状維持は衰退、変化を恐れない</span></li>
+          <li class="rc-cul-item" style="--i:6;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-4deg"><span class="n" aria-hidden="true">07</span><span class="t">Team Recologne</span></li>
+          <li class="rc-cul-item" style="--i:7;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:6deg"><span class="n" aria-hidden="true">08</span><span class="t">Work Hard Play Hard</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:4;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-8deg"><span class="n">05</span><span class="t">悩んだら挑戦する</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:5;--c:var(--sky);--paint:url(assets/brush/brush-aqua.webp);--r:5deg"><span class="n">06</span><span class="t">現状維持は衰退、変化を恐れない</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:6;--c:var(--violet);--paint:url(assets/brush/brush-aqua.webp);--r:-4deg"><span class="n">07</span><span class="t">Team Recologne</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:7;--c:var(--pink);--paint:url(assets/brush/brush-pink.webp);--r:6deg"><span class="n">08</span><span class="t">Work Hard Play Hard</span></li>
+          </ul></div>
+          <div class="rc-cul-row" data-dir="-1"><ul class="rc-cul-track" role="list">
+          <li class="rc-cul-item" style="--i:8;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-7deg"><span class="n" aria-hidden="true">09</span><span class="t">正当な評価と挑戦機会を提供する</span></li>
+          <li class="rc-cul-item" style="--i:9;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:3deg"><span class="n" aria-hidden="true">10</span><span class="t">仲間に求めるのは人柄と熱量だ</span></li>
+          <li class="rc-cul-item" style="--i:10;--c:var(--lime);--paint:url(assets/brush/brush-green.webp);--r:-5deg"><span class="n" aria-hidden="true">11</span><span class="t">他者へのrespectを忘れない</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:8;--c:#3dbb5a;--paint:url(assets/brush/brush-green.webp);--r:-7deg"><span class="n">09</span><span class="t">正当な評価と挑戦機会を提供する</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:9;--c:var(--orange);--paint:url(assets/brush/brush-orange.webp);--r:3deg"><span class="n">10</span><span class="t">仲間に求めるのは人柄と熱量だ</span></li>
+          <li class="rc-cul-item" aria-hidden="true" style="--i:10;--c:var(--lime);--paint:url(assets/brush/brush-green.webp);--r:-5deg"><span class="n">11</span><span class="t">他者へのrespectを忘れない</span></li>
+          </ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rc-section rc-ceo" id="ceo-message">
+      <img class="rc-brush rc-brush--c" src="assets/brush/brush-pink.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" data-speed=".08" data-rot="8" data-base="14">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">03</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">CEO MESSAGE</span>
+          </div>
+          <h2 class="rc-head-title" aria-label="MESSAGE">
+            <span class="ch" aria-hidden="true" style="--i:0">M</span><span class="ch" aria-hidden="true" style="--i:1">E</span><span class="ch" aria-hidden="true" style="--i:2">S</span><span class="ch" aria-hidden="true" style="--i:3">S</span><span class="ch" aria-hidden="true" style="--i:4">A</span><span class="ch" aria-hidden="true" style="--i:5">G</span><span class="ch" aria-hidden="true" style="--i:6">E</span>
+          </h2>
+          <p class="rc-head-lead"><span class="hash">#</span>採用メッセージ</p>
+        </div>
+
+        <div class="rc-ceo-grid">
+          <figure class="rc-ceo-figure rc-reveal">
+            <div class="rc-ceo-frame">
+              <div class="rc-ceo-photo" role="img" aria-label="代表 澤野 優介"></div>
+              <span class="rc-ceo-crop rc-ceo-crop--tl" aria-hidden="true"></span>
+              <span class="rc-ceo-crop rc-ceo-crop--br" aria-hidden="true"></span>
+            </div>
+          </figure>
+
+          <div class="rc-ceo-text">
+            <p class="rc-ceo-quote rc-reveal">10年後も色褪せない<br>新しい事業を、<br><mark>たのしみながら</mark>創る。</p>
+            <div class="rc-ceo-body rc-reveal">
+              <p>皆さんこんにちは。代表の澤野です。私たちはデジタルマーケティング事業を主軸に、たのしみながら働く仲間を探しています。</p>
+              <p>変化の激しい時代において、10年後も色褪せない新しい事業を生み出し続ける会社でありたいと思っています。成長するマーケットで再現性のあるノウハウを積み上げつつ、裁量を持って新しい挑戦ができる環境があります。</p>
+              <p>皆さんもぜひ、私たちと一緒に未来に挑戦しましょう！</p>
+            </div>
+            <p class="rc-ceo-sign rc-reveal"><span class="line" aria-hidden="true"></span><span class="role">代表</span><span class="name">澤野 優介</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rc-ceo-marquee" aria-hidden="true">
+        <div class="track"><span>CHALLENGE</span><span>FUN</span><span>GROWTH</span><span>TEAM</span><span>CHALLENGE</span><span>FUN</span><span>GROWTH</span><span>TEAM</span></div>
+      </div>
+    </section>
+
+    <section class="rc-section rc-numbers" id="numbers">
+      <span class="rc-index" aria-hidden="true">04</span>
+      <div class="rc-section-inner">
+        <p class="rc-eyebrow rc-reveal"><span class="dot"></span>数字で見るRecologne</p>
+        <div class="rc-numbers-layout">
+          <div class="rc-numbers-intro rc-reveal">
+            <p class="rc-numbers-intro-eyebrow">ABOUT US</p>
+            <h3 class="rc-numbers-intro-title">Recologneのことを、<br>数字で。</h3>
+            <p class="rc-numbers-intro-desc">売上や実績だけでなく、はたらく人の環境や制度も含めて、ありのままの姿を数字で見える化しています。</p>
+          </div>
+          <div class="rc-tile rc-reveal" style="--tile-accent:var(--teal);">
+            <span class="rc-tile-index">01</span>
+            <p class="rc-tile-label">平均年齢</p>
+            <p class="rc-tile-num" data-count-to="29.4" data-count-suffix="歳">0歳</p>
+            <p class="rc-tile-desc">20代・30代を中心に、若手からベテランまで幅広い世代が活躍しています。</p>
+          </div>
+          <div class="rc-tile rc-reveal" style="--tile-accent:var(--orange);">
+            <span class="rc-tile-index">02</span>
+            <p class="rc-tile-label">従業員数</p>
+            <p class="rc-tile-num" data-count-to="42" data-count-suffix="名">0名</p>
+            <p class="rc-tile-desc">少数精鋭のチームで、一人ひとりが裁量を持って挑戦しています。</p>
+          </div>
+          <div class="rc-tile rc-reveal" style="--tile-accent:var(--pink);">
+            <span class="rc-tile-index">03</span>
+            <p class="rc-tile-label">女性比率</p>
+            <p class="rc-tile-num" data-count-to="48" data-count-suffix="%">0%</p>
+            <p class="rc-tile-desc">性別に関わらず活躍できる環境づくりを推進しています。</p>
+          </div>
+          <div class="rc-tile rc-reveal" style="--tile-accent:var(--violet);">
+            <span class="rc-tile-index">04</span>
+            <p class="rc-tile-label">有給消化率</p>
+            <p class="rc-tile-num" data-count-to="76" data-count-suffix="%">0%</p>
+            <p class="rc-tile-desc">オンとオフを大切に、メリハリのある働き方を実現しています。</p>
+          </div>
+          <div class="rc-tile rc-reveal" style="--tile-accent:var(--teal);">
+            <span class="rc-tile-index">05</span>
+            <p class="rc-tile-label">中途入社比率</p>
+            <p class="rc-tile-num" data-count-to="83" data-count-suffix="%">0%</p>
+            <p class="rc-tile-desc">多様なバックグラウンドを持つメンバーが新しい視点を持ち込んでいます。</p>
+          </div>
+          <div class="rc-tile rc-reveal" style="--tile-accent:var(--orange);">
+            <span class="rc-tile-index">06</span>
+            <p class="rc-tile-label">定着率</p>
+            <p class="rc-tile-num" data-count-to="91" data-count-suffix="%">0%</p>
+            <p class="rc-tile-desc">居心地の良いチームづくりが、高い定着率につながっています。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rc-section rc-voice" id="voice">
+      <span class="rc-index" aria-hidden="true">05</span>
+      <div class="rc-section-inner">
+        <p class="rc-eyebrow rc-reveal"><span class="dot"></span>MEMBER'S VOICE / 社員インタビュー</p>
+        <div class="rc-voice-layout">
+          <div class="rc-voice-intro rc-reveal">
+            <p class="rc-voice-intro-eyebrow">POINT OF VIEW</p>
+            <h3 class="rc-voice-intro-title">社員から見た<br>Recologne</h3>
+            <div class="rc-voice-arrows">
+              <button type="button" class="rc-voice-arrow" id="voicePrev" aria-label="前のインタビューへ">&#8592;</button>
+              <button type="button" class="rc-voice-arrow" id="voiceNext" aria-label="次のインタビューへ">&#8594;</button>
+            </div>
+          </div>
+          <div class="rc-reveal">
+            <div class="rc-voice-track" id="voiceTrack">
+              <div class="rc-voice-card" style="--card-a:var(--teal);--card-b:var(--sky);">
+                <div class="rc-voice-avatar"></div>
+                <p class="rc-voice-quote">"裁量が大きく、新しい施策をすぐ試せる環境。1年目からクライアントの戦略設計を任せてもらえました。"</p>
+                <p class="rc-voice-meta">田中 美咲　/　営業 / 2022年入社</p>
+              </div>
+              <div class="rc-voice-card" style="--card-a:var(--pink);--card-b:var(--orange);">
+                <div class="rc-voice-avatar"></div>
+                <p class="rc-voice-quote">"成長中の事業に挑戦できるのが魅力。数字の変化がダイレクトに見えるのでやりがいがあります。"</p>
+                <p class="rc-voice-meta">佐藤 健太　/　マーケター / 2021年入社</p>
+              </div>
+              <div class="rc-voice-card" style="--card-a:var(--lime);--card-b:var(--violet);">
+                <div class="rc-voice-avatar"></div>
+                <p class="rc-voice-quote">"風通しがよく、部署を超えて相談しやすい。プライベートも大事にしながら働けています。"</p>
+                <p class="rc-voice-meta">鈴木 陽菜　/　デザイナー / 2023年入社</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rc-section rc-ideal" id="ideal">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">06</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">WHO WE ARE LOOKING FOR</span>
+          </div>
+          <h2 class="rc-head-title" aria-label="PEOPLE">
+            <span class="ch" aria-hidden="true" style="--i:0">P</span><span class="ch" aria-hidden="true" style="--i:1">E</span><span class="ch" aria-hidden="true" style="--i:2">O</span><span class="ch" aria-hidden="true" style="--i:3">P</span><span class="ch" aria-hidden="true" style="--i:4">L</span><span class="ch" aria-hidden="true" style="--i:5">E</span>
+          </h2>
+          <p class="rc-head-lead"><span class="hash">#</span>求める人物像</p>
+        </div>
+        <div class="rc-ideal-split">
+          <figure class="rc-ideal-photo rc-reveal">
+            <div class="rc-ideal-photo-frame"><img src="assets/people/team.webp" width="1920" height="1039" alt="Recologneのメンバーの集合写真" loading="lazy" decoding="async"></div>
+          </figure>
+        <ul class="rc-ideal-grid rc-reveal" role="list" style="list-style:none;margin:0;padding:0;">
+          <li class="rc-ideal-cell" style="--i:0">
+            <div class="rc-ideal-top"><span>01 / ENJOY</span></div>
+            <p class="rc-ideal-text">仕事をたのしみたい人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:1">
+            <div class="rc-ideal-top"><span>02 / HONESTY</span></div>
+            <p class="rc-ideal-text">素直で良い人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:2">
+            <div class="rc-ideal-top"><span>03 / CHANGE</span></div>
+            <p class="rc-ideal-text">変化を恐れない人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:3">
+            <div class="rc-ideal-top"><span>04 / GROWTH</span></div>
+            <p class="rc-ideal-text">成長意欲のある人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:4">
+            <div class="rc-ideal-top"><span>05 / AMBITION</span></div>
+            <p class="rc-ideal-text">本気で稼ぎたい人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:5">
+            <div class="rc-ideal-top"><span>06 / CHALLENGE</span></div>
+            <p class="rc-ideal-text">新しいことに<wbr>挑戦したい人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:6">
+            <div class="rc-ideal-top"><span>07 / TREND</span></div>
+            <p class="rc-ideal-text">トレンドや<wbr>流行に<wbr>敏感な人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:7">
+            <div class="rc-ideal-top"><span>08 / TEAM</span></div>
+            <p class="rc-ideal-text">個人より<wbr>チームで<wbr>勝つのが<wbr>好きな人</p>
+          </li>
+          <li class="rc-ideal-cell" style="--i:8">
+            <div class="rc-ideal-top"><span>09 / COMMUNICATION</span></div>
+            <p class="rc-ideal-text">人との<wbr>コミュニケーションが<wbr>好きな人</p>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="rc-section rc-benefits" id="benefits">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">07</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">BENEFITS &amp; SYSTEMS</span>
+          </div>
+          <h2 class="rc-head-title" aria-label="BENEFITS">
+            <span class="ch" aria-hidden="true" style="--i:0">B</span><span class="ch" aria-hidden="true" style="--i:1">E</span><span class="ch" aria-hidden="true" style="--i:2">N</span><span class="ch" aria-hidden="true" style="--i:3">E</span><span class="ch" aria-hidden="true" style="--i:4">F</span><span class="ch" aria-hidden="true" style="--i:5">I</span><span class="ch" aria-hidden="true" style="--i:6">T</span><span class="ch" aria-hidden="true" style="--i:7">S</span>
+          </h2>
+          <p class="rc-head-lead"><span class="hash">#</span>福利厚生・制度</p>
+        </div>
+        <ul class="rc-bnf-list rc-reveal" role="list">
+          <li class="rc-bnf-item" style="--i:0">
+            <div class="rc-bnf-top"><span class="idx">01</span><span>CORE TIME &mdash; NONE</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">FLEX</p>
+            <h3>フレックスタイム制</h3>
+            <p class="desc">コアタイムなし。ライフスタイルに合わせて柔軟に働けます。</p>
+          </li>
+          <li class="rc-bnf-item" style="--i:1">
+            <div class="rc-bnf-top"><span class="idx">02</span><span>UP TO 2 DAYS / WEEK</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">REMOTE</p>
+            <h3>リモートワーク</h3>
+            <p class="desc">週2日まで在宅勤務が可能。移動時間を有効活用できます。</p>
+          </li>
+          <li class="rc-bnf-item" style="--i:2">
+            <div class="rc-bnf-top"><span class="idx">03</span><span>100% COVERED</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">BOOKS</p>
+            <h3>書籍購入支援</h3>
+            <p class="desc">業務に関する書籍は会社が全額負担で購入できます。</p>
+          </li>
+          <li class="rc-bnf-item" style="--i:3">
+            <div class="rc-bnf-top"><span class="idx">04</span><span>EXAM &amp; COURSE FEES</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">SKILLS</p>
+            <h3>資格取得支援</h3>
+            <p class="desc">業務関連資格の受験料・講座費用を補助しています。</p>
+          </li>
+          <li class="rc-bnf-item" style="--i:4">
+            <div class="rc-bnf-top"><span class="idx">05</span><span>MONTHLY</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">EVENTS</p>
+            <h3>社内イベント</h3>
+            <p class="desc">月1回の全社会や部活動支援で部署を越えた交流を促進。</p>
+          </li>
+          <li class="rc-bnf-item" style="--i:5">
+            <div class="rc-bnf-top"><span class="idx">06</span><span>SPECIAL LEAVE</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">LEAVE</p>
+            <h3>慶弔・特別休暇</h3>
+            <p class="desc">結婚・出産・慶弔時の特別休暇を用意しています。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="rc-section rc-flow" id="flow">
+      <img class="rc-brush rc-brush--f" src="assets/brush/brush-orange.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" data-speed=".05" data-rot="4" data-base="-6" data-depth="30">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">08</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">SELECTION FLOW</span>
+          </div>
+          <h2 class="rc-head-title" aria-label="PROCESS">
+            <span class="ch" aria-hidden="true" style="--i:0">P</span><span class="ch" aria-hidden="true" style="--i:1">R</span><span class="ch" aria-hidden="true" style="--i:2">O</span><span class="ch" aria-hidden="true" style="--i:3">C</span><span class="ch" aria-hidden="true" style="--i:4">E</span><span class="ch" aria-hidden="true" style="--i:5">S</span><span class="ch" aria-hidden="true" style="--i:6">S</span>
+          </h2>
+          <p class="rc-head-lead"><span class="hash">#</span>選考フロー</p>
+        </div>
+        <ol class="rc-flow-list rc-reveal">
+          <li class="rc-flow-item" style="--i:0">
+            <span class="rc-flow-dot" aria-hidden="true"></span>
+            <span class="rc-flow-num" aria-hidden="true">01</span>
+            <p class="rc-flow-en">STEP 01 / ENTRY</p>
+            <h3 class="rc-flow-name">エントリー</h3>
+          </li>
+          <li class="rc-flow-item" style="--i:1">
+            <span class="rc-flow-dot" aria-hidden="true"></span>
+            <span class="rc-flow-num" aria-hidden="true">02</span>
+            <p class="rc-flow-en">STEP 02 / SCREENING</p>
+            <h3 class="rc-flow-name">書類選考</h3>
+          </li>
+          <li class="rc-flow-item" style="--i:2">
+            <span class="rc-flow-dot" aria-hidden="true"></span>
+            <span class="rc-flow-num" aria-hidden="true">03</span>
+            <p class="rc-flow-en">STEP 03 / 1ST INTERVIEW</p>
+            <h3 class="rc-flow-name">一次面接</h3>
+          </li>
+          <li class="rc-flow-item" style="--i:3">
+            <span class="rc-flow-dot" aria-hidden="true"></span>
+            <span class="rc-flow-num" aria-hidden="true">04</span>
+            <p class="rc-flow-en">STEP 04 / FINAL INTERVIEW</p>
+            <h3 class="rc-flow-name">最終面接</h3>
+          </li>
+          <li class="rc-flow-item is-final" style="--i:4">
+            <span class="rc-flow-dot" aria-hidden="true"></span>
+            <span class="rc-flow-num" aria-hidden="true">05</span>
+            <p class="rc-flow-en">STEP 05 / OFFER</p>
+            <h3 class="rc-flow-name">内定</h3>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="rc-section rc-faq" id="faq">
+      <div class="rc-section-inner">
+        <div class="rc-faq-layout">
+          <div class="rc-head rc-reveal">
+            <div class="rc-head-meta" aria-hidden="true">
+              <span class="rc-head-chapter">09</span>
+              <span class="rc-head-rule"></span>
+              <span class="rc-head-meta-txt">FREQUENTLY ASKED</span>
+            </div>
+            <h2 class="rc-head-title" aria-label="FAQ">
+              <span class="ch" aria-hidden="true" style="--i:0">F</span><span class="ch" aria-hidden="true" style="--i:1">A</span><span class="ch" aria-hidden="true" style="--i:2">Q</span>
+            </h2>
+            <p class="rc-head-lead"><span class="hash">#</span>よくある質問</p>
+          </div>
+          <div class="rc-faq-list rc-reveal">
+            <div class="rc-faq-item">
+              <button class="rc-faq-q" type="button" aria-expanded="false" aria-controls="faqA1" id="faqQ1"><span class="no">Q.01</span><span class="q">未経験でも応募できますか？</span><span class="plus" aria-hidden="true"></span></button>
+              <div class="rc-faq-a" id="faqA1" role="region" aria-labelledby="faqQ1"><div><p><span class="no">A.</span><span>はい。意欲や人柄を重視した中途採用も積極的に行っています。</span></p></div></div>
+            </div>
+            <div class="rc-faq-item">
+              <button class="rc-faq-q" type="button" aria-expanded="false" aria-controls="faqA2" id="faqQ2"><span class="no">Q.02</span><span class="q">面接は何回ありますか？</span><span class="plus" aria-hidden="true"></span></button>
+              <div class="rc-faq-a" id="faqA2" role="region" aria-labelledby="faqQ2"><div><p><span class="no">A.</span><span>通常は書類選考の後、一次面接・最終面接の2回で内定まで進みます。</span></p></div></div>
+            </div>
+            <div class="rc-faq-item">
+              <button class="rc-faq-q" type="button" aria-expanded="false" aria-controls="faqA3" id="faqQ3"><span class="no">Q.03</span><span class="q">リモートワークは可能ですか？</span><span class="plus" aria-hidden="true"></span></button>
+              <div class="rc-faq-a" id="faqA3" role="region" aria-labelledby="faqQ3"><div><p><span class="no">A.</span><span>職種により、週2日までの在宅勤務が可能です。</span></p></div></div>
+            </div>
+            <div class="rc-faq-item">
+              <button class="rc-faq-q" type="button" aria-expanded="false" aria-controls="faqA4" id="faqQ4"><span class="no">Q.04</span><span class="q">服装は自由ですか？</span><span class="plus" aria-hidden="true"></span></button>
+              <div class="rc-faq-a" id="faqA4" role="region" aria-labelledby="faqQ4"><div><p><span class="no">A.</span><span>私服勤務OKです。オフィスカジュアル程度を推奨しています。</span></p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rc-section rc-cta" id="entry">
+      <img class="rc-brush rc-brush--e" src="assets/brush/brush-aqua.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" data-speed="-.08" data-rot="-5" data-base="-8">
+      <div class="rc-section-inner">
+        <div class="rc-head rc-reveal">
+          <div class="rc-head-meta" aria-hidden="true">
+            <span class="rc-head-chapter">10</span>
+            <span class="rc-head-rule"></span>
+            <span class="rc-head-meta-txt">JOIN US</span>
+          </div>
+        </div>
+        <a class="rc-cta-link rc-reveal" href="contact.html" aria-label="エントリーする">
+          <h2 class="rc-cta-title">まずはエントリーから</h2>
+          <p class="rc-cta-sub">未来の仕事の喜びを、一緒に創り出しましょう。</p>
+          <span class="rc-cta-row" aria-hidden="true">
+            <span class="rc-cta-word">ENTRY</span>
+            <span class="rc-cta-arrow">&#8599;</span>
+          </span>
+          <span class="rc-cta-rule" aria-hidden="true"></span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <a class="rc-float-cta" id="floatEntry" href="contact.html" data-view-cursor><span>ENTRY</span><span class="rc-float-cta-arrow" aria-hidden="true">&#8599;</span></a>
+
+  <div class="view-stalker" id="viewStalker"><span>VIEW</span><span class="vs-arrow">&#8599;</span></div>
+
+  <footer class="site-footer">
+    <div class="footer-cta-row">
+      <a class="footer-cta-link" href="contact.html" data-view-cursor>
+        <img class="footer-cta-bg" src="assets/contact-bg.webp" alt="">
+        <span class="footer-cta-shade"></span>
+        <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
+        <span class="footer-cta-word">CONTACT</span>
+      </a>
+      <a class="footer-cta-link" href="recruit.html" data-view-cursor>
+        <img class="footer-cta-bg" src="assets/recruit-bg.webp" alt="">
+        <span class="footer-cta-shade"></span>
+        <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
+        <span class="footer-cta-word">RECRUIT</span>
+      </a>
+    </div>
+    <div class="footer-inner">
+      <nav class="footer-nav">
+        <a href="index.html">HOME</a>
+        <a href="about.html">ABOUT</a>
+        <a href="business.html#biz-sns-01">SNS Marketing</a>
+        <a href="business-creative.html#biz-creative-01">Creative Production</a>
+        <a href="business-d2c.html#biz-d2c-01">D2C</a>
+        <a href="works.html">WORKS</a>
+        <a href="column.html">COLUMN</a>
+        <span class="footer-copyright">&copy; Recologne</span>
+      </nav>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- scroll progress bar ----
+  var progressEl = document.getElementById('scrollProgress');
+  var ticking = false;
+  function onScroll(){
+    var scrollY = window.scrollY || document.documentElement.scrollTop;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? Math.min(100, (scrollY / max) * 100) : 0;
+    progressEl.style.width = pct + '%';
+    ticking = false;
+  }
+  document.addEventListener('scroll', function(){
+    if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
+
+  // ---- generic reveal-on-scroll ----
+  var revealTargets = document.querySelectorAll('.rc-reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-inview');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .15 });
+    revealTargets.forEach(function(t){ io.observe(t); });
+  } else {
+    revealTargets.forEach(function(t){ t.classList.add('is-inview'); });
+  }
+
+  // ---- CEO keyword strip: slides left as the strip travels up through
+  // the viewport (0 when it enters at the bottom, fully shifted when it
+  // leaves at the top) ----
+  var ceoMarquee = document.querySelector('.rc-ceo-marquee');
+  var ceoTrack = ceoMarquee && ceoMarquee.querySelector('.track');
+  if (ceoTrack && !reduceMotion) {
+    var mqTicking = false;
+    var updateMarquee = function(){
+      var rect = ceoMarquee.getBoundingClientRect();
+      var vh = window.innerHeight;
+      if (rect.bottom >= 0 && rect.top <= vh) {
+        var p = Math.min(1, Math.max(0, (vh - rect.top) / (vh + rect.height)));
+        var range = Math.max(0, ceoTrack.scrollWidth - ceoMarquee.clientWidth);
+        ceoTrack.style.transform = 'translate3d(' + (-p * range) + 'px,0,0)';
+      }
+      mqTicking = false;
+    };
+    document.addEventListener('scroll', function(){
+      if (!mqTicking) { window.requestAnimationFrame(updateMarquee); mqTicking = true; }
+    }, { passive: true });
+    window.addEventListener('resize', updateMarquee);
+    updateMarquee();
+  }
+
+  // ---- number tiles: count-up on view ----
+  var tiles = document.querySelectorAll('.rc-tile-num');
+  if ('IntersectionObserver' in window) {
+    var numIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        numIo.unobserve(el);
+        var target = parseFloat(el.getAttribute('data-count-to'));
+        var suffix = el.getAttribute('data-count-suffix') || '';
+        var isDecimal = target % 1 !== 0;
+        if (reduceMotion) { el.textContent = target + suffix; return; }
+        var start = null;
+        var duration = 1200;
+        function step(ts){
+          if (!start) start = ts;
+          var progress = Math.min(1, (ts - start) / duration);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var value = target * eased;
+          el.textContent = (isDecimal ? value.toFixed(1) : Math.round(value)) + suffix;
+          if (progress < 1) window.requestAnimationFrame(step);
+        }
+        window.requestAnimationFrame(step);
+      });
+    }, { threshold: .4 });
+    tiles.forEach(function(t){ numIo.observe(t); });
+  }
+
+  // ---- FAQ accordion ----
+  var faqItems = document.querySelectorAll('.rc-faq-item');
+  faqItems.forEach(function(item){
+    var q = item.querySelector('.rc-faq-q');
+    q.addEventListener('click', function(){
+      var wasOpen = item.classList.contains('is-open');
+      faqItems.forEach(function(i){
+        i.classList.remove('is-open');
+        i.querySelector('.rc-faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!wasOpen) {
+        item.classList.add('is-open');
+        q.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ---- member voice: arrow-driven peeking carousel ----
+  var voiceTrack = document.getElementById('voiceTrack');
+  var voicePrev = document.getElementById('voicePrev');
+  var voiceNext = document.getElementById('voiceNext');
+  if (voiceTrack && voicePrev && voiceNext) {
+    var voiceStep = function(){
+      var card = voiceTrack.querySelector('.rc-voice-card');
+      return card ? card.getBoundingClientRect().width + 20 : 300;
+    };
+    voicePrev.addEventListener('click', function(){ voiceTrack.scrollBy({ left: -voiceStep(), behavior: 'smooth' }); });
+    voiceNext.addEventListener('click', function(){ voiceTrack.scrollBy({ left: voiceStep(), behavior: 'smooth' }); });
+  }
+})();
+
+(function(){
+  // ---- "VIEW" cursor stalker: follows the pointer with a soft lag and
+  // appears over any [data-view-cursor] element ----
+  var stalker = document.getElementById('viewStalker');
+  var hasHover = window.matchMedia('(hover:hover)').matches;
+  if (!stalker || !hasHover) return;
+  var mx = innerWidth / 2, my = innerHeight / 2, sx = mx, sy = my;
+  document.addEventListener('mousemove', function(e){ mx = e.clientX; my = e.clientY; });
+  var stRun = false;
+  function raf(){
+    sx += (mx - sx) * 0.2;
+    sy += (my - sy) * 0.2;
+    stalker.style.left = sx + 'px';
+    stalker.style.top = sy + 'px';
+    if (Math.abs(mx - sx) + Math.abs(my - sy) > .3) requestAnimationFrame(raf); else stRun = false;
+  }
+  document.addEventListener('mousemove', function(){ if (!stRun) { stRun = true; requestAnimationFrame(raf); } });
+  document.querySelectorAll('[data-view-cursor]').forEach(function(link){
+    link.addEventListener('mouseenter', function(){ stalker.classList.add('is-active'); });
+    link.addEventListener('mouseleave', function(){ stalker.classList.remove('is-active'); });
+  });
+})();
+</script>
+<script>
+/* ALT A: background play — pointer/scroll drive CSS variables; the mood
+   (palette) follows whichever section is crossing the screen centre. */
+(function(){
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var ids = ['value','culture','ceo-message','numbers','voice','ideal','benefits','flow','faq','entry'];
+  var secs = ids.map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) document.body.setAttribute('data-mood', e.target.id); });
+    }, { rootMargin: '-48% 0px -48% 0px' });
+    secs.forEach(function(s){ io.observe(s); });
+  }
+  if (reduce) return;
+
+  var bgp = document.querySelector('.bgp');
+  var tx = 0, ty = 0, cx = 0, cy = 0, px = innerWidth * .5, py = innerHeight * .4, tpx = px, tpy = py;
+  var running = false, sTick = false;
+  function frame(){
+    cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+    px += (tpx - px) * .18; py += (tpy - py) * .18;
+    bgp.style.setProperty('--mx', cx.toFixed(3));
+    bgp.style.setProperty('--my', cy.toFixed(3));
+    bgp.style.setProperty('--px', px.toFixed(1) + 'px');
+    bgp.style.setProperty('--py', py.toFixed(1) + 'px');
+    // keep going only while something is still moving
+    if (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tpx - px) + Math.abs(tpy - py) > .01) requestAnimationFrame(frame);
+    else running = false;
+  }
+  function wake(){ if (!running) { running = true; requestAnimationFrame(frame); } }
+  document.addEventListener('pointermove', function(e){
+    tx = e.clientX / innerWidth * 2 - 1;
+    ty = e.clientY / innerHeight * 2 - 1;
+    tpx = e.clientX; tpy = e.clientY;
+    wake();
+  }, { passive: true });
+  function setScroll(){
+    var max = document.documentElement.scrollHeight - innerHeight;
+    bgp.style.setProperty('--sp', max > 0 ? (scrollY / max).toFixed(4) : 0);
+    sTick = false;
+  }
+  document.addEventListener('scroll', function(){ if (!sTick) { sTick = true; requestAnimationFrame(setScroll); } }, { passive: true });
+  window.addEventListener('resize', setScroll);
+  setScroll();
+})();
+</script>
+<script>
+/* ALT B: brush strokes — reveal on arrival, scroll parallax + rotation,
+   and a gentle lean away from the pointer. */
+(function(){
+  var brushes = Array.prototype.slice.call(document.querySelectorAll('.rc-brush'));
+  if (!brushes.length) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('is-inview'); io.unobserve(e.target); } });
+    }, { threshold: .05 });
+    brushes.forEach(function(b){ io.observe(b); });
+  } else {
+    brushes.forEach(function(b){ b.classList.add('is-inview'); });
+  }
+  if (reduce) {
+    brushes.forEach(function(b){ b.style.transform = 'rotate(' + (b.dataset.base || 0) + 'deg)' + (b.dataset.flip ? ' scaleX(-1)' : ''); });
+    return;
+  }
+
+  var mx = 0, my = 0, cx = 0, cy = 0;
+  document.addEventListener('pointermove', function(e){
+    mx = e.clientX / innerWidth - .5;
+    my = e.clientY / innerHeight - .5;
+  }, { passive: true });
+
+  var ticking = false;
+  function render(){
+    var vh = window.innerHeight;
+    brushes.forEach(function(b){
+      var sec = b.parentElement.getBoundingClientRect();
+      if (sec.bottom < -200 || sec.top > vh + 200) return;
+      // -1 .. 1 as the section travels up through the viewport
+      var p = ((sec.top + sec.height / 2) - vh / 2) / (vh / 2 + sec.height / 2);
+      var speed = parseFloat(b.dataset.speed || 0);
+      var rot = parseFloat(b.dataset.rot || 0);
+      var base = parseFloat(b.dataset.base || 0);
+      var depth = parseFloat(b.dataset.depth || 24);
+      var x = -cx * depth;
+      var y = p * speed * vh * 4 - cy * depth;
+      b.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + (base - p * rot * 4).toFixed(2) + 'deg)' + (b.dataset.flip ? ' scaleX(-1)' : '');
+    });
+    ticking = false;
+  }
+  function request(){ if (!ticking) { ticking = true; requestAnimationFrame(render); } }
+  document.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request);
+  var looping = false;
+  function loop(){
+    cx += (mx - cx) * .06; cy += (my - cy) * .06;
+    request();
+    if (Math.abs(mx - cx) > .001 || Math.abs(my - cy) > .001) requestAnimationFrame(loop); else looping = false;
+  }
+  document.addEventListener('pointermove', function(){ if (!looping) { looping = true; requestAnimationFrame(loop); } }, { passive: true });
+  // once a stroke has finished drawing, the 24-band mask is dead weight: drop it
+  brushes.forEach(function(b){
+    b.addEventListener('transitionend', function(e){ if (e.propertyName === '--p' && b.classList.contains('is-inview')) b.classList.add('is-drawn'); });
+  });
+  request();
+})();
+</script>
+<script>
+/* PEOPLE photo: slow vertical drift inside the frame */
+(function(){
+  var img = document.querySelector('.rc-ideal-photo-frame img');
+  if (!img || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  function update(){
+    var r = img.parentElement.getBoundingClientRect(), vh = innerHeight;
+    if (r.bottom > -100 && r.top < vh + 100) {
+      var p = ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2);
+      img.style.transform = 'translate3d(0,' + (p * -3).toFixed(2) + '%,0) scale(1.08)';
+    }
+    ticking = false;
+  }
+  document.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+<script>
+/* Culture (background play): the dot grid lights up under the cursor */
+(function(){
+  var sec = document.getElementById('culture');
+  if (sec) {
+    var navCheck = function(){ var r = sec.getBoundingClientRect(); document.body.classList.toggle('nav-on-dark', r.top < 50 && r.bottom > 50); };
+    var navTick = false; document.addEventListener('scroll', function(){ if (!navTick) { navTick = true; requestAnimationFrame(function(){ navCheck(); navTick = false; }); } }, { passive: true }); window.addEventListener('resize', navCheck); navCheck();
+  }
+  if (!sec || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.matchMedia('(hover:hover)').matches) return;
+  var tx = -500, ty = -500, x = tx, y = ty, on = false;
+  sec.addEventListener('pointermove', function(e){
+    var r = sec.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
+    if (!on) { x = tx; y = ty; on = true; }
+  }, { passive: true });
+  sec.addEventListener('pointerleave', function(){ tx = ty = -500; on = false; });
+  var lensRun = false;
+  function raf(){
+    x += (tx - x) * .2; y += (ty - y) * .2;
+    sec.style.setProperty('--cx', x.toFixed(1) + 'px'); sec.style.setProperty('--cy', y.toFixed(1) + 'px');
+    if (Math.abs(tx - x) + Math.abs(ty - y) > .05) requestAnimationFrame(raf); else lensRun = false;
+  }
+  function lensWake(){ if (!lensRun) { lensRun = true; requestAnimationFrame(raf); } }
+  sec.addEventListener('pointermove', lensWake, { passive: true });
+  sec.addEventListener('pointerleave', lensWake);
+})();
+</script>
+<script>
+/* Culture (scroll rows): row 1 slides left, row 2 slides right as the section crosses the screen */
+(function(){
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.rc-cul-row'));
+  if (!rows.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  function update(){
+    var vh = window.innerHeight;
+    rows.forEach(function(row){
+      var track = row.firstElementChild, r = row.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > vh + 100) return;
+      var p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+      var range = Math.max(0, track.scrollWidth - row.clientWidth + 80);
+      var dir = parseFloat(row.dataset.dir);
+      var x = dir < 0 ? -p * range : -(1 - p) * range;
+      track.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+    });
+    ticking = false;
+  }
+  document.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
+</script>
+<script>
+/* FV 2d: tiles drift at different speeds with scroll */
+(function(){
+  var fv = document.getElementById('fv'); if (!fv || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  document.addEventListener('scroll', function(){
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function(){ fv.style.setProperty('--py', (Math.min(scrollY, innerHeight) * 1.2).toFixed(1)); ticking = false; });
+  }, { passive: true });
+})();
+</script>
+<script>
+/* floating ENTRY button: shows once the hero has scrolled past, hides again
+   while the real ENTRY section is in view so it never doubles up with it */
+(function(){
+  var btn = document.getElementById('floatEntry');
+  var entrySection = document.getElementById('entry');
+  if (!btn) return;
+  var pastHero = false, overEntry = false;
+  function sync(){ btn.classList.toggle('is-visible', pastHero && !overEntry); }
+  document.addEventListener('scroll', function(){
+    pastHero = window.scrollY > window.innerHeight * .6;
+    sync();
+  }, { passive: true });
+  if (entrySection && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      overEntry = entries[0].isIntersecting;
+      sync();
+    }, { threshold: .05 }).observe(entrySection);
+  }
+})();
+</script>
+</body>
+</html>
