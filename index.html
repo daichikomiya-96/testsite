@@ -738,7 +738,6 @@
   .reel-img{
     position:absolute;top:50%;left:50%;
     width:min(26vw,300px);aspect-ratio:4/5;object-fit:cover;
-    box-shadow:0 20px 45px rgba(0,0,0,.3);
     filter:brightness(.4) blur(2px) grayscale(1);
     opacity:0;will-change:transform,opacity,filter;
   }
@@ -784,7 +783,6 @@
     .reel-img-mobile{
       display:block;position:absolute;top:50%;left:50%;
       width:min(55vw,260px);aspect-ratio:4/5;object-fit:cover;
-      box-shadow:0 20px 45px rgba(0,0,0,.3);
       filter:brightness(.55) grayscale(1);opacity:0;
     }
     .reel-copy{position:absolute;inset:0;margin-bottom:0;padding:0 24px;}
@@ -1192,8 +1190,13 @@
   }
 
   function resizeCanvas() {
-    const w = Math.round(window.innerWidth * Math.min(window.devicePixelRatio || 1, 2));
-    const h = Math.round(window.innerHeight * Math.min(window.devicePixelRatio || 1, 2));
+    // the beam is a soft glow, so it is drawn at ~60% of CSS pixel size and stretched by
+    // CSS (it used to run at full device-pixel resolution, up to 2x) -- far fewer pixels
+    // for the display shader to fill every frame, which is what keeps scrolling smooth
+    // while heavy sections (ABOUT's flythrough, pinned handoffs) are also being drawn
+    const RES = 0.6;
+    const w = Math.round(window.innerWidth * RES);
+    const h = Math.round(window.innerHeight * RES);
     if (canvas.width !== w || canvas.height !== h) {
       canvas.width = w;
       canvas.height = h;
@@ -1580,13 +1583,13 @@
     <div class="reel-viewport" data-reel-viewport>
 
       <div class="reel-field" data-reel-field>
-        <img class="reel-img" src="assets/business-01-reel.webp" alt="" decoding="async">
-        <img class="reel-img" src="assets/contact-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img" src="assets/recruit-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img" src="assets/business-01-reel.webp" alt="" decoding="async">
-        <img class="reel-img" src="assets/contact-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img" src="assets/recruit-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img" src="assets/business-01-reel.webp" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
       </div>
 
       <div class="reel-veil"></div>
@@ -1599,13 +1602,13 @@
            its imgs stay display:none, so .reel-copy still overlays
            [data-reel-viewport] exactly as before. -->
       <div class="reel-mobile-frame">
-        <img class="reel-img-mobile" src="assets/business-01-reel.webp" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/contact-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/recruit-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/business-01-reel.webp" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/contact-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/recruit-bg-reel.webp" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/business-01-reel.webp" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
 
         <div class="reel-copy" data-reel-copy>
           <div class="about-body">
@@ -1926,10 +1929,20 @@
       smoothWheel: true,
       touchMultiplier: 1.2,
     });
-    (function lenisRaf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(lenisRaf);
-    })(0);
+    // drive Lenis from GSAP's own ticker (not a second, separate rAF loop): Lenis moves
+    // the scroll position and GSAP's scrubbed tweens / pin updates read it in the SAME
+    // frame, in a fixed order. Two independent loops drift in and out of phase, which
+    // shows up as small hitches wherever pinned/scrubbed sections hand off (WORKS ->
+    // ABOUT -> BUSINESS). lagSmoothing(0) stops GSAP from time-warping after a long frame.
+    if (window.gsap) {
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      (function lenisRaf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(lenisRaf);
+      })(0);
+    }
     if (window.ScrollTrigger) { lenis.on('scroll', ScrollTrigger.update); }
     lenis.stop(); // held until the loader finishes (see runLoader)
   }
@@ -2240,7 +2253,21 @@
   window.addEventListener('scroll', onBoundaryScroll, {passive:true});
 
   var heroPinHeld = false; // whether tick() currently holds .hero-pin fixed (see below)
+  var heroIdleCleared = false;
   function tick(now){
+    // once the hero has been fully scrolled off (burst finished, section above the
+    // viewport) there is nothing left to draw -- but this loop used to keep clearing
+    // the full-screen canvas, forcing a layout read (getBoundingClientRect) and
+    // rewriting the zoom/opacity CSS variables on EVERY frame for the rest of the
+    // page, competing with WORKS/ABOUT/BUSINESS for main-thread time at exactly the
+    // moments their pins and handoffs need it. Park it instead (progress is 1 up there).
+    if(heroPassed && !heroTransitioning && !textBursting && window.scrollY > hero.offsetTop + hero.offsetHeight){
+      smoothScrollProgress = 1;
+      if(!heroIdleCleared){ ctx.clearRect(0,0,W,H); heroIdleCleared = true; }
+      if(playing) requestAnimationFrame(tick);
+      return;
+    }
+    heroIdleCleared = false;
     ctx.clearRect(0,0,W,H);
 
     var heroScrollRange = Math.max(1, hero.offsetHeight - heroPinEl.offsetHeight);
