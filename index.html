@@ -397,7 +397,7 @@
     margin-top: 20px;
     display: inline-flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     text-decoration: none;
     color: #eee;
     cursor: pointer;
@@ -412,13 +412,14 @@
   .works-hud-link .label {
     font-family: "Audiowide", var(--mono);
     font-weight: 400;
-    font-size: clamp(28px, 4vw, 48px);
-    letter-spacing: -.1px;
+    /* same size as the ABOUT section's VIEW MORE (.reel-copy .about-viewmore) */
+    font-size: 16px;
+    letter-spacing: -.2px;
     white-space: nowrap;
   }
   .works-hud-link .vm-circle {
-    width: 56px;
-    height: 56px;
+    width: 34px;
+    height: 34px;
   }
   @media (max-width: 768px) {
     .works-hud-heading { font-size: 28px; }

@@ -222,7 +222,9 @@
 
   @media (max-width:900px){
     .rc-ceo-grid{grid-template-columns:1fr;}
-    .rc-ceo-figure{position:relative;top:auto;max-width:420px;margin-left:auto;margin-right:auto;}
+    /* width:100% is required: with auto side margins a grid item shrinks to its content, and
+       the photo (aspect-ratio box + absolutely positioned img) has no intrinsic width -> 0px wide */
+    .rc-ceo-figure{position:relative;top:auto;width:100%;max-width:420px;margin-left:auto;margin-right:auto;}
   }
   @media (max-width:768px){
     /* 7-letter wordmark: scale down so it never clips on narrow screens */
