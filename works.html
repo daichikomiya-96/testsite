@@ -141,8 +141,6 @@
   .work-item-link:hover .work-item-info{opacity:1;}
   .work-item-company{font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,.7);margin:0 0 6px;}
   .work-item-title{font-size:15px;font-weight:700;line-height:1.5;margin:0;}
-  .work-item-tags{display:flex;flex-wrap:wrap;gap:0;margin-top:10px;font-size:10.5px;letter-spacing:.04em;color:rgba(255,255,255,.75);}
-  .work-item-tags li:not(:last-child):after{content:"/";margin:0 .5em;opacity:.6;}
 
   @media (min-width:769px){
     .works-list{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,clamp(140px,16vw,260px));gap:3px;}
@@ -159,8 +157,16 @@
     .works-container{padding-left:30px;padding-right:30px;}
     .works-list{display:flex;flex-direction:column;gap:26px;}
     .work-item-link{aspect-ratio:3/2;}
-    .work-item-info{opacity:1;background:linear-gradient(180deg,transparent 40%,rgba(9,9,11,.72) 100%);}
-    .work-item-link:after{opacity:.15;}
+    /* text sits on top of the photo with no hover state on phones. The photo itself
+       has to stay visible, so legibility comes mostly from a layered text shadow and
+       a scrim confined to the caption area (bottom ~40%), not from dimming the image */
+    .work-item-info{opacity:1;padding:16px 18px;background:linear-gradient(180deg,rgba(9,9,11,0) 58%,rgba(9,9,11,.62) 100%);text-shadow:0 1px 2px rgba(0,0,0,.65),0 0 14px rgba(0,0,0,.5);}
+    .work-item-link:after{opacity:.08;}
+    .work-item-company{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.95);}
+    .work-item-title{font-size:16px;font-weight:700;line-height:1.45;}
+    /* list view shows the caption beside the thumbnail on white, not over a photo */
+    .works-list[data-view="list"] .work-item-info{background:none;text-shadow:none;}
+    .works-list[data-view="list"] .work-item-company{font-size:11px;}
   }
 
   /* ---- list view ---- */
@@ -172,7 +178,6 @@
   .works-list[data-view="list"] .work-item-info{position:relative;inset:auto;flex:1;flex-direction:row;justify-content:space-between;align-items:center;color:var(--ink);opacity:1;padding:0;}
   .works-list[data-view="list"] .work-item-company{display:none;}
   .works-list[data-view="list"] .work-item-title{max-width:560px;font-size:clamp(14px,1.4vw,18px);}
-  .works-list[data-view="list"] .work-item-tags{color:var(--ink-dim);margin-top:0;font-size:11px;}
   @media (max-width:768px){
     .works-list[data-view="list"] .work-item-link{align-items:flex-start;gap:16px;padding:16px 0;}
     .works-list[data-view="list"] .work-item-thumb{width:110px;}
@@ -359,7 +364,6 @@
             <div class="work-item-info">
               <p class="work-item-company">日本コカ・コーラ株式会社</p>
               <h2 class="work-item-title">Web ARカメラ「Santa CAM」プロモーション</h2>
-              <ul class="work-item-tags"><li>AR</li><li>SNS</li></ul>
             </div>
           </a>
         </li>
@@ -369,7 +373,6 @@
             <div class="work-item-info">
               <p class="work-item-company">日本コカ・コーラ株式会社</p>
               <h2 class="work-item-title">Qoo ハロウィンキャンペーン ビジュアル制作</h2>
-              <ul class="work-item-tags"><li>ムービー</li><li>SNS</li></ul>
             </div>
           </a>
         </li>
@@ -379,7 +382,6 @@
             <div class="work-item-info">
               <p class="work-item-company">株式会社ZOZO</p>
               <h2 class="work-item-title">WEAR by ZOZO リニューアル訴求クリエイティブ</h2>
-              <ul class="work-item-tags"><li>アプリ</li><li>UI/UX</li></ul>
             </div>
           </a>
         </li>
@@ -389,7 +391,6 @@
             <div class="work-item-info">
               <p class="work-item-company">アサヒ飲料株式会社</p>
               <h2 class="work-item-title">カルピス「夏の部活大調査」キャンペーンビジュアル</h2>
-              <ul class="work-item-tags"><li>キャンペーン</li><li>SNS</li></ul>
             </div>
           </a>
         </li>
@@ -399,7 +400,6 @@
             <div class="work-item-info">
               <p class="work-item-company">株式会社U-NEXT</p>
               <h2 class="work-item-title">U-NEXT ブランドキービジュアル制作</h2>
-              <ul class="work-item-tags"><li>ブランディング</li><li>グラフィック</li></ul>
             </div>
           </a>
         </li>
