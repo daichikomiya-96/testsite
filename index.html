@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="is-loading">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -241,12 +241,16 @@
   @media (max-width:768px){.footer-inner{padding-left:30px;padding-right:30px;}}
 
   /* ---- loading screen (shared) ---- */
-  .loader{position:fixed;inset:0;z-index:100;background:var(--void);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s ease;}
+  .loader{position:fixed;inset:0;z-index:100;background:var(--void);display:flex;align-items:center;justify-content:center;transition:opacity .6s ease;}
   .loader.is-done{opacity:0;pointer-events:none;}
-  .loader-line-track{width:300px;max-width:60vw;height:2px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;position:relative;}
-  .loader-line-fill{height:100%;width:0%;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.55);}
-  .loader-label{display:flex;gap:16px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--fog-dim);font-variant-numeric:tabular-nums;}
-  #loaderPct{color:var(--fog);}
+  /* page is not scrollable until every asset is in and the loader has played out (see runLoader) */
+  html.is-loading,html.is-loading body{overflow:hidden;}
+  /* RISE: each letter slides up out of its own mask as real load progress passes it */
+  .loader-word{margin:0;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(26px,6vw,88px);line-height:1.15;letter-spacing:.02em;color:#eee;white-space:nowrap;}
+  .loader-mask{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .01em;}
+  .loader-ch{display:inline-block;}
+  .loader-pct{position:absolute;right:clamp(20px,4vw,56px);bottom:clamp(24px,5vh,48px);font-family:var(--mono);font-size:clamp(12px,1.4vw,16px);letter-spacing:.24em;color:var(--fog-dim);font-variant-numeric:tabular-nums;}
+  .loader-pct b{color:var(--fog);font-weight:500;}
 
   /* ================= service section (from eightdesign-service-webgl.html) ================= */
   html {
@@ -282,9 +286,13 @@
   /* kept separate from #webgl's own GSAP-driven scale/rotate entrance
      transform so that transform doesn't pivot around an off-center point and
      swing during reveal (see the reveal tween in applyWorksReel). */
+  /* shifted down by --works-shift (same height, so the 3D layout is unchanged) to
+     keep the 制作実績 caption clear of the fixed header; the extra at the bottom is
+     clipped by .ui's overflow:hidden, and the ruler below compensates for it. */
   .works-stage {
+    --works-shift: 6vh;
     position: absolute;
-    inset: 0;
+    inset: var(--works-shift) 0 calc(-1 * var(--works-shift)) 0;
   }
   #webgl {
     position: absolute;
@@ -352,6 +360,20 @@
   .works-hud-heading span {
     display: inline-block;
   }
+  /* caption above the number; absolutely positioned off the overlay's top edge
+     so it doesn't change the overlay's height (and thus the translateY(-66.67%)
+     offset that pins the number to the tile). */
+  .works-hud-sub {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 100%;
+    margin-bottom: 6px;
+    font-family: var(--sans);
+    font-size: clamp(12px, 1.2vw, 16px);
+    font-weight: 700;
+    letter-spacing: .3em;
+    color: #eee;
+  }
   .works-hud-tag {
     margin-top: 0;
     font-family: var(--sans);
@@ -400,6 +422,7 @@
   }
   @media (max-width: 768px) {
     .works-hud-heading { font-size: 28px; }
+    .works-hud-sub { font-size: 11px; margin-bottom: 4px; }
   }
 
   /* ---- bottom ruler/scrubber: tick marks spanning the tile row's pan range,
@@ -407,7 +430,7 @@
   .works-ruler {
     position: absolute;
     left: 6%; right: 6%;
-    bottom: 6%;
+    bottom: calc(6% + var(--works-shift, 0px));
     z-index: 4;
     height: 24px;
     pointer-events: none;
@@ -561,10 +584,14 @@
        below its text instead (see .business-item-visual). */
     .business-visual{display:none;}
     .business-item-visual{
-      display:block;margin:0 0 32px;border-radius:10px;overflow:hidden;
+      display:block;margin:0 0 32px;overflow:hidden;
       aspect-ratio:4/5;background:#111;
     }
+    .business-item-visual picture{display:block;width:100%;height:100%;}
     .business-item-visual img{width:100%;height:100%;object-fit:cover;display:block;}
+    /* 02 / 03 use landscape images on mobile (see the <picture> sources) */
+    .business-item[data-slide="02"] .business-item-visual,
+    .business-item[data-slide="03"] .business-item-visual{aspect-ratio:1000/646;}
     .business-item[data-slide="01"] .business-item-visual{background:transparent;}
     .business-item[data-slide="01"] .business-item-visual img{object-fit:contain;}
     /* the 1px/.35-alpha divider (--rule, PC) reads fine between tight text
@@ -710,7 +737,7 @@
   .reel-field{position:absolute;inset:0;z-index:1;perspective:1000px;transform-style:preserve-3d;}
   .reel-img{
     position:absolute;top:50%;left:50%;
-    width:min(26vw,300px);aspect-ratio:4/5;object-fit:cover;border-radius:4px;
+    width:min(26vw,300px);aspect-ratio:4/5;object-fit:cover;
     box-shadow:0 20px 45px rgba(0,0,0,.3);
     filter:brightness(.4) blur(2px) grayscale(1);
     opacity:0;will-change:transform,opacity,filter;
@@ -746,7 +773,8 @@
        images fly through -- NOT a small in-flow card, so the text that
        overlays it (.reel-copy, centered via its own flex rule) lands
        vertically centered in the viewport instead of stuck at the top. */
-    .reel-mobile-frame{position:relative;height:100vh;overflow:hidden;}
+    /* perspective matches desktop's .reel-field so the images can fly in real depth (z) */
+    .reel-mobile-frame{position:relative;height:100vh;overflow:hidden;perspective:1000px;}
     /* small floating cards, each sent to its own screen position (see
        REEL_POSITIONS, reused from desktop) instead of one big image always
        filling the same spot -- opacity:0 default (matching desktop's
@@ -756,7 +784,7 @@
        until its own turn came. */
     .reel-img-mobile{
       display:block;position:absolute;top:50%;left:50%;
-      width:min(55vw,260px);aspect-ratio:4/5;object-fit:cover;border-radius:4px;
+      width:min(55vw,260px);aspect-ratio:4/5;object-fit:cover;
       box-shadow:0 20px 45px rgba(0,0,0,.3);
       filter:brightness(.55) grayscale(1);opacity:0;
     }
@@ -1043,15 +1071,21 @@
       // off by the screen edge, in the top-right and bottom-left corners.
       vec2 cornerTR = vec2(uAspect, 1.0);
       vec2 cornerBL = vec2(0.0, 0.0);
-      float ringRadiusTR = 0.6 + sin(uTime * 0.12) * 0.02;
-      float ringRadiusBL = 0.3 + sin(uTime * 0.12 + 1.1) * 0.01;
-      float ringWidth = 0.26;
+      // the rings are sized in units of screen *height*, which on a portrait
+      // phone is far wider than the screen itself -- the glow then floods the
+      // whole display and the background is no longer black. In portrait, shrink
+      // everything by the aspect ratio so the rings keep desktop-like proportions
+      // relative to the screen width (landscape/desktop: factor 1, unchanged).
+      float portraitScale = uAspect < 1.0 ? max(uAspect, 0.4) : 1.0;
+      float ringRadiusTR = (0.6 + sin(uTime * 0.12) * 0.02) * portraitScale;
+      float ringRadiusBL = (0.3 + sin(uTime * 0.12 + 1.1) * 0.01) * portraitScale;
+      float ringWidth = 0.26 * portraitScale;
       float distTR = length(warpedUv - cornerTR);
       float distBL = length(warpedUv - cornerBL);
       float glow = exp(-pow((distTR - ringRadiusTR) / ringWidth, 2.0))
                  + exp(-pow((distBL - ringRadiusBL) / ringWidth, 2.0));
       vec3 beamColor = uBeamColor * glow * 0.85;
-      float sheenWidth = 0.075;
+      float sheenWidth = 0.075 * portraitScale;
       float sheen = exp(-pow((distTR - ringRadiusTR) / sheenWidth, 2.0))
                   + exp(-pow((distBL - ringRadiusBL) / sheenWidth, 2.0));
       beamColor += mix(vec3(1.0, 0.93, 0.82), uBeamColor, 0.25) * sheen * 0.55;
@@ -1515,6 +1549,7 @@
         <div class="works-stage">
           <canvas id="webgl"></canvas>
           <div class="works-number-overlay" id="worksNumberOverlay">
+            <div class="works-hud-sub" id="worksHudSub">制作実績</div>
             <h3 class="works-hud-heading" id="worksHudHeading"><span id="worksHudHeadingText"></span></h3>
           </div>
           <div class="works-hud" id="worksHud">
@@ -1649,7 +1684,10 @@
               </div>
             </a>
             <div class="business-item-visual">
-              <img src="assets/business-creative.webp" alt="クリエイティブ制作事業">
+              <picture>
+                <source media="(max-width:900px)" srcset="assets/business-creative-sp.jpg">
+                <img src="assets/business-creative.webp" alt="クリエイティブ制作事業">
+              </picture>
             </div>
           </article>
 
@@ -1666,7 +1704,10 @@
               </div>
             </a>
             <div class="business-item-visual">
-              <img src="assets/business-d2c.webp" alt="D2C">
+              <picture>
+                <source media="(max-width:900px)" srcset="assets/business-d2c-sp.jpg">
+                <img src="assets/business-d2c.webp" alt="D2C">
+              </picture>
             </div>
           </article>
         </div>
@@ -1865,12 +1906,18 @@
   </footer>
 
   <div class="loader" id="loader">
-    <div class="loader-line-track"><div class="loader-line-fill" id="loaderFill"></div></div>
+    <h1 class="loader-word" id="loaderWord" aria-label="RECOLOGNE"><span class="loader-mask"><span class="loader-ch">R</span></span><span class="loader-mask"><span class="loader-ch">E</span></span><span class="loader-mask"><span class="loader-ch">C</span></span><span class="loader-mask"><span class="loader-ch">O</span></span><span class="loader-mask"><span class="loader-ch">L</span></span><span class="loader-mask"><span class="loader-ch">O</span></span><span class="loader-mask"><span class="loader-ch">G</span></span><span class="loader-mask"><span class="loader-ch">N</span></span><span class="loader-mask"><span class="loader-ch">E</span></span></h1>
+    <div class="loader-pct" id="loaderPct"><b>000</b> %</div>
   </div>
 
 
 <script>
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // always start from the top: a browser-restored mid-page scroll position would
+  // put the hero/pin state machine out of sync with where the page actually is
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
 
   /* ---- inertia (momentum) scrolling for the whole page ---- */
   if (!reduce && window.Lenis) {
@@ -1885,6 +1932,7 @@
       requestAnimationFrame(lenisRaf);
     })(0);
     if (window.ScrollTrigger) { lenis.on('scroll', ScrollTrigger.update); }
+    lenis.stop(); // held until the loader finishes (see runLoader)
   }
 
   /* ---- hover glow: faint white light that follows the cursor across the whole page ---- */
@@ -1922,8 +1970,11 @@
     });
   })();
 
-  var fillEl = document.getElementById('loaderFill');
   var loader = document.getElementById('loader');
+  var loaderChars = Array.prototype.slice.call(document.querySelectorAll('#loaderWord .loader-ch'));
+  var loaderPctNum = document.querySelector('#loaderPct b');
+  // letters start hidden below their masks (set here, at parse time, so they never flash)
+  if (window.gsap && !reduce) gsap.set(loaderChars, { yPercent: 112 });
   var heroBlinkWrap = document.querySelector('.hero-blink-wrap');
   var heroPinEl = document.querySelector('.hero-pin');
   var hero = document.getElementById('hero');
@@ -1952,17 +2003,43 @@
     var off = document.createElement('canvas');
     off.width = W; off.height = H;
     var octx = off.getContext('2d');
-    var fontSize = Math.max(34*dpr, W*0.089);
+    var fontFamily = getComputedStyle(document.body).getPropertyValue('--particle-font');
     octx.fillStyle = '#fff';
     octx.textBaseline = 'middle';
-    octx.textAlign = 'center';
-    octx.font = '800 ' + fontSize + 'px ' + getComputedStyle(document.body).getPropertyValue('--particle-font');
-    var tx = W*0.5;
-    var lineHeight = fontSize*1.18;
-    var ty1 = H/2 - lineHeight/2;
-    var ty2 = H/2 + lineHeight/2;
-    octx.fillText('GO UPDATE', tx, ty1);
-    octx.fillText('AHEAD WITH FUN', tx, ty2);
+    var isMobileText = vw <= 768;
+    if(isMobileText){
+      // phones: four left-aligned lines, sized so the widest line just fits the
+      // screen width minus a side margin (much larger than the old two-line
+      // centered layout, which was only ~34px)
+      var lines = ['GO', 'UPDATE', 'AHEAD', 'WITH FUN'];
+      var margin = 24*dpr;
+      // fit to the width actually visible on screen (never wider than the layout
+      // viewport), measuring the real ink extent of each line, and also cap by
+      // height so the whole block stays inside the screen
+      var visW = Math.min(vw, document.documentElement.clientWidth || vw) * dpr;
+      octx.font = '800 100px ' + fontFamily;
+      var widest = Math.max.apply(null, lines.map(function(l){
+        var m = octx.measureText(l);
+        return Math.max(m.width, m.actualBoundingBoxRight || 0);
+      }));
+      var fontSize = Math.min(100 * (visW - margin*2) / widest, H * 0.8 / (lines.length * 1.18));
+      octx.font = '800 ' + fontSize + 'px ' + fontFamily;
+      octx.textAlign = 'left';
+      var lineHeight = fontSize*1.18;
+      lines.forEach(function(line, i){
+        octx.fillText(line, margin, H/2 + (i - (lines.length - 1)/2)*lineHeight);
+      });
+    } else {
+      var fontSize = Math.max(34*dpr, W*0.089);
+      octx.textAlign = 'center';
+      octx.font = '800 ' + fontSize + 'px ' + fontFamily;
+      var tx = W*0.5;
+      var lineHeight = fontSize*1.18;
+      var ty1 = H/2 - lineHeight/2;
+      var ty2 = H/2 + lineHeight/2;
+      octx.fillText('GO UPDATE', tx, ty1);
+      octx.fillText('AHEAD WITH FUN', tx, ty2);
+    }
 
     var data = octx.getImageData(0,0,W,H).data;
     var step = Math.max(1, Math.round(1.4*dpr));
@@ -2256,6 +2333,20 @@
     // progress driver. The reveal continues a while past where .ui naturally
     // becomes sticky (ordinary scroll-linked progress in that already-
     // stationary range) for a slower, more deliberate feel.
+    // While the formed text is showing, the instant scroll passes "boundary" the
+    // sticky .hero-pin has reached the end of its range and starts sliding up
+    // with the page (up to BOUNDARY_HYSTERESIS px and more on a fast flick) --
+    // and then, the moment the burst begins, the heroTransitioning block below
+    // switches it to position:fixed, which snaps it back DOWN to top:0. That
+    // slide-then-snap was the small downward jump right before the burst. Pin it
+    // with the same fixed style from the boundary onward so it never leaves top:0.
+    // (At y == boundary, sticky and fixed are the same place, so this is seamless.)
+    if(!heroTransitioning){
+      var holdBoundary = hero.offsetTop + heroScrollRange;
+      var holdFixed = textRevealed && window.scrollY >= holdBoundary;
+      heroPinEl.style.cssText = holdFixed ? "position:fixed;top:0;left:0;right:0;height:100vh;" : "";
+    }
+
     if(heroTransitioning){
       var boundaryNow = hero.offsetTop + heroScrollRange;
       var worksStickyY = hero.offsetTop + hero.offsetHeight; // where .ui naturally becomes sticky
@@ -2329,26 +2420,100 @@
   }
 
 
-  function runLoader(){
-    var v = 0;
-    function step(){
-      v += Math.random()*9 + 3;
-      if(v >= 100){
-        v = 100;
-        fillEl.style.width = '100%';
-        setTimeout(function(){
-          loader.classList.add('is-done');
-          playPattern();
-          setTimeout(function(){
-            document.querySelector('.sundial-light').classList.add('is-visible');
-          }, 1000);
-        }, 280);
-        return;
-      }
-      fillEl.style.width = v + '%';
-      setTimeout(step, 80 + Math.random()*60);
+  /* ---- real asset loading: the loader only finishes once everything the page needs is
+     in and decoded, so the first scroll never races an image/texture/font that is still
+     arriving (which left ScrollTrigger measuring a half-loaded layout, esp. on mobile). ---- */
+  function blockLoadScroll(e){ e.preventDefault(); }
+  function blockLoadKeys(e){ if ({32:1,33:1,34:1,35:1,36:1,37:1,38:1,39:1,40:1}[e.keyCode]) e.preventDefault(); }
+  document.addEventListener('touchmove', blockLoadScroll, {passive:false});
+  document.addEventListener('wheel', blockLoadScroll, {passive:false});
+  document.addEventListener('keydown', blockLoadKeys);
+
+  function loadAssets(onProgress){
+    var total = 0, done = 0, settled = [];
+    function add(p){
+      total++;
+      var fin = function(){ done++; onProgress(done / total); };
+      settled.push(p.then(fin, fin));
     }
-    step();
+    function imgReady(img){
+      return new Promise(function(resolve){
+        function ok(){ (img.decode ? img.decode() : Promise.resolve()).then(resolve, resolve); }
+        if (img.complete) { img.naturalWidth ? ok() : resolve(); return; }
+        img.addEventListener('load', ok, {once:true});
+        img.addEventListener('error', resolve, {once:true});
+      });
+    }
+    function urlReady(url){
+      var img = new Image();
+      img.src = url;
+      return imgReady(img);
+    }
+    Array.prototype.forEach.call(document.images, function(img){
+      if (img.loading === 'lazy') img.loading = 'eager'; // below-the-fold logos must not trickle in mid-scroll
+      add(imgReady(img));
+    });
+    (window.heroPhotoUrls || []).forEach(function(u){ add(urlReady(u)); });
+    add(window.worksTexturesReady || Promise.resolve());
+    add(fontsReadyOrTimeout);
+    add(new Promise(function(r){
+      if (document.readyState === 'complete') r(); else window.addEventListener('load', r, {once:true});
+    }));
+    return Promise.all(settled);
+  }
+
+  // everything is ready and hidden behind the loader: re-measure the layout once,
+  // then hand scrolling back
+  function releasePage(){
+    document.removeEventListener('touchmove', blockLoadScroll, {passive:false});
+    document.removeEventListener('wheel', blockLoadScroll, {passive:false});
+    document.removeEventListener('keydown', blockLoadKeys);
+    document.documentElement.classList.remove('is-loading');
+    window.scrollTo(0, 0);
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    if (typeof lenis !== 'undefined' && lenis) { lenis.scrollTo(0, {immediate:true}); lenis.start(); }
+  }
+
+  function runLoader(){
+    var target = 0, allDone = false, shown = 0, letterShown = loaderChars.map(function(){ return false; });
+    loadAssets(function(p){ target = p; }).then(function(){ allDone = true; });
+    // failsafe: never strand the page behind the loader if some request hangs
+    setTimeout(function(){ allDone = true; }, 20000);
+
+    function finish(){
+      var started = false;
+      function reveal(){
+        if (started) return; started = true;
+        loader.classList.add('is-done');
+        releasePage();
+        playPattern();
+        setTimeout(function(){
+          document.querySelector('.sundial-light').classList.add('is-visible');
+        }, 1000);
+      }
+      if (!window.gsap) { reveal(); return; }
+      gsap.to(loaderPctEl(), {opacity:0, duration:.3});
+      gsap.to(loaderChars, {yPercent:-115, duration:.6, ease:'power3.in', stagger:.04, onComplete:reveal});
+    }
+    function loaderPctEl(){ return document.getElementById('loaderPct'); }
+
+    function frame(){
+      // displayed value eases toward real progress (capped at 99 until truly done)
+      var goal = allDone ? 100 : Math.min(target * 100, 99);
+      if (shown < goal) shown = Math.min(goal, shown + Math.max((goal - shown) * 0.12, 0.8));
+      loaderPctNum.textContent = String(Math.round(shown)).padStart(3, '0');
+      if (window.gsap) {
+        loaderChars.forEach(function(ch, i){
+          if (!letterShown[i] && shown >= (i + 1) / loaderChars.length * 90) {
+            letterShown[i] = true;
+            gsap.to(ch, {yPercent:0, duration:.7, ease:'power4.out'});
+          }
+        });
+      }
+      if (shown >= 100) { setTimeout(finish, 280); return; }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
   }
 
   // wait for Orbitron to finish loading so the particle text is sampled with the right glyphs --
@@ -2373,8 +2538,11 @@
         ctx.fill();
       });
       hero.classList.add('play');
-      loader.style.display = 'none';
-      document.querySelector('.sundial-light').classList.add('is-visible');
+      loadAssets(function(){}).then(function(){
+        loader.style.display = 'none';
+        releasePage();
+        document.querySelector('.sundial-light').classList.add('is-visible');
+      });
     } else {
       buildParticles();
       maxExplode = Math.max(W,H)*0.9;
@@ -2480,26 +2648,30 @@
   `;
 
   const loader = new THREE.TextureLoader();
+  // the page loader waits on this so the tiles never pop in after the reveal
+  const textureLoads = [];
   const textures = IMAGES.map(src => {
-    const t = loader.load(src);
+    let t;
+    textureLoads.push(new Promise(resolve => { t = loader.load(src, resolve, undefined, resolve); }));
     t.colorSpace = THREE.SRGBColorSpace || t.colorSpace;
     return t;
   });
+  window.worksTexturesReady = Promise.all(textureLoads);
 
   const TILE_COUNT = 5;
   // one extra slot appended after the image tiles, in the same pan/focus flow
   // as the rest of the reel -- see setFocusedTile(), where it swaps the HUD
   // to the VIEW MORE link instead of heading/tag/number.
   const VIEW_MORE_INDEX = TILE_COUNT;
-  const SCALE_STEPS = [0.9, 0.95, 1.0, 1.05, 1.1];
   // narrow on purpose: one tile still reads as the single piece of content on
   // screen, but its neighbors' edges peek in at the left/right so the row
   // reads as a continuous reel rather than isolated, fully off-screen slides.
   const GAP_RATIO = 0.3;
   const sharedGeo = new THREE.PlaneGeometry(1, 1, 1, 1);
 
-  const tileScales = Array.from({ length: TILE_COUNT }, () => SCALE_STEPS[Math.floor(Math.random() * SCALE_STEPS.length)]);
-  tileScales.push(1.0); // VIEW MORE panel: fixed scale, not part of the random mix
+  // every tile is the same size: the number/制作実績 overlay is pinned to the focused
+  // tile's top edge, so a randomly larger tile used to push that text upward
+  const tileScales = Array.from({ length: TILE_COUNT + 1 }, () => 1.0); // +1: VIEW MORE panel
   const tiles = [];
   for (let i = 0; i < TILE_COUNT; i++) {
     const imgIndex = i % IMAGES.length;
@@ -2546,6 +2718,7 @@
   const viewStalkerEl = document.getElementById('viewStalker');
   const worksHudHeadingEl = document.getElementById('worksHudHeading');
   const worksHudHeadingTextEl = document.getElementById('worksHudHeadingText');
+  const worksHudSubEl = document.getElementById('worksHudSub');
   const worksHudTagEl = document.getElementById('worksHudTag');
   const worksHudLinkEl = document.getElementById('worksHudLink');
   const worksHudEl = document.getElementById('worksHud');
@@ -2753,6 +2926,7 @@
     // number can never still read as visible once VIEW MORE is focused.
     if (bestIndex !== VIEW_MORE_INDEX) {
       worksHudHeadingEl.style.opacity = bestFocus;
+      worksHudSubEl.style.opacity = bestFocus;
       worksHudTagEl.style.opacity = bestFocus;
 
       // pin the number (top edge) and caption (bottom edge + 30px) to the
@@ -2769,6 +2943,7 @@
       worksHudEl.style.top = (bottomPx + 30) + 'px';
     } else {
       worksHudHeadingEl.style.opacity = 0;
+      worksHudSubEl.style.opacity = 0;
       worksHudTagEl.style.opacity = 0;
     }
 
@@ -2824,6 +2999,7 @@
       'assets/hero/fv-photo-06.webp',
       'assets/hero/fv-photo-07.webp'
     ];
+    window.heroPhotoUrls = EMPLOYEE_PHOTOS; // preloaded by the page loader
     var SWAP_INTERVAL = 160;   // ms between swaps
     var SWAP_AT = 40;          // ms into the glitch state that the photo actually changes
     var GLITCH_DURATION = 110; // ms the glitch (RGB split + scanline) classes stay on
@@ -3082,19 +3258,25 @@
         defaults: { ease: "none" }
       });
 
-      /* each image flies in small/dark/blurred, sharpens up close, then fades
-         out again as it "passes" -- same stagger/span as desktop's imgs loop */
+      /* each image flies in small/dark/blurred, sharpens up close, then swells
+         and passes the camera as it fades out -- identical z keyframes, stagger
+         and span to desktop's imgs loop. .reel-mobile-frame now carries the same
+         perspective (see CSS), so the scale AND the outward drift come from real
+         depth: a constant z speed makes the zoom accelerate as the image nears
+         the camera, which is what reads as "passing through". A plain 2D scale
+         tween (the previous approach) grows linearly instead, so the apparent
+         motion slows down as the image gets big -- it looked like it stalled. */
       var stagger = 0.075, span = 0.32;
       imgs.forEach(function (img, i) {
         var start = i * stagger;
         tl.fromTo(img,
-          { scale: .5 },
+          { z: -6200 },
           {
             keyframes: {
-              "0%":   { scale: .5,  opacity: 0, filter: "brightness(.35) blur(6px) grayscale(1)" },
-              "22%":  { scale: .8, opacity: 1, filter: "brightness(.75) blur(1px) grayscale(1)" },
-              "70%":  { scale: 1, opacity: 1, filter: "brightness(1) blur(0px) grayscale(1)" },
-              "100%": { scale: 1.15, opacity: 0, filter: "brightness(1) blur(0px) grayscale(1)" }
+              "0%":   { z: -6200, opacity: 0, filter: "brightness(.35) blur(6px) grayscale(1)" },
+              "22%":  { z: -1800, opacity: 1, filter: "brightness(.75) blur(1px) grayscale(1)" },
+              "70%":  { z: 500,   opacity: 1, filter: "brightness(1) blur(0px) grayscale(1)" },
+              "100%": { z: 1200,  opacity: 0, filter: "brightness(1) blur(0px) grayscale(1)" }
             },
             duration: span
           },
@@ -3178,11 +3360,11 @@
     var worksNumberOverlay = document.querySelector("#service .works-number-overlay");
     var worksRuler = document.querySelector("#service .works-ruler");
     if (worksCanvas) {
-      gsap.set(worksCanvas, { opacity: 0, scale: .55, borderRadius: 40, rotate: -7, transformOrigin: "50% 50%" });
+      gsap.set(worksCanvas, { opacity: 0, scale: .55, rotate: -7, transformOrigin: "50% 50%" });
       gsap.set([worksHud, worksNumberOverlay, worksRuler], { opacity: 0 });
 
       function applyWorksReel(cp) {
-        gsap.set(worksCanvas, { opacity: cp, scale: .55 + .45 * cp, borderRadius: 40 * (1 - cp), rotate: -7 * (1 - cp) });
+        gsap.set(worksCanvas, { opacity: cp, scale: .55 + .45 * cp, rotate: -7 * (1 - cp) });
         gsap.set([worksHud, worksNumberOverlay, worksRuler], { opacity: cp });
       }
       window.worksReel = {
