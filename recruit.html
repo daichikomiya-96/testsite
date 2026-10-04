@@ -244,12 +244,15 @@
      carousel of quote cards on the right — light cards, gradient avatar
      ring and quote-mark cycling through the accent palette per card ---- */
   .rc-voice{background:#fff;}
-  .rc-voice-layout{margin-top:40px;display:grid;grid-template-columns:minmax(220px,.5fr) 1.5fr;gap:40px;align-items:center;}
+  .rc-voice-layout{margin-top:40px;display:grid;grid-template-columns:minmax(220px,.5fr) minmax(0,1.5fr);gap:40px;align-items:center;}
+  /* grid items default to min-width:auto, so the wide card track made the whole layout (and the
+     arrow buttons in the intro) wider than the screen; let both columns shrink to fit */
+  .rc-voice-layout>*{min-width:0;}
   .rc-voice-intro{display:flex;flex-direction:column;gap:20px;}
   .rc-voice-intro-eyebrow{margin:0;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.14em;color:var(--ink-dim);}
   .rc-voice-intro-title{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(22px,2.8vw,32px);line-height:1.35;color:var(--ink);}
-  .rc-voice-arrows{display:flex;gap:12px;margin-top:8px;}
-  .rc-voice-arrow{width:52px;height:52px;border-radius:50%;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--ink);transition:background .25s ease,color .25s ease,transform .25s ease,border-color .25s ease;}
+  .rc-voice-arrows{display:flex;gap:10px;margin-top:8px;}
+  .rc-voice-arrow{width:40px;height:40px;border-radius:50%;border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink);transition:background .25s ease,color .25s ease,transform .25s ease,border-color .25s ease;}
   .rc-voice-arrow:hover{background:var(--ink);color:#fff;border-color:transparent;transform:scale(1.08);}
   .rc-voice-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;padding:12px 2px 44px;margin-bottom:-30px;scrollbar-width:none;-ms-overflow-style:none;}
   .rc-voice-track::-webkit-scrollbar{display:none;}
@@ -260,7 +263,7 @@
   .rc-voice-avatar:after{content:"";display:block;width:100%;height:100%;background:linear-gradient(155deg,#e4e4e4,#cfcfcf);}
   .rc-voice-quote{position:relative;margin:0;font-family:var(--sans);font-weight:400;font-size:13.5px;line-height:1.9;color:var(--ink);}
   .rc-voice-meta{margin:0;font-family:var(--sans);font-weight:700;font-size:11.5px;color:var(--ink-dim);}
-  @media (max-width:900px){.rc-voice-layout{grid-template-columns:1fr;gap:26px;}}
+  @media (max-width:900px){.rc-voice-layout{grid-template-columns:minmax(0,1fr);gap:26px;}}
   @media (max-width:768px){
     .rc-voice-intro{display:grid;grid-template-columns:1fr auto;grid-template-areas:"eyebrow eyebrow" "title arrows";column-gap:12px;row-gap:8px;}
     .rc-voice-intro-eyebrow{grid-area:eyebrow;}
