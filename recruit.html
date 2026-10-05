@@ -259,13 +259,14 @@
   .rc-voice-card{position:relative;flex:0 0 auto;width:min(86%,420px);scroll-snap-align:start;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:20px;padding:32px 26px 26px;display:flex;flex-direction:column;gap:18px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 20px 40px -24px rgba(0,0,0,.16);transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;}
   .rc-voice-card:hover{transform:translateY(-8px);box-shadow:0 30px 56px -22px rgba(0,0,0,.2);}
   .rc-voice-card:before{content:"“";position:absolute;top:-4px;right:22px;font-family:Georgia,serif;font-size:70px;background:linear-gradient(135deg,var(--card-a,var(--teal)),var(--card-b,var(--violet)));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.5;}
-  .rc-voice-head{display:flex;align-items:center;gap:18px;}
-  .rc-voice-avatar{flex:none;width:84px;height:84px;padding:3px;border-radius:50%;background:linear-gradient(135deg,var(--card-a,var(--teal)),var(--card-b,var(--violet)));}
-  .rc-voice-avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid #fff;box-sizing:border-box;background:linear-gradient(155deg,#e4e4e4,#cfcfcf);}
-  .rc-voice-person{min-width:0;display:flex;flex-direction:column;gap:6px;}
-  .rc-voice-name{margin:0;font-family:var(--sans);font-weight:900;font-size:18px;line-height:1.3;letter-spacing:.04em;color:var(--ink);}
-  .rc-voice-quote{position:relative;margin:0;font-family:var(--sans);font-weight:400;font-size:13.5px;line-height:1.9;color:var(--ink);}
-  .rc-voice-meta{margin:0;font-family:var(--sans);font-weight:700;font-size:11.5px;color:var(--ink-dim);}
+  /* the interview text is the point: it leads, larger; the person (photo + name + role) is a quiet sign-off under it */
+  .rc-voice-quote{order:1;position:relative;margin:0;font-family:var(--sans);font-weight:500;font-size:15px;line-height:2;letter-spacing:.02em;color:var(--ink);}
+  .rc-voice-head{order:2;display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid rgba(0,0,0,.08);}
+  .rc-voice-avatar{flex:none;width:52px;height:52px;padding:2px;border-radius:50%;background:linear-gradient(135deg,var(--card-a,var(--teal)),var(--card-b,var(--violet)));}
+  .rc-voice-avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;border:2px solid #fff;box-sizing:border-box;background:linear-gradient(155deg,#e4e4e4,#cfcfcf);}
+  .rc-voice-person{min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .rc-voice-name{margin:0;font-family:var(--sans);font-weight:700;font-size:12.5px;line-height:1.4;letter-spacing:.06em;color:var(--ink-dim);}
+  .rc-voice-meta{margin:0;font-family:var(--sans);font-weight:500;font-size:10.5px;letter-spacing:.04em;color:#9a9aa0;}
   @media (max-width:900px){.rc-voice-layout{grid-template-columns:minmax(0,1fr);gap:26px;}}
   @media (max-width:768px){
     .rc-voice-intro{display:grid;grid-template-columns:1fr auto;grid-template-areas:"eyebrow eyebrow" "title arrows";column-gap:12px;row-gap:8px;}
@@ -654,16 +655,16 @@
        % of that box -- placed in vh of the whole screen they ran down behind the title
        on shorter/narrower phones and the black-on-photo text became hard to read. */
     .fv2d-tiles{top:76px;bottom:calc(204px + 21vw + 14px);}
-    /* all 9 photos on phones: three staggered columns (each column's rows end at a different height) */
-    .fv2d .t:nth-child(1){--x:2vw !important;--w:30vw !important;--y:0% !important;--h:30% !important;}
-    .fv2d .t:nth-child(8){--x:2vw !important;--w:30vw !important;--y:33% !important;--h:24% !important;}
-    .fv2d .t:nth-child(7){--x:2vw !important;--w:30vw !important;--y:60% !important;--h:28% !important;}
-    .fv2d .t:nth-child(3){--x:35vw !important;--w:31vw !important;--y:6% !important;--h:28% !important;}
-    .fv2d .t:nth-child(5){--x:35vw !important;--w:31vw !important;--y:37% !important;--h:22% !important;}
-    .fv2d .t:nth-child(9){--x:35vw !important;--w:31vw !important;--y:62% !important;--h:33% !important;}
-    .fv2d .t:nth-child(4){--x:68vw !important;--w:30vw !important;--y:0% !important;--h:48% !important;}
-    .fv2d .t:nth-child(2){--x:68vw !important;--w:30vw !important;--y:51% !important;--h:26% !important;}
-    .fv2d .t:nth-child(6){--x:68vw !important;--w:30vw !important;--y:80% !important;--h:19% !important;}
+    /* all 9 photos on phones, scattered like the PC layout: mixed sizes, overlaps, a few slight tilts, no shared edges */
+    .fv2d .t:nth-child(3){--x:3vw  !important;--w:35vw !important;--y:1%  !important;--h:31% !important;rotate:-1.5deg;}
+    .fv2d .t:nth-child(5){--x:41vw !important;--w:45vw !important;--y:7%  !important;--h:30% !important;}
+    .fv2d .t:nth-child(4){--x:78vw !important;--w:21vw !important;--y:19% !important;--h:36% !important;rotate:2deg;}
+    .fv2d .t:nth-child(1){--x:0vw  !important;--w:28vw !important;--y:37% !important;--h:28% !important;}
+    .fv2d .t:nth-child(8){--x:23vw !important;--w:36vw !important;--y:41% !important;--h:29% !important;rotate:1.5deg;}
+    .fv2d .t:nth-child(2){--x:60vw !important;--w:37vw !important;--y:48% !important;--h:33% !important;rotate:-1deg;}
+    .fv2d .t:nth-child(7){--x:5vw  !important;--w:30vw !important;--y:67% !important;--h:27% !important;}
+    .fv2d .t:nth-child(9){--x:37vw !important;--w:26vw !important;--y:74% !important;--h:25% !important;rotate:-2deg;}
+    .fv2d .t:nth-child(6){--x:66vw !important;--w:31vw !important;--y:73% !important;--h:23% !important;}
     .fv2d .t{translate:none;}
     /* same difference blend as PC: white type on the white page reads black, and flips colour where it crosses a brush stroke */
     .fv2d-fun,.fv2d-title,.fv2d-sub{mix-blend-mode:difference;color:#fff;}
@@ -672,9 +673,9 @@
     .fv2d-fun{font-size:9vw;top:auto;bottom:162px;letter-spacing:.06em;}
     .fv2d-sub{left:14px;right:auto;bottom:126px;font-size:13px;}
     /* three brush strokes: two over the photos, the pink one runs across the title so the difference blend shows */
-    .fv .rc-brush--d1{width:58vw;left:-14vw;top:5vh;--op:1 !important;z-index:3;}
+    .fv .rc-brush--d1{width:48vw;left:-13vw;top:19vh;--op:1 !important;z-index:3;}
     .fv .rc-brush--d2{display:block;width:58vw;left:auto;right:-16vw;bottom:auto;top:58vh;--op:1 !important;z-index:3;}
-    .fv .rc-brush--d3{display:block;width:34vw;right:-12vw;left:auto;top:16vh;bottom:auto;--op:1 !important;z-index:3;}
+    .fv .rc-brush--d3{display:block;width:34vw;right:-10vw;left:auto;top:6vh;bottom:auto;--op:1 !important;z-index:3;}
   }
   @media (prefers-reduced-motion:reduce){.fv2d .t{clip-path:none;animation:none;}}
 </style>
