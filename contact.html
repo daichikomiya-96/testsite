@@ -91,8 +91,8 @@
   }
 
   /* ---- page layout (shared with works.html / about.html / column.html) ---- */
-  .contact-page{padding-top:72px;min-height:100vh;}
-  .contact-container{max-width:1400px;margin:0 auto;padding:0 40px 160px;}
+  .contact-page{padding-top:72px;}
+  .contact-container{max-width:1400px;margin:0 auto;padding:0 40px 96px;}
 
   .breadcrumb{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-dim);padding:28px 0 0;}
   .breadcrumb a:hover{color:var(--ink);}
@@ -136,8 +136,10 @@
   .submit-btn:disabled{opacity:.32;cursor:not-allowed;}
 
   /* ---- success state ---- */
-  .form-success{margin:72px auto 0;max-width:560px;opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease;}
-  .form-success.is-active{opacity:1;transform:translateY(0);}
+  /* takes no space until the form is sent (it used to sit invisible under the form, leaving a white gap) */
+  .form-success{display:none;margin:72px auto 0;max-width:560px;}
+  .form-success.is-active{display:block;animation:formSuccessIn .6s ease both;}
+  @keyframes formSuccessIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
   .success-mark{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--teal);display:flex;align-items:center;justify-content:center;margin-bottom:26px;}
   .success-mark svg{width:20px;height:20px;}
   .form-success h2{margin:0 0 14px;font-family:var(--mono);font-weight:800;font-size:22px;color:#222;}
@@ -150,6 +152,7 @@
     .contact-container{padding-left:30px;padding-right:30px;}
     .site-footer{padding-left:30px;padding-right:30px;}
     .contact-form{margin-top:48px;}
+    .contact-container{padding-bottom:64px;}
     .field-row{grid-template-columns:1fr;}
   }
 

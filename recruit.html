@@ -639,6 +639,7 @@
   .fv2d{background:#fff;}
   .fv2d-tiles{position:absolute;inset:0;z-index:2;}
   .fv2d .t{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);object-fit:cover;display:block;background:#e9e9e9;translate:0 calc(var(--py,0) * var(--k,0) * 1px);clip-path:inset(100% 0 0 0);animation:fv2dUp 1.3s cubic-bezier(.65,0,.35,1) forwards;animation-delay:calc(.1s + var(--n,0) * .12s);}
+  .fv2d .t--sp{display:none;} /* phones only (see the max-width:768px block) */
   @keyframes fv2dUp{to{clip-path:inset(0 0 0 0);}}
   .fv .rc-brush{mix-blend-mode:normal;}
   .fv .rc-brush--d1{width:min(46vw,700px);left:-10vw;top:-8vh;--op:1;z-index:3;}
@@ -657,26 +658,50 @@
     .fv2d-tiles{top:76px;bottom:0;}
     /* all 9 photos on phones, scattered over the whole screen like the PC layout (% of the area under the header):
        some bleed off the left/right edges, sizes vary a lot, gaps are left white, and a few sit beside / just under the type */
-    .fv2d .t:nth-child(3){--x:-3vw !important;--w:33vw !important;--y:0.5% !important;--h:19% !important;rotate:-2deg;}
-    .fv2d .t:nth-child(4){--x:33vw !important;--w:17vw !important;--y:5%   !important;--h:30% !important;rotate:2deg;}
-    .fv2d .t:nth-child(5){--x:55vw !important;--w:45vw !important;--y:2%   !important;--h:17% !important;}
-    .fv2d .t:nth-child(1){--x:5vw  !important;--w:25vw !important;--y:22%  !important;--h:20% !important;}
-    .fv2d .t:nth-child(2){--x:69vw !important;--w:30vw !important;--y:23%  !important;--h:23% !important;rotate:-1.5deg;}
-    .fv2d .t:nth-child(9){--x:10vw !important;--w:25vw !important;--y:47%  !important;--h:15% !important;rotate:-1.5deg;}
-    .fv2d .t:nth-child(8){--x:62vw !important;--w:30vw !important;--y:49%  !important;--h:14.5% !important;rotate:1.5deg;}
-    .fv2d .t:nth-child(6){--x:64vw !important;--w:28vw !important;--y:76%  !important;--h:14% !important;}
-    .fv2d .t:nth-child(7){--x:3vw  !important;--w:26vw !important;--y:86%  !important;--h:13% !important;rotate:1.5deg;}
+    .fv2d .t:nth-child(3){--x:-3vw !important;--w:34vw !important;--y:0.5% !important;--h:19% !important;rotate:-2deg;}
+    .fv2d .t:nth-child(4){--x:28vw !important;--w:23vw !important;--y:3%   !important;--h:30% !important;rotate:2deg;}
+    .fv2d .t:nth-child(5){--x:50vw !important;--w:51vw !important;--y:1%   !important;--h:19% !important;}
+    .fv2d .t:nth-child(1){--x:1vw  !important;--w:31vw !important;--y:16%  !important;--h:23% !important;}
+    .fv2d .t:nth-child(2){--x:63vw !important;--w:37vw !important;--y:21%  !important;--h:24% !important;rotate:-1.5deg;}
+    .fv2d .t:nth-child(10){display:block;--x:27vw !important;--w:39vw !important;--y:30%  !important;--h:19% !important;rotate:1.5deg;}
+    .fv2d .t:nth-child(9){--x:4vw  !important;--w:29vw !important;--y:37%  !important;--h:20% !important;rotate:-1.5deg;}
+    .fv2d .t:nth-child(6){--x:72vw !important;--w:30vw !important;--y:74%  !important;--h:18% !important;}
+    .fv2d .t:nth-child(7){--x:2vw  !important;--w:34vw !important;--y:85%  !important;--h:15% !important;rotate:1.5deg;}
+    .fv2d .t:nth-child(8){--x:52vw !important;--w:36vw !important;--y:88%  !important;--h:13% !important;rotate:-1.5deg;}
     .fv2d .t{translate:none;}
     /* same difference blend as PC: white type on the white page reads black, and flips colour where it crosses a brush stroke */
     .fv2d-fun,.fv2d-title,.fv2d-sub{mix-blend-mode:difference;color:#fff;}
     /* 5 full-width glyphs: 18vw x 5 = 90vw, so the whole 挑戦×成長 fits (20vw ran off the right edge) */
     .fv2d-title{font-size:18vw;bottom:204px;}
     .fv2d-fun{font-size:9vw;top:auto;bottom:162px;letter-spacing:.06em;}
-    .fv2d-sub{left:14px;right:auto;bottom:126px;font-size:13px;}
+    .fv2d-sub{left:14px;right:auto;bottom:126px;font-size:14px;font-weight:800;letter-spacing:.12em;}
     /* three brush strokes: two over the photos, the pink one runs across the title so the difference blend shows */
     .fv .rc-brush--d1{width:72vw;left:-20vw;top:18vh;--op:1 !important;z-index:3;}
-    .fv .rc-brush--d2{display:block;width:84vw;left:auto;right:-22vw;bottom:auto;top:54vh;--op:1 !important;z-index:3;}
+    .fv .rc-brush--d2{display:block;width:70vw;left:auto;right:-24vw;top:auto;bottom:calc(148px + 21vw);--op:1 !important;z-index:3;}
     .fv .rc-brush--d3{display:block;width:52vw;right:-14vw;left:auto;top:2vh;bottom:auto;--op:1 !important;z-index:3;}
+  }
+  /* phones: the FV is one fixed 390x844 artboard scaled by screen width -- every photo, the type and the ink are placed
+     in vw (x AND y), so the composition is identical on any phone instead of drifting with each screen's height */
+  @media (max-width:600px){
+    .fv.fv2d{height:216.4vw;min-height:0;}
+    .fv2d-tiles{top:19.5vw;bottom:0;}
+    .fv2d .t:nth-child(3){--x:-3vw !important;--w:34vw !important;--y:1.0vw !important;--h:37.4vw !important;rotate:-2deg;}
+    .fv2d .t:nth-child(4){--x:28vw !important;--w:23vw !important;--y:5.9vw !important;--h:59.1vw !important;rotate:2deg;}
+    .fv2d .t:nth-child(5){--x:50vw !important;--w:51vw !important;--y:2.0vw !important;--h:37.4vw !important;}
+    .fv2d .t:nth-child(1){--x:1vw !important;--w:31vw !important;--y:31.5vw !important;--h:45.3vw !important;}
+    .fv2d .t:nth-child(2){--x:63vw !important;--w:37vw !important;--y:41.4vw !important;--h:47.3vw !important;rotate:-1.5deg;}
+    .fv2d .t:nth-child(10){--x:27vw !important;--w:39vw !important;--y:59.1vw !important;--h:37.4vw !important;rotate:1.5deg;}
+    .fv2d .t:nth-child(9){--x:4vw !important;--w:29vw !important;--y:72.9vw !important;--h:39.4vw !important;rotate:-1.5deg;}
+    .fv2d .t:nth-child(6){--x:72vw !important;--w:30vw !important;--y:145.7vw !important;--h:35.4vw !important;}
+    .fv2d .t:nth-child(7){--x:2vw !important;--w:34vw !important;--y:167.4vw !important;--h:29.5vw !important;rotate:1.5deg;}
+    .fv2d .t:nth-child(8){--x:52vw !important;--w:36vw !important;--y:173.3vw !important;--h:25.6vw !important;rotate:-1.5deg;}
+    .fv2d .t:nth-child(10){display:block;}
+    .fv2d-title{font-size:18.5vw;bottom:59.6vw;}
+    .fv2d-fun{font-size:12vw;bottom:45.4vw;letter-spacing:.04em;}
+    .fv2d-sub{bottom:36vw;left:3.6vw;font-size:4.4vw;letter-spacing:.1em;}
+    .fv .rc-brush--d1{width:72vw;left:-20vw;top:39vw;}
+    .fv .rc-brush--d2{width:90vw;right:-32vw;top:auto;bottom:61vw;}
+    .fv .rc-brush--d3{width:52vw;right:-14vw;top:4.3vw;}
   }
   @media (prefers-reduced-motion:reduce){.fv2d .t{clip-path:none;animation:none;}}
 </style>
@@ -802,6 +827,7 @@
       <img class="t" src="assets/fv/fv-07.webp" alt="" width="173" height="198" style="--x:87.0vw;--w:12vw;--y:36vh;--h:22vh;--k:0.09;--n:1">
       <img class="t" src="assets/fv/fv-08.webp" alt="" width="158" height="153" style="--x:18.0vw;--w:11vw;--y:50vh;--h:17vh;--k:-0.08;--n:6">
       <img class="t" src="assets/fv/fv-09.webp" alt="" width="187" height="198" style="--x:86.0vw;--w:13vw;--y:60vh;--h:22vh;--k:0.11;--n:5">
+      <img class="t t--sp" src="assets/fv/fv-10.webp" alt="" width="800" height="600" style="--n:6">
     </div>
     <img class="rc-brush rc-brush--d1" src="assets/brush/brush-orange.webp" alt="" aria-hidden="true" loading="eager" decoding="async" data-speed="-.06" data-rot="-4" data-base="-10">
     <img class="rc-brush rc-brush--d2" src="assets/brush/brush-pink.webp" alt="" aria-hidden="true" loading="eager" decoding="async" data-speed=".08" data-rot="4" data-base="190" data-flip="1">
