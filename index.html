@@ -249,7 +249,7 @@
   /* page is not scrollable until every asset is in and the loader has played out (see runLoader) */
   html.is-loading,html.is-loading body{overflow:hidden;}
   /* RISE: each letter slides up out of its own mask as real load progress passes it */
-  .loader-word{margin:0;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(26px,6vw,88px);line-height:1.15;letter-spacing:.02em;color:#eee;white-space:nowrap;}
+  .loader-word{margin:0;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(14px,2.4vw,34px);line-height:1.15;letter-spacing:.02em;color:#eee;white-space:nowrap;}
   .loader-mask{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .01em;}
   .loader-ch{display:inline-block;}
   .loader-pct{position:absolute;right:clamp(20px,4vw,56px);bottom:clamp(24px,5vh,48px);font-family:var(--mono);font-size:clamp(12px,1.4vw,16px);letter-spacing:.24em;color:var(--fog-dim);font-variant-numeric:tabular-nums;}
@@ -296,6 +296,12 @@
     --works-shift: 6vh;
     position: absolute;
     inset: var(--works-shift) 0 calc(-1 * var(--works-shift)) 0;
+  }
+  /* phones: the portrait tile is ~75% of the screen tall, so the desktop 6vh drop pushed the whole
+     WORKS block (caption, number, photo, tag) toward the bottom -- lift it instead. The ruler's
+     bottom already compensates for --works-shift, so it stays where it was. */
+  @media (max-width: 768px) {
+    .works-stage { --works-shift: -2vh; }
   }
   #webgl {
     position: absolute;
@@ -1590,13 +1596,13 @@
     <div class="reel-viewport" data-reel-viewport>
 
       <div class="reel-field" data-reel-field>
-        <img class="reel-img" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-01.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-02.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-03.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-04.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-05.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-06.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-07.jpg" alt="" decoding="async">
       </div>
 
       <div class="reel-veil"></div>
@@ -1609,13 +1615,13 @@
            its imgs stay display:none, so .reel-copy still overlays
            [data-reel-viewport] exactly as before. -->
       <div class="reel-mobile-frame">
-        <img class="reel-img-mobile" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/contact-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/recruit-bg-reel.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/business-01-reel.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-01.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-02.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-03.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-04.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-05.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-06.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-07.jpg" alt="" decoding="async">
 
         <div class="reel-copy" data-reel-copy>
           <div class="about-body">
@@ -2301,9 +2307,12 @@
     hero.style.setProperty('--fv-zoom-x', zoomX.toFixed(3));
     hero.style.setProperty('--fv-zoom-y', zoomY.toFixed(3));
 
-    var fadeStart = 0.6;
+    // phones: the cover-scaled photo sits right behind the small GO UPDATE particles, so
+    // fade it out earlier (gone well before the text forms at progress 1) to keep them legible
+    var fadeStart = isDesktop ? 0.6 : 0.2;
+    var fadeEnd = isDesktop ? 1 : 0.7;
     var minOpacity = 0;
-    var fvOpacity = scrollProgress <= fadeStart ? 1 : Math.max(minOpacity, 1 - (scrollProgress-fadeStart)/(1-fadeStart)*(1-minOpacity));
+    var fvOpacity = scrollProgress <= fadeStart ? 1 : Math.max(minOpacity, 1 - (scrollProgress-fadeStart)/(fadeEnd-fadeStart)*(1-minOpacity));
     hero.style.setProperty('--fv-opacity', fvOpacity.toFixed(3));
 
     if(textRevealed){
@@ -3318,7 +3327,7 @@
         scrollTrigger: {
           trigger: ".reel-mobile-frame",
           start: "top top",
-          end: "+=2400",
+          end: "+=3200",
           pin: true,
           scrub: 1,
           anticipatePin: 1
@@ -3338,7 +3347,7 @@
          (scale + x/y) sampled every 4%. Sampling the hyperbola, rather than
          tweening scale linearly, keeps the accelerating "rushing past you" feel
          -- a linear scale growth visibly slows down as the image gets big. */
-      var stagger = 0.075, span = 0.32;
+      var stagger = 0.1, span = 0.45;
       var vwPx = window.innerWidth / 100, vhPx = window.innerHeight / 100;
       function reelZ(t) {
         if (t <= .22) return -6200 + (-1800 + 6200) * (t / .22);
@@ -3378,8 +3387,8 @@
       tl.to(copyChars, {
         opacity: 1, y: 0, filter: "blur(0px)",
         ease: "power3.out", duration: .55, stagger: { amount: 1.05 }
-      }, 0.68)
-        .to(vmCircle, { opacity: 1, scale: 1, ease: "power2.out", duration: .3 }, 1.95);
+      }, 0.96)
+        .to(vmCircle, { opacity: 1, scale: 1, ease: "power2.out", duration: .3 }, 2.23);
 
       /* mobile BUSINESS: no pin/handoff here (that's desktop-only, above) --
          just a simple fade-in + rise as the stacked list scrolls into view,

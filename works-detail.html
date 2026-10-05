@@ -117,13 +117,9 @@
   .wd-main{opacity:0;transform:translateY(24px);transition:opacity .7s ease .1s,transform .7s ease .1s;}
   .wd-main.is-inview{opacity:1;transform:translateY(0);}
 
-  .wd-hero{position:relative;overflow:hidden;aspect-ratio:780/440;background:#000;}
-  .wd-hero img{width:100%;height:100%;object-fit:cover;}
+  .wd-hero{position:relative;overflow:hidden;aspect-ratio:864/507;background:transparent;}
+  .wd-hero img{width:100%;height:100%;object-fit:contain;}
 
-  .wd-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px;}
-  .wd-gallery-item{position:relative;overflow:hidden;aspect-ratio:249/160;background:#000;}
-  .wd-gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease;}
-  .wd-gallery-item:hover img{transform:scale(1.07);}
 
   .wd-desc{margin:36px 0 0;font-family:var(--sans);font-weight:400;font-size:14px;line-height:1.95;color:#555;}
 
@@ -206,7 +202,6 @@
     .nav{padding-left:10px;padding-right:10px;}
     .wd-container{padding-left:30px;padding-right:30px;}
     .site-footer{padding-left:30px;padding-right:30px;}
-    .wd-gallery{grid-template-columns:repeat(2,1fr);}
     .wd-layout{padding-bottom:70px;}
     .wd-more{padding-bottom:64px;}
   }
@@ -396,12 +391,7 @@
 
         <div class="wd-main" id="wdMain">
           <div class="wd-hero">
-            <img src="assets/works/portfolio-1.jpg" alt="日本コカ・コーラ Coke Web ARカメラ Santa CAM メインビジュアル" loading="lazy">
-          </div>
-          <div class="wd-gallery">
-            <div class="wd-gallery-item"><img src="assets/works/portfolio-2.jpg" alt="" loading="lazy"></div>
-            <div class="wd-gallery-item"><img src="assets/works/portfolio-3.jpg" alt="" loading="lazy"></div>
-            <div class="wd-gallery-item"><img src="assets/works/portfolio-4.jpg" alt="" loading="lazy"></div>
+            <img src="assets/works/coke-santa-cam-phones.png" alt="日本コカ・コーラ Coke Web ARカメラ Santa CAM メインビジュアル" width="864" height="507" loading="lazy">
           </div>
 
           <p class="wd-desc">クリスマスシーズンに合わせ、Web ARカメラ「Santa CAM」を軸としたプロモーションキャンペーンを企画・制作。ユーザーがブラウザ上でサンタクロースの姿になれるARフィルターと、それをSNSでシェアしたくなる導線設計により、TikTok・Instagramの両プラットフォームで大規模なUGC拡散を実現しました。企画立案からクリエイティブ制作、インフルエンサーキャスティング、投稿運用までをワンストップで担当しています。</p>
