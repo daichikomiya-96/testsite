@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recologne FV | 13 パーティクル・テキストフォーメーション + Service Section</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Unbounded:wght@500;600;700&family=Noto+Sans+JP:wght@500;700&family=Audiowide&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
@@ -605,7 +607,9 @@
     /* 02 / 03 use landscape images on mobile (see the <picture> sources) */
     .business-item[data-slide="02"] .business-item-visual,
     .business-item[data-slide="03"] .business-item-visual{aspect-ratio:1000/646;}
-    .business-item[data-slide="01"] .business-item-visual{background:transparent;}
+    /* 01 is a landscape diagram -- a landscape box, not the 4/5 default,
+       otherwise it floats in a tall box with big empty bands above and below */
+    .business-item[data-slide="01"] .business-item-visual{background:transparent;aspect-ratio:984/642;}
     .business-item[data-slide="01"] .business-item-visual img{object-fit:contain;}
     /* the 1px/.35-alpha divider (--rule, PC) reads fine between tight text
        rows, but gets lost against all the extra vertical space each item's
@@ -777,15 +781,18 @@
   .reel-img-mobile{display:none;}
 
   @media (max-width:768px){
-    .reel-stage{height:auto;}
-    .reel-viewport{height:auto;overflow:visible;}
+    /* the pin is plain CSS sticky (not a JS pin-spacer): .reel-stage is 100vh + the 3200px of scroll the
+       sequence plays over, and the 100vh frame sticks to the top for exactly that distance. A JS pin gets
+       re-measured whenever the phone's URL bar slides in/out and can re-engage after it has released. */
+    .reel-stage{height:calc(100vh + 3200px);}
+    .reel-viewport{height:100%;overflow:visible;}
     .reel-field{display:none;}
     .reel-veil{display:none;}
     /* full 100vh stage (like desktop's [data-reel-viewport]), pinned while its
        images fly through -- NOT a small in-flow card, so the text that
        overlays it (.reel-copy, centered via its own flex rule) lands
        vertically centered in the viewport instead of stuck at the top. */
-    .reel-mobile-frame{position:relative;height:100vh;overflow:hidden;}
+    .reel-mobile-frame{position:sticky;top:0;height:100vh;overflow:hidden;}
     /* small floating cards, each sent to its own screen position (see
        REEL_POSITIONS, reused from desktop) instead of one big image always
        filling the same spot -- opacity:0 default (matching desktop's
@@ -1442,7 +1449,7 @@
     <div class="light-orb light-orb-b"></div>
   </div>
   <div class="nav">
-    <div class="brand"><img class="brand-logo" src="assets/logo.png" alt="Recologne"></div>
+    <div class="brand"><img class="brand-logo" src="assets/logo.webp" alt="Recologne"></div>
     <div class="menu">
       <a href="index.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">HOME</span><span class="nav-flip-face nav-flip-face--back">HOME</span></span></span></a>
       <a href="about.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">ABOUT</span><span class="nav-flip-face nav-flip-face--back">ABOUT</span></span></span></a>
@@ -1596,13 +1603,13 @@
     <div class="reel-viewport" data-reel-viewport>
 
       <div class="reel-field" data-reel-field>
-        <img class="reel-img" src="assets/reel/about-01.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/about-02.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/about-03.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/about-04.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/about-05.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/about-06.jpg" alt="" decoding="async">
-        <img class="reel-img" src="assets/reel/about-07.jpg" alt="" decoding="async">
+        <img class="reel-img" src="assets/reel/about-01.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img" src="assets/reel/about-02.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img" src="assets/reel/about-03.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img" src="assets/reel/about-04.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img" src="assets/reel/about-05.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img" src="assets/reel/about-06.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img" src="assets/reel/about-07.webp" alt="" decoding="async" loading="lazy">
       </div>
 
       <div class="reel-veil"></div>
@@ -1615,13 +1622,13 @@
            its imgs stay display:none, so .reel-copy still overlays
            [data-reel-viewport] exactly as before. -->
       <div class="reel-mobile-frame">
-        <img class="reel-img-mobile" src="assets/reel/about-01.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/about-02.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/about-03.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/about-04.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/about-05.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/about-06.jpg" alt="" decoding="async">
-        <img class="reel-img-mobile" src="assets/reel/about-07.jpg" alt="" decoding="async">
+        <img class="reel-img-mobile" src="assets/reel/about-01.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img-mobile" src="assets/reel/about-02.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img-mobile" src="assets/reel/about-03.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img-mobile" src="assets/reel/about-04.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img-mobile" src="assets/reel/about-05.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img-mobile" src="assets/reel/about-06.webp" alt="" decoding="async" loading="lazy">
+        <img class="reel-img-mobile" src="assets/reel/about-07.webp" alt="" decoding="async" loading="lazy">
 
         <div class="reel-copy" data-reel-copy>
           <div class="about-body">
@@ -1650,20 +1657,20 @@
     <div class="business-page-content">
       <section class="business-scroll">
         <div class="business-visual">
-          <img class="business-intro-img" id="businessIntroImg" src="assets/business-01.jpg" alt="">
+          <img class="business-intro-img" id="businessIntroImg" src="assets/business-01.webp" alt="" loading="lazy" decoding="async">
           <div class="business-slide is-active" data-slide="01">
             <a class="business-slide__link" data-view-cursor href="business.html">
-              <img src="assets/business-01-top.svg" alt="SNSマーケティング">
+              <img src="assets/business-01-top.svg" alt="SNSマーケティング" loading="lazy" decoding="async">
             </a>
           </div>
           <div class="business-slide" data-slide="02">
             <a class="business-slide__link" data-view-cursor href="business-creative.html">
-              <img src="assets/business-creative.webp" alt="クリエイティブ制作事業">
+              <img src="assets/business-creative.webp" alt="クリエイティブ制作事業" loading="lazy" decoding="async">
             </a>
           </div>
           <div class="business-slide" data-slide="03">
             <a class="business-slide__link" data-view-cursor href="business-d2c.html">
-              <img src="assets/business-d2c.webp" alt="D2C">
+              <img src="assets/business-d2c.webp" alt="D2C" loading="lazy" decoding="async">
             </a>
           </div>
         </div>
@@ -1682,7 +1689,7 @@
               </div>
             </a>
             <div class="business-item-visual">
-              <img src="assets/business-01-top.svg" alt="SNSマーケティング">
+              <img src="assets/business-01-top.svg" alt="SNSマーケティング" loading="lazy" decoding="async">
             </div>
           </article>
 
@@ -1700,8 +1707,8 @@
             </a>
             <div class="business-item-visual">
               <picture>
-                <source media="(max-width:900px)" srcset="assets/business-creative-sp.jpg">
-                <img src="assets/business-creative.webp" alt="クリエイティブ制作事業">
+                <source media="(max-width:900px)" srcset="assets/business-creative-sp.webp">
+                <img src="assets/business-creative.webp" alt="クリエイティブ制作事業" loading="lazy" decoding="async">
               </picture>
             </div>
           </article>
@@ -1720,8 +1727,8 @@
             </a>
             <div class="business-item-visual">
               <picture>
-                <source media="(max-width:900px)" srcset="assets/business-d2c-sp.jpg">
-                <img src="assets/business-d2c.webp" alt="D2C">
+                <source media="(max-width:900px)" srcset="assets/business-d2c-sp.webp">
+                <img src="assets/business-d2c.webp" alt="D2C" loading="lazy" decoding="async">
               </picture>
             </div>
           </article>
@@ -1894,13 +1901,13 @@
   <footer class="site-footer">
     <div class="footer-cta-row">
       <a class="footer-cta-link" href="contact.html" data-view-cursor>
-        <img class="footer-cta-bg" src="assets/contact-bg.webp" alt="">
+        <img class="footer-cta-bg" src="assets/contact-bg.webp" alt="" loading="lazy" decoding="async">
         <span class="footer-cta-shade"></span>
         <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
         <span class="footer-cta-word">CONTACT</span>
       </a>
       <a class="footer-cta-link" href="recruit.html" data-view-cursor>
-        <img class="footer-cta-bg" src="assets/recruit-bg.webp" alt="">
+        <img class="footer-cta-bg" src="assets/recruit-bg.webp" alt="" loading="lazy" decoding="async">
         <span class="footer-cta-shade"></span>
         <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
         <span class="footer-cta-word">RECRUIT</span>
@@ -3325,12 +3332,12 @@
 
       var tl = gsap.timeline({
         scrollTrigger: {
-          trigger: ".reel-mobile-frame",
+          // no pin: .reel-mobile-frame is position:sticky inside .reel-stage (see CSS), whose height is
+          // 100vh + 3200px, so "top top" -> "bottom bottom" is exactly the 3200px the frame stays put
+          trigger: "[data-reel-stage]",
           start: "top top",
-          end: "+=3200",
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1
+          end: "bottom bottom",
+          scrub: 1
         },
         defaults: { ease: "none" }
       });
