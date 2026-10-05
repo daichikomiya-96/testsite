@@ -251,7 +251,7 @@
   /* page is not scrollable until every asset is in and the loader has played out (see runLoader) */
   html.is-loading,html.is-loading body{overflow:hidden;}
   /* RISE: each letter slides up out of its own mask as real load progress passes it */
-  .loader-word{margin:0;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(14px,2.4vw,34px);line-height:1.15;letter-spacing:.02em;color:#eee;white-space:nowrap;}
+  .loader-word{margin:0;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(19px,2.4vw,34px);line-height:1.15;letter-spacing:.02em;color:#eee;white-space:nowrap;}
   .loader-mask{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .01em;}
   .loader-ch{display:inline-block;}
   .loader-pct{position:absolute;right:clamp(20px,4vw,56px);bottom:clamp(24px,5vh,48px);font-family:var(--mono);font-size:clamp(12px,1.4vw,16px);letter-spacing:.24em;color:var(--fog-dim);font-variant-numeric:tabular-nums;}
@@ -2569,7 +2569,8 @@
       }
       if (!window.gsap) { reveal(); return; }
       gsap.to(loaderPctEl(), {opacity:0, duration:.3});
-      gsap.to(loaderChars, {yPercent:-115, duration:.6, ease:'power3.in', stagger:.04, onComplete:reveal});
+      // hold the black loader a beat after the wordmark leaves, so layout/particles/fonts settle before the FV is shown
+      gsap.to(loaderChars, {yPercent:-115, duration:.6, ease:'power3.in', stagger:.04, onComplete:function(){ setTimeout(reveal, 500); }});
     }
     function loaderPctEl(){ return document.getElementById('loaderPct'); }
 
