@@ -333,19 +333,19 @@
       <div class="about-statement" id="aboutStatement">
         <p>多くの人が仕事に</p>
         <p>たのしさを見出せていない今、</p>
-        <p>私たちはその現状を打ち破りたい。</p>
-        <p>新しい挑戦に命を燃やしながら、</p>
-        <p>仲間と共に壁を越えていこう。</p>
+        <p>私たちはその現状を<wbr>打ち破りたい。</p>
+        <p>新しい挑戦に<wbr>命を燃やしながら、</p>
+        <p>仲間と共に<wbr>壁を越えていこう。</p>
       </div>
 
       <div class="about-copy" id="aboutCopy">
         <p>"たのしさ"は、単なる楽なことではない。</p>
-        <p>挑戦と成長を通じて得られる深い充実感だ。</p>
-        <p>時には困難な挑戦や辛い時期もあるが、それを乗り越えた先にこそ、</p>
+        <p>挑戦と成長を通じて<wbr>得られる深い充実感だ。</p>
+        <p>時には困難な挑戦や辛い時期もあるが、<wbr>それを乗り越えた先にこそ、</p>
         <p>本当の"たのしさ"が待っている。</p>
-        <p>私たちは、一人ではなく仲間と共にこの挑戦に立ち向かう。</p>
-        <p>互いに支え合いながら、昨日の自分をアップデートし続け、</p>
-        <p>挑戦意志がある人が輝ける世界を創り出します。</p>
+        <p>私たちは、一人ではなく仲間と共に<wbr>この挑戦に立ち向かう。</p>
+        <p>互いに支え合いながら、<wbr>昨日の自分をアップデートし続け、</p>
+        <p>挑戦意志がある人が<wbr>輝ける世界を創り出します。</p>
       </div>
 
       <div class="profile about-reveal">
@@ -436,19 +436,34 @@
   }
 
   // ---- wave rise: per-character reveal for the tagline + statement ----
+  // <wbr> in the markup marks the phrase boundaries where a line may wrap: the characters
+  // between two of them are grouped in a nowrap span so a narrow screen never splits a phrase.
   function splitLineChars(el){
-    var text = el.textContent;
+    var phrased = !!el.querySelector('wbr');
+    var parts = [''];
+    Array.prototype.forEach.call(el.childNodes, function(node){
+      if (node.nodeType === 3) parts[parts.length - 1] += node.nodeValue;
+      else if (node.nodeName === 'WBR') parts.push('');
+    });
     el.textContent = '';
     var spans = [];
-    for (var i = 0; i < text.length; i++){
-      var c = text[i];
-      var span = document.createElement('span');
-      span.className = 'ch' + (c === ' ' ? ' sp' : '');
-      span.textContent = c === ' ' ? ' ' : c;
-      span.style.opacity = 0;
-      el.appendChild(span);
-      spans.push(span);
-    }
+    var group = null;
+    parts.forEach(function(part){
+      if (phrased){
+        group = document.createElement('span');
+        group.style.whiteSpace = 'nowrap';
+        el.appendChild(group);
+      }
+      for (var i = 0; i < part.length; i++){
+        var c = part[i];
+        var span = document.createElement('span');
+        span.className = 'ch' + (c === ' ' ? ' sp' : '');
+        span.textContent = c === ' ' ? ' ' : c;
+        span.style.opacity = 0;
+        (group || el).appendChild(span);
+        spans.push(span);
+      }
+    });
     return spans;
   }
 
