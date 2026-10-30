@@ -169,6 +169,7 @@
   .rc-numbers-intro{grid-column:span 3;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:28px 34px;display:flex;flex-direction:column;justify-content:center;gap:10px;}
   .rc-numbers-intro-eyebrow{margin:0;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.14em;background:linear-gradient(135deg,var(--teal),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
   .rc-numbers-intro-title{margin:0;text-wrap:balance;font-family:var(--sans);font-weight:900;font-size:clamp(20px,2.2vw,27px);line-height:1.4;color:var(--ink);}
+  .rc-sp-br{display:none;}
   .rc-numbers-intro-desc{margin:0;font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.8;color:var(--ink-dim);}
   .rc-tile{position:relative;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:18px 18px;display:flex;flex-direction:column;justify-content:center;gap:2px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03),0 18px 36px -24px rgba(0,0,0,.14);transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s ease,box-shadow .3s ease;}
   .rc-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--tile-accent,var(--teal)),transparent 60%);opacity:0;transition:opacity .3s ease;}
@@ -186,6 +187,7 @@
   }
   @media (max-width:560px){
     .rc-numbers-layout{grid-template-columns:1fr;}
+    .rc-sp-br{display:inline;}
     .rc-numbers-intro{grid-column:span 1;}
   }
 
@@ -983,7 +985,7 @@
         <div class="rc-numbers-layout">
           <div class="rc-numbers-intro rc-reveal">
             <p class="rc-numbers-intro-eyebrow">ABOUT US</p>
-            <h3 class="rc-numbers-intro-title">Recologneのことを、数字で。</h3>
+            <h3 class="rc-numbers-intro-title">Recologneのことを、<br class="rc-sp-br">数字で。</h3>
             <p class="rc-numbers-intro-desc">売上や実績だけでなく、はたらく人の環境や制度も含めて、ありのままの姿を数字で見える化しています。</p>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--teal);">
@@ -1040,33 +1042,33 @@
             <div class="rc-voice-track" id="voiceTrack">
               <div class="rc-voice-card" style="--card-a:var(--teal);--card-b:var(--sky);">
                 <div class="rc-voice-head">
-                  <div class="rc-voice-avatar"><img src="assets/recruit/voice-01.jpg" alt="" width="160" height="160" loading="lazy" decoding="async"></div>
+                  <div class="rc-voice-avatar"><img src="assets/recruit/voice-03.jpg" alt="" width="160" height="160" loading="lazy" decoding="async"></div>
                   <div class="rc-voice-person">
-                    <p class="rc-voice-name">田中 美咲</p>
-                    <p class="rc-voice-meta">営業 / 2022年入社</p>
+                    <p class="rc-voice-name">安藤</p>
+                    <p class="rc-voice-meta">営業 / 2025年入社</p>
                   </div>
                 </div>
-                <p class="rc-voice-quote">"裁量が大きく、新しい施策をすぐ試せる環境。1年目からクライアントの戦略設計を任せてもらえました。"</p>
+                <p class="rc-voice-quote">やりがいと報酬の両面で満足できる制度や仕組み本気で考えている会社です。仕事に本気で打ち込みたい方には、素晴らしい環境だと思います。</p>
               </div>
               <div class="rc-voice-card" style="--card-a:var(--pink);--card-b:var(--orange);">
                 <div class="rc-voice-head">
                   <div class="rc-voice-avatar"><img src="assets/recruit/voice-02.jpg" alt="" width="160" height="160" loading="lazy" decoding="async"></div>
                   <div class="rc-voice-person">
-                    <p class="rc-voice-name">佐藤 健太</p>
-                    <p class="rc-voice-meta">マーケター / 2021年入社</p>
+                    <p class="rc-voice-name">金子</p>
+                    <p class="rc-voice-meta">営業 / 2025年入社</p>
                   </div>
                 </div>
-                <p class="rc-voice-quote">"成長中の事業に挑戦できるのが魅力。数字の変化がダイレクトに見えるのでやりがいがあります。"</p>
+                <p class="rc-voice-quote">本気で仕事を行い、本気で遊ぶメリハリがある会社です。「挑戦」を本気で応援してくれ、「変化」を実感できる環境です。</p>
               </div>
               <div class="rc-voice-card" style="--card-a:var(--lime);--card-b:var(--violet);">
                 <div class="rc-voice-head">
-                  <div class="rc-voice-avatar"><img src="assets/recruit/voice-03.jpg" alt="" width="160" height="160" loading="lazy" decoding="async"></div>
+                  <div class="rc-voice-avatar"><img src="assets/recruit/voice-01.jpg" alt="" width="160" height="160" loading="lazy" decoding="async"></div>
                   <div class="rc-voice-person">
-                    <p class="rc-voice-name">鈴木 陽菜</p>
-                    <p class="rc-voice-meta">デザイナー / 2023年入社</p>
+                    <p class="rc-voice-name">佐藤</p>
+                    <p class="rc-voice-meta">マーケター / 2025年入社</p>
                   </div>
                 </div>
-                <p class="rc-voice-quote">"風通しがよく、部署を超えて相談しやすい。プライベートも大事にしながら働けています。"</p>
+                <p class="rc-voice-quote">若手のうちから裁量を持って仕事を任せてもらえる環境。実践を通じてスピード感を持って成長できるのでやりがいがあります。</p>
               </div>
             </div>
           </div>
