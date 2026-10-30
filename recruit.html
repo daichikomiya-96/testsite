@@ -166,17 +166,19 @@
   .rc-numbers{background:radial-gradient(circle at 10% 12%, rgba(139,92,246,.14), transparent 42%), radial-gradient(circle at 90% 88%, rgba(46,196,182,.16), transparent 45%), radial-gradient(circle at 70% 10%, rgba(255,122,26,.08), transparent 35%), #f7f7fa;color:var(--ink);}
   .rc-numbers .rc-eyebrow{color:var(--ink-dim);}
   .rc-numbers-layout{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .rc-numbers-intro{grid-column:span 2;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:34px;display:flex;flex-direction:column;justify-content:center;gap:12px;}
+  .rc-numbers-intro{grid-column:span 3;background:rgba(255,255,255,.7);border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:28px 34px;display:flex;flex-direction:column;justify-content:center;gap:10px;}
   .rc-numbers-intro-eyebrow{margin:0;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.14em;background:linear-gradient(135deg,var(--teal),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .rc-numbers-intro-title{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(20px,2.2vw,27px);line-height:1.4;color:var(--ink);}
-  .rc-numbers-intro-desc{margin:0;max-width:420px;font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.8;color:var(--ink-dim);}
-  .rc-tile{position:relative;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:14px 18px;display:flex;flex-direction:column;gap:2px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03),0 18px 36px -24px rgba(0,0,0,.14);transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s ease,box-shadow .3s ease;}
+  .rc-numbers-intro-title{margin:0;text-wrap:balance;font-family:var(--sans);font-weight:900;font-size:clamp(20px,2.2vw,27px);line-height:1.4;color:var(--ink);}
+  .rc-numbers-intro-desc{margin:0;font-family:var(--sans);font-weight:400;font-size:12.5px;line-height:1.8;color:var(--ink-dim);}
+  .rc-tile{position:relative;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:18px;padding:18px 18px;display:flex;flex-direction:column;justify-content:center;gap:2px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03),0 18px 36px -24px rgba(0,0,0,.14);transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s ease,box-shadow .3s ease;}
   .rc-tile:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--tile-accent,var(--teal)),transparent 60%);opacity:0;transition:opacity .3s ease;}
   .rc-tile:hover{transform:translateY(-6px);border-color:rgba(0,0,0,.1);box-shadow:0 1px 2px rgba(0,0,0,.03),0 26px 44px -24px rgba(0,0,0,.22);}
   .rc-tile:hover:before{opacity:.1;}
   .rc-tile-index{position:relative;line-height:1.2;font-family:var(--mono);font-weight:700;font-size:11px;color:var(--tile-accent,var(--teal));}
-  .rc-tile-label{position:relative;line-height:1.2;font-family:var(--sans);font-weight:700;font-size:12.5px;color:#444;}
-  .rc-tile-num{position:relative;margin-top:0;line-height:1.05;font-family:var(--sans);font-weight:900;font-size:32px;color:var(--ink);}
+  .rc-tile-label{position:relative;margin:6px 0 0;line-height:1.2;font-family:var(--sans);font-weight:700;font-size:12.5px;color:#444;}
+  .rc-tile-num{position:relative;margin:6px 0 0;line-height:1.05;font-family:var(--sans);font-weight:900;font-size:32px;color:var(--ink);}
+  .rc-tile-numrow{position:relative;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .rc-tile-note{font-family:var(--sans);font-weight:400;font-size:11.5px;line-height:1.5;color:var(--ink-dim);}
   .rc-tile-desc{position:relative;margin-top:0;font-family:var(--sans);font-weight:400;font-size:11.5px;line-height:1.5;color:var(--ink-dim);}
   @media (max-width:900px){
     .rc-numbers-layout{grid-template-columns:repeat(2,1fr);}
@@ -207,7 +209,8 @@
   .rc-ceo-frame{position:relative;}
 
   .rc-ceo-text{min-width:0;padding-top:8px;}
-  .rc-ceo-quote{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(28px,3.8vw,54px);line-height:1.45;letter-spacing:.01em;color:var(--ink);}
+  .rc-ceo-quote{margin:0;font-family:var(--sans);font-weight:900;font-size:clamp(20px,2.5vw,36px);line-height:1.5;letter-spacing:.01em;color:var(--ink);white-space:nowrap;}
+  @media (max-width:600px){.rc-ceo-quote{font-size:4.6vw;}}
   .rc-ceo-quote mark{color:inherit;background:linear-gradient(90deg,rgba(46,196,182,.55),rgba(56,189,248,.45) 50%,rgba(255,61,122,.4)) no-repeat 0 88%/0% 38%;transition:background-size 1.1s cubic-bezier(.16,1,.3,1) .5s;padding:0 .04em;}
   .rc-ceo-quote.is-inview mark{background-size:100% 38%;}
   .rc-ceo-body{margin-top:clamp(36px,4vw,56px);max-width:620px;display:grid;gap:1.4em;}
@@ -834,7 +837,6 @@
     <img class="rc-brush rc-brush--d3" src="assets/brush/brush-green.webp" alt="" aria-hidden="true" loading="eager" decoding="async" data-speed="-.07" data-rot="5" data-base="14" data-depth="40">
     <p class="fv2d-fun rise" style="--d:.6s"><span>たのしさ</span></p>
     <h1 class="fv2d-title rise" aria-label="挑戦×成長"><span style="--d:.4s" aria-hidden="true">挑戦×成長</span></h1>
-    <p class="fv-sub fv2d-sub fade" style="--d:1.3s">未来の仕事の喜びを創り出す</p>
   </header>
   <main>
     <section class="rc-section rc-value" id="value">
@@ -852,9 +854,9 @@
           <p class="rc-head-lead"><span class="hash">#</span>Recologneが大切にする価値観</p>
         </div>
         <div class="rc-value-list">
-          <div class="rc-value-row rc-reveal" style="--row-a:var(--teal);--row-b:var(--sky);"><span class="num">01</span><span class="txt">新しいこと・ものや変化にワクワクできているか</span></div>
-          <div class="rc-value-row rc-reveal" style="--row-a:var(--pink);--row-b:var(--orange);"><span class="num">02</span><span class="txt">とにかくアクションを起こし続けられているか</span></div>
-          <div class="rc-value-row rc-reveal" style="--row-a:var(--lime);--row-b:var(--teal);"><span class="num">03</span><span class="txt">まわりに仕事がたのしいと言えているか</span></div>
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--teal);--row-b:var(--sky);"><span class="num">01</span><span class="txt">新しいことや挑戦にワクワクできているか</span></div>
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--pink);--row-b:var(--orange);"><span class="num">02</span><span class="txt">昨日の自分を超えられているか</span></div>
+          <div class="rc-value-row rc-reveal" style="--row-a:var(--lime);--row-b:var(--teal);"><span class="num">03</span><span class="txt">結果にこだわって仕事ができているか</span></div>
           <div class="rc-value-row rc-reveal" style="--row-a:var(--violet);--row-b:var(--pink);"><span class="num">04</span><span class="txt">仲間が困っている時は時間を惜しまず手を差し伸べられているか</span></div>
         </div>
       </div>
@@ -958,10 +960,10 @@
           </figure>
 
           <div class="rc-ceo-text">
-            <p class="rc-ceo-quote rc-reveal">10年後も色褪せない<br>新しい事業を、<br><mark>たのしみながら</mark>創る。</p>
+            <p class="rc-ceo-quote rc-reveal">混沌とした時代<br>10年後になにをしてるかわからない、<br>だからこそ<mark>たのしもう</mark>。</p>
             <div class="rc-ceo-body rc-reveal">
-              <p>皆さんこんにちは。代表の澤野です。私たちはデジタルマーケティング事業を主軸に、たのしみながら働く仲間を探しています。</p>
-              <p>変化の激しい時代において、10年後も色褪せない新しい事業を生み出し続ける会社でありたいと思っています。成長するマーケットで再現性のあるノウハウを積み上げつつ、裁量を持って新しい挑戦ができる環境があります。</p>
+              <p>皆さんこんにちは。代表の澤野です。私たちはSNSマーケティング事業を主軸に、挑戦をたのしみながら働く仲間を探しています。</p>
+              <p>変化の激しい時代において、10年後世界がどのようになっているかなんてわかりません。だからこそ今を生き、挑戦し続けたいと思ってます。挑戦した経験は色褪せません。Recologneには成長するマーケットで再現性のあるノウハウを積み上げつつ、裁量を持って新しい挑戦ができる環境があります。</p>
               <p>皆さんもぜひ、私たちと一緒に未来に挑戦しましょう！</p>
             </div>
             <p class="rc-ceo-sign rc-reveal"><span class="line" aria-hidden="true"></span><span class="role">代表</span><span class="name">澤野 優介</span></p>
@@ -981,44 +983,41 @@
         <div class="rc-numbers-layout">
           <div class="rc-numbers-intro rc-reveal">
             <p class="rc-numbers-intro-eyebrow">ABOUT US</p>
-            <h3 class="rc-numbers-intro-title">Recologneのことを、<br>数字で。</h3>
+            <h3 class="rc-numbers-intro-title">Recologneのことを、数字で。</h3>
             <p class="rc-numbers-intro-desc">売上や実績だけでなく、はたらく人の環境や制度も含めて、ありのままの姿を数字で見える化しています。</p>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--teal);">
             <span class="rc-tile-index">01</span>
             <p class="rc-tile-label">平均年齢</p>
-            <p class="rc-tile-num" data-count-to="29.4" data-count-suffix="歳">0歳</p>
-            <p class="rc-tile-desc">20代・30代を中心に、若手からベテランまで幅広い世代が活躍しています。</p>
+            <p class="rc-tile-num" data-count-to="28.6" data-count-suffix="歳">0歳</p>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--orange);">
             <span class="rc-tile-index">02</span>
             <p class="rc-tile-label">従業員数</p>
-            <p class="rc-tile-num" data-count-to="42" data-count-suffix="名">0名</p>
-            <p class="rc-tile-desc">少数精鋭のチームで、一人ひとりが裁量を持って挑戦しています。</p>
+            <div class="rc-tile-numrow">
+              <p class="rc-tile-num" data-count-to="22" data-count-suffix="名">0名</p>
+              <span class="rc-tile-note">※アルバイト含む</span>
+            </div>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--pink);">
             <span class="rc-tile-index">03</span>
             <p class="rc-tile-label">女性比率</p>
-            <p class="rc-tile-num" data-count-to="48" data-count-suffix="%">0%</p>
-            <p class="rc-tile-desc">性別に関わらず活躍できる環境づくりを推進しています。</p>
+            <p class="rc-tile-num" data-count-to="28" data-count-suffix="%">0%</p>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--violet);">
             <span class="rc-tile-index">04</span>
-            <p class="rc-tile-label">有給消化率</p>
-            <p class="rc-tile-num" data-count-to="76" data-count-suffix="%">0%</p>
-            <p class="rc-tile-desc">オンとオフを大切に、メリハリのある働き方を実現しています。</p>
+            <p class="rc-tile-label">最寄駅から徒歩</p>
+            <p class="rc-tile-num" data-count-to="4" data-count-suffix="分">0分</p>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--teal);">
             <span class="rc-tile-index">05</span>
-            <p class="rc-tile-label">中途入社比率</p>
+            <p class="rc-tile-label">業界未経験割合</p>
             <p class="rc-tile-num" data-count-to="83" data-count-suffix="%">0%</p>
-            <p class="rc-tile-desc">多様なバックグラウンドを持つメンバーが新しい視点を持ち込んでいます。</p>
           </div>
           <div class="rc-tile rc-reveal" style="--tile-accent:var(--orange);">
             <span class="rc-tile-index">06</span>
             <p class="rc-tile-label">定着率</p>
-            <p class="rc-tile-num" data-count-to="91" data-count-suffix="%">0%</p>
-            <p class="rc-tile-desc">居心地の良いチームづくりが、高い定着率につながっています。</p>
+            <p class="rc-tile-num" data-count-to="86" data-count-suffix="%">0%</p>
           </div>
         </div>
       </div>
@@ -1149,40 +1148,36 @@
         </div>
         <ul class="rc-bnf-list rc-reveal" role="list">
           <li class="rc-bnf-item" style="--i:0">
-            <div class="rc-bnf-top"><span class="idx">01</span><span>CORE TIME &mdash; NONE</span></div>
+            <div class="rc-bnf-top"><span class="idx">01</span><span>FLEX TIME</span></div>
             <p class="rc-bnf-word" aria-hidden="true">FLEX</p>
             <h3>フレックスタイム制</h3>
-            <p class="desc">コアタイムなし。ライフスタイルに合わせて柔軟に働けます。</p>
           </li>
           <li class="rc-bnf-item" style="--i:1">
-            <div class="rc-bnf-top"><span class="idx">02</span><span>UP TO 2 DAYS / WEEK</span></div>
+            <div class="rc-bnf-top"><span class="idx">02</span><span>REMOTE WORK</span></div>
             <p class="rc-bnf-word" aria-hidden="true">REMOTE</p>
             <h3>リモートワーク</h3>
-            <p class="desc">週2日まで在宅勤務が可能。移動時間を有効活用できます。</p>
           </li>
           <li class="rc-bnf-item" style="--i:2">
-            <div class="rc-bnf-top"><span class="idx">03</span><span>100% COVERED</span></div>
+            <div class="rc-bnf-top"><span class="idx">03</span><span>BOOK SUPPORT</span></div>
             <p class="rc-bnf-word" aria-hidden="true">BOOKS</p>
             <h3>書籍購入支援</h3>
-            <p class="desc">業務に関する書籍は会社が全額負担で購入できます。</p>
           </li>
           <li class="rc-bnf-item" style="--i:3">
-            <div class="rc-bnf-top"><span class="idx">04</span><span>EXAM &amp; COURSE FEES</span></div>
-            <p class="rc-bnf-word" aria-hidden="true">SKILLS</p>
-            <h3>資格取得支援</h3>
-            <p class="desc">業務関連資格の受験料・講座費用を補助しています。</p>
-          </li>
-          <li class="rc-bnf-item" style="--i:4">
-            <div class="rc-bnf-top"><span class="idx">05</span><span>MONTHLY</span></div>
+            <div class="rc-bnf-top"><span class="idx">04</span><span>COMPANY EVENTS</span></div>
             <p class="rc-bnf-word" aria-hidden="true">EVENTS</p>
             <h3>社内イベント</h3>
-            <p class="desc">月1回の全社会や部活動支援で部署を越えた交流を促進。</p>
+          </li>
+          <li class="rc-bnf-item" style="--i:4">
+            <div class="rc-bnf-top"><span class="idx">05</span><span>TWICE A YEAR</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">LEAVE</p>
+            <h3>長期休暇手当</h3>
+            <p class="desc">夏季・年末年始の年2回、長期休暇手当を支給します。</p>
           </li>
           <li class="rc-bnf-item" style="--i:5">
-            <div class="rc-bnf-top"><span class="idx">06</span><span>SPECIAL LEAVE</span></div>
-            <p class="rc-bnf-word" aria-hidden="true">LEAVE</p>
-            <h3>慶弔・特別休暇</h3>
-            <p class="desc">結婚・出産・慶弔時の特別休暇を用意しています。</p>
+            <div class="rc-bnf-top"><span class="idx">06</span><span>2 STATIONS / 2.5KM</span></div>
+            <p class="rc-bnf-word" aria-hidden="true">RENT</p>
+            <h3>家賃補助</h3>
+            <p class="desc">会社最寄から2駅、または2.5km以内にお住まいの方が対象です。</p>
           </li>
         </ul>
       </div>
