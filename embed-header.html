@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Header (embed) | Recologne</title>
+<base target="_top">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Audiowide&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Embed part for STUDIO pages: the site header (nav, hover dropdown, phone drawer).
+     The iframe is transparent and tells its parent how tall it needs to be:
+       closed (just the bar) / dropdown (while the BUSINESS menu is hovered) / menu (phone drawer, full screen). */
+  :root{
+    --void:#09090b;--fog:#f2f0ea;--fog-dim:#9a988f;--line:#232329;
+    --teal:#2ec4b6;
+    --ink:#1c1c1e;--ink-dim:#6b6b70;--page-bg:#f2f2f2;
+    --mono:"Orbitron", ui-monospace,"Cascadia Code","Roboto Mono","SFMono-Regular",Menlo,Consolas,"Courier New",monospace;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Meiryo",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:transparent;color:var(--ink);font-family:var(--sans);overflow:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  button{font:inherit;}
+
+  /* ---- nav (transparent, dark text for subpages) ---- */
+  .nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;z-index:50;background:none;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-logo{height:28px;width:auto;display:block;}
+  .menu{display:flex;gap:32px;font-family:var(--mono);font-size:12.5px;letter-spacing:.09em;color:var(--ink);}
+  .menu a{color:inherit;text-decoration:none;}
+  .menu-item{position:relative;padding-bottom:16px;margin-bottom:-16px;}
+  .nav-flip{display:inline-block;overflow:hidden;height:1.3em;line-height:1.3em;perspective:240px;vertical-align:top;}
+  .nav-flip-inner{position:relative;display:block;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.16,1,.3,1);}
+  .nav-flip-face{backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+  .nav-flip-face--front{position:relative;transform:rotateX(0deg);}
+  .nav-flip-face--back{position:absolute;left:0;top:0;width:100%;height:100%;transform:rotateX(180deg);}
+  .menu a:hover .nav-flip-inner,.menu span:hover .nav-flip-inner{transform:rotateX(360deg);}
+  .menu-dropdown{position:absolute;top:100%;left:50%;min-width:240px;background:#fff;border:1px solid #e3e1da;border-radius:10px;padding:8px;opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,4px);transition:opacity .25s ease,transform .25s ease,visibility .25s;box-shadow:0 18px 40px rgba(0,0,0,.12);z-index:70;}
+  .menu-item:hover .menu-dropdown,.menu-item:focus-within .menu-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0);}
+  .menu-dropdown a{display:block;padding:9px 14px;border-radius:6px;font-size:11.5px;letter-spacing:.05em;white-space:nowrap;color:var(--ink);}
+  .menu-dropdown a:hover{background:var(--page-bg);color:var(--teal);}
+  .cta{font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.04em;color:var(--ink);background:transparent;border:1px solid var(--ink);padding:11px 25px;border-radius:99px;white-space:nowrap;transition:background .2s ease,color .2s ease;}
+  .cta:hover{background:var(--ink);color:#fff;}
+  @media (max-width:900px){.menu{display:none;}}
+
+  /* ---- mobile nav: hamburger button + full-screen drawer (900px breakpoint
+     matches where .menu/.cta disappear above). Burger sits OUTSIDE .nav as a
+     fixed sibling so its z-index isn't trapped inside .nav's own stacking
+     context. ---- */
+  /* hamburger: 44px glass circle holding two thin bars (long on top, short below, right-aligned);
+     they swing into a clean X when open. Color follows the page's ink via currentColor. */
+  .nav-burger{display:none;position:fixed;top:13px;right:12px;z-index:65;width:44px;height:44px;padding:0;border:1px solid color-mix(in srgb,currentColor 38%,transparent);border-radius:50%;background:rgba(127,127,127,.08);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .3s ease,border-color .3s ease,background-color .3s ease,transform .4s cubic-bezier(.16,1,.3,1);}
+  .nav-burger:active{transform:scale(.92);}
+  .nav-burger span{position:absolute;right:13px;height:1.5px;border-radius:2px;background:currentColor;transition:transform .45s cubic-bezier(.16,1,.3,1),width .35s cubic-bezier(.16,1,.3,1),right .35s cubic-bezier(.16,1,.3,1),top .35s cubic-bezier(.16,1,.3,1);}
+  .nav-burger span:nth-child(1){top:16px;width:18px;}
+  .nav-burger span:nth-child(2){top:25px;width:10px;}
+  .nav-burger span:nth-child(3){display:none;}
+  .nav-burger.is-active{color:#fff;background:rgba(255,255,255,.08);}
+  .nav-burger.is-active span{right:13px;width:18px;top:21px;}
+  .nav-burger.is-active span:nth-child(1){transform:rotate(45deg);}
+  .nav-burger.is-active span:nth-child(2){transform:rotate(-45deg);}
+
+  .mobile-menu{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:100px 32px 48px;background:rgba(9,9,11,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s ease,visibility .4s;overflow-y:auto;}
+  .mobile-menu.is-open{opacity:1;visibility:visible;pointer-events:auto;}
+  .mobile-menu-nav{display:flex;flex-direction:column;}
+  .mobile-menu-row{border-bottom:1px solid var(--line);}
+  .mobile-menu-link{display:flex;align-items:baseline;gap:16px;width:100%;margin:0;padding:16px 0;border:0;background:none;font-family:"Audiowide",var(--mono);font-weight:400;font-size:clamp(20px,6.5vw,26px);letter-spacing:.02em;color:#eee;text-decoration:none;text-align:left;cursor:pointer;opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1),color .25s ease;}
+  .mobile-menu.is-open .mobile-menu-link{opacity:1;transform:translateY(0);}
+  .mobile-menu-row:nth-child(1) .mobile-menu-link{transition-delay:.06s;}
+  .mobile-menu-row:nth-child(2) .mobile-menu-link{transition-delay:.1s;}
+  .mobile-menu-row:nth-child(3) .mobile-menu-link{transition-delay:.14s;}
+  .mobile-menu-row:nth-child(4) .mobile-menu-link{transition-delay:.18s;}
+  .mobile-menu-row:nth-child(5) .mobile-menu-link{transition-delay:.22s;}
+  .mobile-menu-row:nth-child(6) .mobile-menu-link{transition-delay:.26s;}
+  .mobile-menu-link.is-current{color:var(--teal);}
+  .mobile-menu-num{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--fog-dim);}
+  .mobile-menu-expand{display:flex;align-items:center;}
+  .mobile-menu-caret{margin-left:auto;width:9px;height:9px;border-right:1.5px solid #eee;border-bottom:1.5px solid #eee;transform:rotate(45deg);transition:transform .35s cubic-bezier(.16,1,.3,1);}
+  .mobile-menu-expand[aria-expanded="true"] .mobile-menu-caret{transform:rotate(225deg);}
+  .mobile-menu-sub{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .4s cubic-bezier(.16,1,.3,1);}
+  .mobile-menu-sub-inner{min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:0 0 0 34px;}
+  .mobile-menu-row--expand.is-expanded .mobile-menu-sub{grid-template-rows:1fr;}
+  .mobile-menu-sub-inner a{padding:9px 0;font-family:var(--sans);font-size:14px;color:var(--fog-dim);text-decoration:none;}
+  .mobile-menu-sub-inner a:last-child{margin-bottom:14px;}
+  .mobile-menu-sub-inner a:active{color:var(--teal);}
+  .mobile-menu-cta{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:4px;padding:16px;border:1px solid #fff;border-radius:99px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.08em;color:#eee;text-decoration:none;opacity:0;transform:translateY(14px);transition:opacity .5s cubic-bezier(.16,1,.3,1) .3s,transform .5s cubic-bezier(.16,1,.3,1) .3s;}
+  .mobile-menu.is-open .mobile-menu-cta{opacity:1;transform:translateY(0);}
+  @media (max-width:900px){
+    .cta{display:none;}
+    .nav-burger{display:block;}
+  }
+
+
+  /* nav links must not be clipped on the left of the phone bar */
+  @media (max-width:900px){.nav{padding-left:20px;padding-right:70px;}}
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="brand"><a href="index.html" data-path="/"><img class="brand-logo" id="brandLogo" src="assets/logo-dark.webp" alt="Recologne"></a></div>
+    <div class="menu">
+      <a href="index.html" data-path="/"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">HOME</span><span class="nav-flip-face nav-flip-face--back">HOME</span></span></span></a>
+      <a href="about.html" data-path="/about-us"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">ABOUT</span><span class="nav-flip-face nav-flip-face--back">ABOUT</span></span></span></a>
+      <div class="menu-item">
+        <a href="sns-marketing.html" data-path="/sns-marketing"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">BUSINESS</span><span class="nav-flip-face nav-flip-face--back">BUSINESS</span></span></span></a>
+        <div class="menu-dropdown">
+          <a href="sns-marketing.html" data-path="/sns-marketing">SNSマーケティング</a>
+          <a href="creative.html" data-path="/creative">クリエイティブ制作事業</a>
+          <a href="d2c.html" data-path="/d2c">D2C（Direct to Consumer）</a>
+        </div>
+      </div>
+      <a href="works.html" data-path="/works"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">WORKS</span><span class="nav-flip-face nav-flip-face--back">WORKS</span></span></span></a>
+      <a href="column.html" data-path="/column"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">COLUMN</span><span class="nav-flip-face nav-flip-face--back">COLUMN</span></span></span></a>
+      <a href="recruit.html" data-path="/recruit"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">RECRUIT</span><span class="nav-flip-face nav-flip-face--back">RECRUIT</span></span></span></a>
+    </div>
+    <a class="cta" href="contact.html" data-path="/contact">CONTACT</a>
+  </div>
+
+  <button type="button" class="nav-burger" id="navBurger" aria-expanded="false" aria-controls="mobileMenu" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-menu-nav">
+      <div class="mobile-menu-row">
+        <a href="index.html" data-path="/" class="mobile-menu-link"><span class="mobile-menu-num">00</span>HOME</a>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="about.html" data-path="/about-us" class="mobile-menu-link"><span class="mobile-menu-num">01</span>ABOUT</a>
+      </div>
+      <div class="mobile-menu-row mobile-menu-row--expand">
+        <button type="button" class="mobile-menu-link mobile-menu-expand" id="mobileBizToggle" aria-expanded="false" aria-controls="mobileBizSub">
+          <span class="mobile-menu-num">02</span>BUSINESS<span class="mobile-menu-caret" aria-hidden="true"></span>
+        </button>
+        <div class="mobile-menu-sub" id="mobileBizSub">
+          <div class="mobile-menu-sub-inner">
+            <a href="sns-marketing.html" data-path="/sns-marketing">SNSマーケティング</a>
+            <a href="creative.html" data-path="/creative">クリエイティブ制作事業</a>
+            <a href="d2c.html" data-path="/d2c">D2C（Direct to Consumer）</a>
+          </div>
+        </div>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="works.html" data-path="/works" class="mobile-menu-link"><span class="mobile-menu-num">03</span>WORKS</a>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="column.html" data-path="/column" class="mobile-menu-link"><span class="mobile-menu-num">04</span>COLUMN</a>
+      </div>
+      <div class="mobile-menu-row">
+        <a href="recruit.html" data-path="/recruit" class="mobile-menu-link"><span class="mobile-menu-num">05</span>RECRUIT</a>
+      </div>
+    </nav>
+    <a class="mobile-menu-cta" href="recruit.html" data-path="/recruit">RECRUIT<span class="mobile-menu-cta-arrow">&#8599;</span></a>
+  </div>
+
+
+<script>
+/* Query options (put them on the iframe src):
+   ?base=https://example.com  site that owns the links; links with data-path become base + data-path
+                              (without it, document.referrer's origin is used, then the relative .html links)
+   &theme=light               white text/logo for dark pages (default: dark text)
+   &name=rc-hd                name sent with the messages
+   Messages to the parent: {type:'recologne-embed-header', name, mode:'closed'|'dropdown'|'menu', height} */
+(function(){
+  var qs = new URLSearchParams(location.search);
+  var name = qs.get('name') || 'rc-hd';
+  var base = qs.get('base') || '';
+  if (!base){ try { base = new URL(document.referrer).origin; } catch(e){} }
+  if (base === location.origin) base = '';
+  if (base){
+    base = base.replace(/\/$/, '');
+    document.querySelectorAll('a[data-path]').forEach(function(a){ a.href = base + a.getAttribute('data-path'); });
+  }
+  if (qs.get('theme') === 'light'){
+    document.documentElement.style.setProperty('--ink', '#fff');
+    document.getElementById('brandLogo').src = 'assets/logo.webp';
+  }
+
+  var nav = document.querySelector('.nav');
+  var burger = document.getElementById('navBurger');
+  var menu = document.getElementById('mobileMenu');
+  var item = document.querySelector('.menu-item');
+  var dd = item ? item.querySelector('.menu-dropdown') : null;
+  var mode = null;
+
+  function barHeight(){ return Math.ceil(nav.getBoundingClientRect().height); }
+  function post(m, h){
+    if (m === mode && m !== 'closed') return;
+    mode = m;
+    try { parent.postMessage({ type:'recologne-embed-header', name:name, mode:m, height:h }, '*'); } catch(e){}
+  }
+  function closedMsg(){ mode = null; post('closed', barHeight()); }
+
+  // desktop: the hover dropdown needs room below the bar
+  var leaveTimer;
+  if (item && dd){
+    item.addEventListener('mouseenter', function(){
+      clearTimeout(leaveTimer);
+      if (window.innerWidth <= 900) return;
+      var h = Math.ceil(item.getBoundingClientRect().bottom + dd.offsetHeight + 16);
+      post('dropdown', h);
+    });
+    item.addEventListener('mouseleave', function(){
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(function(){ if (!(menu && menu.classList.contains('is-open'))) closedMsg(); }, 80);
+    });
+    document.documentElement.addEventListener('mouseleave', function(){
+      clearTimeout(leaveTimer);
+      if (!(menu && menu.classList.contains('is-open'))) closedMsg();
+    });
+  }
+
+  // phone drawer
+  function closeMenu(){
+    burger.classList.remove('is-active');
+    menu.classList.remove('is-open');
+    burger.setAttribute('aria-expanded','false');
+    menu.setAttribute('aria-hidden','true');
+    closedMsg();
+  }
+  function openMenu(){
+    burger.classList.add('is-active');
+    menu.classList.add('is-open');
+    burger.setAttribute('aria-expanded','true');
+    menu.setAttribute('aria-hidden','false');
+    post('menu', 0);
+  }
+  var bizToggle = document.getElementById('mobileBizToggle');
+  var bizRow = bizToggle ? bizToggle.closest('.mobile-menu-row') : null;
+  burger.addEventListener('click', function(){
+    if (menu.classList.contains('is-open')) closeMenu(); else openMenu();
+  });
+  menu.querySelectorAll('a.mobile-menu-link, .mobile-menu-sub a, .mobile-menu-cta').forEach(function(a){
+    a.addEventListener('click', closeMenu);
+  });
+  if (bizToggle && bizRow){
+    bizToggle.addEventListener('click', function(){
+      var isOpen = bizRow.classList.toggle('is-expanded');
+      bizToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  }
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeMenu(); });
+  // the iframe itself grows and shrinks, which fires resize too: react to width changes only
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function(){
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth;
+    if (window.innerWidth > 900 && menu.classList.contains('is-open')) closeMenu();
+    else if (!menu.classList.contains('is-open')) closedMsg();
+  });
+  window.addEventListener('load', closedMsg);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if (!menu.classList.contains('is-open')) closedMsg(); });
+  closedMsg();
+})();
+</script>
+</body>
+</html>
