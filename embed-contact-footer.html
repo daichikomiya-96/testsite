@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Footer (embed) | Recologne</title>
+<base target="_top">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* Embed part for STUDIO pages: the site footer (CONTACT / RECRUIT banners, nav, copyright).
+     Same markup and styles as the footer of the other pages. */
+  :root{
+    --void:#09090b;--fog:#f2f0ea;--fog-dim:#9a988f;--line:#232329;
+    --mono:"Orbitron", ui-monospace,"Cascadia Code","Roboto Mono","SFMono-Regular",Menlo,Consolas,"Courier New",monospace;
+    --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Meiryo",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--void);color:var(--fog);font-family:var(--sans);overflow:hidden;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+
+  .site-footer{position:relative;z-index:1;background:var(--void);color:var(--fog);font-family:var(--sans);}
+
+  .footer-cta-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);}
+  .footer-cta-link{position:relative;display:flex;align-items:center;justify-content:center;gap:22px;padding:76px 56px;font-family:var(--mono);font-weight:700;font-size:clamp(34px,5vw,66px);letter-spacing:-.01em;color:#eee;text-decoration:none;overflow:hidden;transition:color .4s ease;}
+  .footer-cta-link:first-child{border-right:1px solid var(--line);}
+  .footer-cta-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s ease;z-index:0;}
+  .footer-cta-link:hover .footer-cta-bg{opacity:.4;}
+  .footer-cta-shade{position:absolute;inset:0;z-index:0;background:linear-gradient(0deg,rgba(0,0,0,.75),rgba(0,0,0,.35) 60%,rgba(0,0,0,.65));opacity:0;transition:opacity .5s ease;}
+  .footer-cta-link:hover .footer-cta-shade{opacity:1;}
+  .footer-cta-icon{position:relative;z-index:1;width:26px;height:26px;flex:none;}
+  .footer-cta-icon .h,.footer-cta-icon .v{position:absolute;background:#6b6862;transition:transform .35s cubic-bezier(.16,1,.3,1),background .3s ease,opacity .3s ease;}
+  .footer-cta-icon .h{top:50%;left:0;width:100%;height:2px;transform:translateY(-50%);}
+  .footer-cta-icon .v{left:50%;top:0;height:100%;width:2px;transform:translateX(-50%);}
+  .footer-cta-link:hover .footer-cta-icon .h,.footer-cta-link:hover .footer-cta-icon .v{background:#fff;}
+  .footer-cta-link:hover .footer-cta-icon .v{transform:translateX(-50%) scaleY(0);opacity:0;}
+  .footer-cta-link:hover .footer-cta-icon .h{transform:translateY(-50%) scaleX(1.3);}
+  .footer-cta-word{position:relative;z-index:1;}
+  .footer-cta-link:hover{color:#fff;}
+  @media (max-width:768px){
+    .footer-cta-row{grid-template-columns:1fr;}
+    .footer-cta-link{padding:54px 28px;}
+    .footer-cta-link:first-child{border-right:none;border-bottom:1px solid var(--line);}
+  }
+
+  .footer-inner{max-width:1400px;margin:0 auto;padding:44px 40px 30px;}
+  .footer-nav{display:flex;flex-wrap:wrap;align-items:center;gap:24px 32px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--fog-dim);}
+  .footer-nav a{color:var(--fog-dim);text-decoration:none;}
+  .footer-nav a:hover{color:#fff;}
+  .footer-copyright{margin-left:auto;color:var(--fog-dim);}
+  @media (max-width:768px){.footer-inner{padding-left:30px;padding-right:30px;}}
+
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.001ms !important;}}
+</style>
+</head>
+<body>
+  <footer class="site-footer" id="embedRoot">
+    <div class="footer-cta-row">
+      <a class="footer-cta-link" href="contact.html" data-path="/contact">
+        <img class="footer-cta-bg" src="assets/contact-bg.webp" alt="" loading="lazy" decoding="async">
+        <span class="footer-cta-shade"></span>
+        <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
+        <span class="footer-cta-word">CONTACT</span>
+      </a>
+      <a class="footer-cta-link" href="recruit.html" data-path="/recruit">
+        <img class="footer-cta-bg" src="assets/recruit-bg.webp" alt="" loading="lazy" decoding="async">
+        <span class="footer-cta-shade"></span>
+        <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
+        <span class="footer-cta-word">RECRUIT</span>
+      </a>
+    </div>
+    <div class="footer-inner">
+      <nav class="footer-nav">
+        <a href="index.html" data-path="/">HOME</a>
+        <a href="about.html" data-path="/about-us">ABOUT</a>
+        <a href="sns-marketing.html" data-path="/sns-marketing">SNS Marketing</a>
+        <a href="creative.html" data-path="/creative">Creative Production</a>
+        <a href="d2c.html" data-path="/d2c">D2C</a>
+        <a href="works.html" data-path="/works">WORKS</a>
+        <a href="column.html" data-path="/column">COLUMN</a>
+        <a href="recruit.html" data-path="/recruit">RECRUIT</a>
+        <span class="footer-copyright">&copy; Recologne</span>
+      </nav>
+    </div>
+  </footer>
+
+<script>
+/* Query options (put them on the iframe src):
+   ?base=https://example.com  site that owns the links; links with data-path become base + data-path
+                              (without it, document.referrer's origin is used, then the relative .html links)
+   &name=contact-footer       name sent with the height message
+   The page posts {type:'recologne-embed-height', name, height} to the parent so the parent can size the iframe. */
+(function(){
+  var qs = new URLSearchParams(location.search);
+  var base = qs.get('base') || '';
+  if (!base){ try { base = new URL(document.referrer).origin; } catch(e){} }
+  if (base === location.origin) base = '';
+  if (base){
+    base = base.replace(/\/$/, '');
+    document.querySelectorAll('a[data-path]').forEach(function(a){
+      a.href = base + a.getAttribute('data-path');
+    });
+  }
+
+  var name = qs.get('name') || 'contact-footer';
+  var last = 0;
+  function send(){
+    var h = Math.ceil(document.getElementById('embedRoot').getBoundingClientRect().height);
+    if (h === last) return;
+    last = h;
+    try { parent.postMessage({ type:'recologne-embed-height', name:name, height:h }, '*'); } catch(e){}
+  }
+  window.addEventListener('load', send);
+  window.addEventListener('resize', send);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(send);
+  if ('ResizeObserver' in window) new ResizeObserver(send).observe(document.getElementById('embedRoot'));
+  send();
+})();
+</script>
+</body>
+</html>
