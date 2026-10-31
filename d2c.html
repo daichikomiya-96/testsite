@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Business | SNS Marketing | Recologne</title>
-<meta name="description" content="RecologneのSNSマーケティング事業ページです。インフルエンサーネットワークを活かしたSNSマーケティング・キャスティングを紹介します。">
+<title>Business | D2C | Recologne</title>
+<meta name="description" content="RecologneのD2C事業ページです。温活美容ブランド『Re:（recolon）』のスキンケア・ヘアケアプロダクトをご紹介します。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Unbounded:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -42,6 +42,11 @@
   .cta:hover{background:var(--ink);color:#fff;}
   @media (max-width:900px){.menu{display:none;}}
 
+  /* ---- mobile nav: hamburger button + full-screen drawer (900px breakpoint
+     matches where .menu/.cta disappear above). Burger sits OUTSIDE .nav as a
+     fixed sibling so its z-index isn't trapped inside .nav's own stacking
+     context (.nav sets z-index itself, which would otherwise cap any child
+     below .mobile-menu once the drawer is on top). ---- */
   /* hamburger: 44px glass circle holding two thin bars (long on top, short below, right-aligned);
      they swing into a clean X when open. Color follows the page's ink via currentColor. */
   .nav-burger{display:none;position:fixed;top:13px;right:12px;z-index:65;width:44px;height:44px;padding:0;border:1px solid color-mix(in srgb,currentColor 38%,transparent);border-radius:50%;background:rgba(127,127,127,.08);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color .3s ease,border-color .3s ease,background-color .3s ease,transform .4s cubic-bezier(.16,1,.3,1);}
@@ -109,8 +114,9 @@
   .biz-feature.rev{direction:rtl;}
   .biz-feature.rev > *{direction:ltr;}
 
-  .biz-feature-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:transparent;}
-  .biz-feature-media img{width:100%;height:100%;object-fit:contain;}
+  .biz-feature-media{position:relative;aspect-ratio:4/3;overflow:hidden;background:#000;}
+  .biz-feature-media img{width:100%;height:100%;object-fit:cover;}
+  .biz-feature-media.is-portrait{aspect-ratio:359/477;}
 
   .biz-feature-copy{position:relative;padding:10px 0;}
   .biz-feature-num{position:absolute;top:-64px;left:-6px;font-family:var(--mono);font-weight:900;font-size:clamp(90px,10vw,150px);line-height:1;color:var(--accent);opacity:.14;pointer-events:none;z-index:0;user-select:none;}
@@ -131,6 +137,51 @@
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{transition-duration:.001ms !important;}
     .biz-feature{opacity:1;transform:none;}
+  }
+
+  /* ---- product grid ---- */
+  .d2c-products{margin-top:80px;}
+  .d2c-products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .d2c-card{background:#fff;border:1px solid #e0e0e0;display:flex;flex-direction:column;gap:10px;padding-bottom:16px;overflow:hidden;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease;}
+  .d2c-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.08);}
+  .d2c-card-media{aspect-ratio:1/1;background:#d9d9d9;overflow:hidden;}
+  .d2c-card-media img{width:100%;height:100%;object-fit:cover;}
+  .d2c-card-body{display:flex;flex-direction:column;gap:8px;padding:0 16px;}
+  .d2c-card-name{margin:0;font-family:"Noto Sans JP",var(--sans);font-weight:700;font-size:15px;color:#282320;}
+  .d2c-card-desc{margin:0;font-family:"Noto Sans JP",var(--sans);font-weight:400;font-size:11px;line-height:1.6;color:#7d7d7d;}
+  .d2c-card-row{display:flex;align-items:center;justify-content:space-between;}
+  .d2c-card-price{font-family:"Noto Sans JP",var(--sans);font-weight:700;font-size:14px;color:#b37365;}
+  .d2c-card-link{font-family:"Noto Sans JP",var(--sans);font-weight:700;font-size:10px;color:#fff;background:#282320;padding:8px 14px;border-radius:6px;transition:opacity .2s ease;}
+  .d2c-card:hover .d2c-card-link{opacity:.75;}
+
+  @media (max-width:900px){.d2c-products-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.d2c-products-grid{grid-template-columns:1fr;}}
+
+  /* ---- store CTA band ---- */
+  .d2c-store{position:relative;isolation:isolate;overflow:hidden;display:block;aspect-ratio:4/1;min-height:200px;margin-top:120px;opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
+  .d2c-store.is-visible{opacity:1;transform:translateY(0);}
+  .d2c-store-media{position:absolute;inset:0;z-index:0;}
+  .d2c-store-media img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform 1.8s cubic-bezier(.16,1,.3,1);}
+  .d2c-store:hover .d2c-store-media img{transform:scale(1.12);}
+  .d2c-store-marquee{position:absolute;inset:0;z-index:2;display:flex;align-items:center;overflow:hidden;mix-blend-mode:difference;}
+  .d2c-store-marquee-track{display:flex;align-items:center;gap:140px;padding-right:140px;white-space:nowrap;animation:d2c-marquee 16s linear infinite;}
+  .d2c-store:hover .d2c-store-marquee-track{animation-play-state:paused;}
+  .d2c-store-marquee-track span{font-family:var(--mono);font-weight:800;font-size:clamp(28px,6vw,88px);letter-spacing:.03em;line-height:1;color:#fff;}
+  .d2c-store-corner{position:absolute;z-index:3;right:28px;bottom:28px;width:56px;height:56px;border-radius:50%;border:1px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;mix-blend-mode:difference;transition:transform .4s cubic-bezier(.16,1,.3,1),background .3s ease;}
+  .d2c-store:hover .d2c-store-corner{transform:rotate(45deg);}
+
+  @keyframes d2c-marquee{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  @media (max-width:900px){
+    .d2c-store{aspect-ratio:3/2;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .d2c-store{opacity:1;transform:none;}
+    .d2c-store-media img{transition:none;}
+    .d2c-store-marquee-track{animation:none;}
   }
 
   /* ---- site footer (shared across pages) ---- */
@@ -189,11 +240,11 @@
       <a href="index.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">HOME</span><span class="nav-flip-face nav-flip-face--back">HOME</span></span></span></a>
       <a href="about.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">ABOUT</span><span class="nav-flip-face nav-flip-face--back">ABOUT</span></span></span></a>
       <div class="menu-item">
-        <a href="business.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">BUSINESS</span><span class="nav-flip-face nav-flip-face--back">BUSINESS</span></span></span></a>
+        <a href="d2c.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">BUSINESS</span><span class="nav-flip-face nav-flip-face--back">BUSINESS</span></span></span></a>
         <div class="menu-dropdown">
-          <a href="business.html">SNSマーケティング</a>
-          <a href="business-creative.html">クリエイティブ制作事業</a>
-          <a href="business-d2c.html">D2C（Direct to Consumer）</a>
+          <a href="sns-marketing.html">SNSマーケティング</a>
+          <a href="creative.html">クリエイティブ制作事業</a>
+          <a href="d2c.html">D2C（Direct to Consumer）</a>
         </div>
       </div>
       <a href="works.html"><span class="nav-flip"><span class="nav-flip-inner"><span class="nav-flip-face nav-flip-face--front">WORKS</span><span class="nav-flip-face nav-flip-face--back">WORKS</span></span></span></a>
@@ -215,15 +266,15 @@
       <div class="mobile-menu-row">
         <a href="about.html" class="mobile-menu-link" data-view-cursor><span class="mobile-menu-num">01</span>ABOUT</a>
       </div>
-      <div class="mobile-menu-row mobile-menu-row--expand is-expanded">
-        <button type="button" class="mobile-menu-link mobile-menu-expand" id="mobileBizToggle" aria-expanded="true" aria-controls="mobileBizSub">
+      <div class="mobile-menu-row mobile-menu-row--expand">
+        <button type="button" class="mobile-menu-link mobile-menu-expand is-current" id="mobileBizToggle" aria-expanded="false" aria-controls="mobileBizSub">
           <span class="mobile-menu-num">02</span>BUSINESS<span class="mobile-menu-caret" aria-hidden="true"></span>
         </button>
         <div class="mobile-menu-sub" id="mobileBizSub">
           <div class="mobile-menu-sub-inner">
-            <a href="business.html" class="is-current" data-view-cursor>SNSマーケティング</a>
-            <a href="business-creative.html" data-view-cursor>クリエイティブ制作事業</a>
-            <a href="business-d2c.html" data-view-cursor>D2C（Direct to Consumer）</a>
+            <a href="sns-marketing.html" data-view-cursor>SNSマーケティング</a>
+            <a href="creative.html" data-view-cursor>クリエイティブ制作事業</a>
+            <a href="d2c.html" data-view-cursor>D2C（Direct to Consumer）</a>
           </div>
         </div>
       </div>
@@ -290,30 +341,84 @@
       </nav>
 
       <h1 class="business-title">BUSINESS</h1>
-      <p class="business-eyebrow">SNSマーケティング</p>
+      <p class="business-eyebrow">D2C（Direct to Consumer）</p>
 
       <div class="biz-editorial" id="bizEditorial">
-        <section class="biz-feature" id="biz-sns-01" style="--accent:var(--pink)">
-          <div class="biz-feature-media"><img src="assets/business-01-detail.webp" alt="" loading="lazy"></div>
+        <section class="biz-feature" id="biz-d2c-01" style="--accent:var(--pink)">
+          <div class="biz-feature-media is-portrait"><img src="assets/business-d2c.webp" alt="Re:（recolon）のサウナパック・ヘアマスクのプロダクトイメージ" loading="lazy"></div>
           <div class="biz-feature-copy">
-            <span class="biz-feature-num">01</span>
-            <p class="biz-feature-kicker">SNS MARKETING</p>
-            <h2 class="biz-feature-heading">SNSマーケティング</h2>
-            <div class="biz-feature-tags">
-              <span>#Instagram</span>
-              <span>#YouTube</span>
-              <span>#X</span>
-              <span>#TikTok</span>
-              <span>#インフルエンサーPR</span>
-              <span>#キャスティング</span>
-              <span>#ダイレクトマーケティング</span>
-            </div>
-            <p class="biz-feature-desc">国内最大級の1万4000人以上のインフルエンサーネットワークを擁し、Instagram、YouTube、X、TikTokを含む主要SNSを中心にPRイベントや広告契約のキャスティングまで対応しています。著名タレントから有識者まで幅広い人材との連携に加え、戦略立案からコンセプト策定、企画、クリエイティブ制作、広告配信までを一貫してサポートし、各クライアントの目標に合わせたSNSマーケティングを総合的に提供します。</p>
+            <span class="biz-feature-num">03</span>
+            <p class="biz-feature-kicker">BRAND CONCEPT — BEAUTY</p>
+            <h2 class="biz-feature-heading">BEAUTY</h2>
+            <p class="biz-feature-desc">弊社のD2C事業は、温活に特化した美容ブランド『Re:（recolon）』を展開しています。コンセプトは「熱と共に美しく」。この理念のもと、みなさまの温活に伴走するスキンケアやヘアケアグッズを自社ブランドとして企画・製造・販売まで一気通貫で手がけています。実際に自社ECで培った販売・運用のノウハウを活かし、商品企画からパッケージデザイン、プロモーションまでを社内で完結できるのが強みです。身体を温め汗をかく人の美容体験に寄り添い、ありのままを美しくするブランドです。</p>
           </div>
         </section>
       </div>
+
+      <div class="d2c-products">
+        <div class="d2c-products-grid">
+          <a class="d2c-card" href="https://recolon.shop/products/re-sauna-pack" target="_blank" rel="noopener" data-view-cursor>
+            <div class="d2c-card-media"><img src="assets/d2c/product-sauna-pack.webp" alt="Re: Sauna Pack" loading="lazy"></div>
+            <div class="d2c-card-body">
+              <p class="d2c-card-name">Re: Sauna Pack</p>
+              <p class="d2c-card-desc">サウナ前の肌を守るプロテクトフェイシャルパック</p>
+              <div class="d2c-card-row">
+                <span class="d2c-card-price">¥3,970</span>
+                <span class="d2c-card-link">詳細を見る</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="d2c-card" href="https://recolon.shop/products/re-hair-mask" target="_blank" rel="noopener" data-view-cursor>
+            <div class="d2c-card-media"><img src="assets/d2c/product-hair-mask.webp" alt="Re: Hair Mask" loading="lazy"></div>
+            <div class="d2c-card-body">
+              <p class="d2c-card-name">Re: Hair Mask</p>
+              <p class="d2c-card-desc">熱ダメージから髪を守るヒートアクティブヘアマスク</p>
+              <div class="d2c-card-row">
+                <span class="d2c-card-price">¥3,960</span>
+                <span class="d2c-card-link">詳細を見る</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="d2c-card" href="https://recolon.shop/products/re-sauna-hat" target="_blank" rel="noopener" data-view-cursor>
+            <div class="d2c-card-media"><img src="assets/d2c/product-sauna-hat.webp" alt="Re: Sauna Hat" loading="lazy"></div>
+            <div class="d2c-card-body">
+              <p class="d2c-card-name">Re: Sauna Hat</p>
+              <p class="d2c-card-desc">髪へのダメージを最小限にする専用タオル製サウナハット</p>
+              <div class="d2c-card-row">
+                <span class="d2c-card-price">¥5,500</span>
+                <span class="d2c-card-link">詳細を見る</span>
+              </div>
+            </div>
+          </a>
+
+          <a class="d2c-card" href="https://recolon.shop/products/re-%E3%83%9F%E3%83%8B%E3%82%BF%E3%82%AA%E3%83%AB" target="_blank" rel="noopener" data-view-cursor>
+            <div class="d2c-card-media"><img src="assets/d2c/product-mini-towel.webp" alt="Re: Mini Towel" loading="lazy"></div>
+            <div class="d2c-card-body">
+              <p class="d2c-card-name">Re: Mini Towel</p>
+              <p class="d2c-card-desc">吸水性の高い中判サイズタオル</p>
+              <div class="d2c-card-row">
+                <span class="d2c-card-price">¥2,480</span>
+                <span class="d2c-card-link">詳細を見る</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
   </main>
+
+  <a class="d2c-store" id="d2cStore" href="https://recolon.shop" target="_blank" rel="noopener" aria-label="ONLINE STORE" data-view-cursor>
+    <div class="d2c-store-media"><img src="assets/d2c/store-cta.webp" alt="Re:（recolon）のサウナパック・ヘアマスクのプロダクトイメージ" loading="lazy"></div>
+    <div class="d2c-store-marquee" aria-hidden="true">
+      <div class="d2c-store-marquee-track">
+        <span>ONLINE STORE</span><span>ONLINE STORE</span><span>ONLINE STORE</span><span>ONLINE STORE</span>
+        <span>ONLINE STORE</span><span>ONLINE STORE</span><span>ONLINE STORE</span><span>ONLINE STORE</span>
+      </div>
+    </div>
+    <span class="d2c-store-corner" aria-hidden="true">&#8599;</span>
+  </a>
 
   <div class="view-stalker" id="viewStalker"><span>VIEW</span><span class="vs-arrow">&#8599;</span></div>
 
@@ -336,9 +441,9 @@
       <nav class="footer-nav">
         <a href="index.html">HOME</a>
         <a href="about.html">ABOUT</a>
-        <a href="business.html#biz-sns-01">SNS Marketing</a>
-        <a href="business-creative.html#biz-creative-01">Creative Production</a>
-        <a href="business-d2c.html#biz-d2c-01">D2C</a>
+        <a href="sns-marketing.html#biz-sns-01">SNS Marketing</a>
+        <a href="creative.html#biz-creative-01">Creative Production</a>
+        <a href="d2c.html#biz-d2c-01">D2C</a>
         <a href="works.html">WORKS</a>
         <a href="column.html">COLUMN</a>
         <a href="recruit.html">RECRUIT</a>
@@ -349,7 +454,7 @@
 
 <script>
 (function(){
-  var features = Array.prototype.slice.call(document.querySelectorAll('.biz-feature'));
+  var features = Array.prototype.slice.call(document.querySelectorAll('.biz-feature, .d2c-store'));
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion || !('IntersectionObserver' in window)) {
     features.forEach(function(f){ f.classList.add('is-visible'); });
