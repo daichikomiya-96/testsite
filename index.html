@@ -655,13 +655,13 @@
   .partners-grid{
     max-width:1400px;margin:0 auto;width:100%;
     display:grid;grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
-    gap:0;border-top:1px solid #e3e3e3;border-left:1px solid #e3e3e3;
+    gap:12px;
   }
   /* white cell fill (logos were designed for a white backdrop) needs a
      darker hairline than the dark-bg version used elsewhere on the page. */
   .partners-cell{
     aspect-ratio:290/150;display:flex;align-items:center;justify-content:center;
-    padding:28px;background:#fff;border-right:1px solid #e3e3e3;border-bottom:1px solid #e3e3e3;
+    padding:28px;background:#fff;border-radius:16px;
   }
   .partners-cell img{max-width:92%;max-height:78%;object-fit:contain;}
 
@@ -680,7 +680,7 @@
     .partners-marquee{overflow:hidden;width:100%;}
     .partners-marquee-track{display:flex;align-items:center;gap:12px;width:max-content;animation:partners-marquee 28s linear infinite;}
     .partners-marquee--reverse .partners-marquee-track{animation-direction:reverse;}
-    .partners-marquee .partners-cell{flex:none;width:92px;height:48px;aspect-ratio:auto;padding:8px;border:1px solid #e3e3e3;}
+    .partners-marquee .partners-cell{flex:none;width:92px;height:48px;aspect-ratio:auto;padding:8px;border-radius:10px;}
     @keyframes partners-marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
     @media (prefers-reduced-motion:reduce){.partners-marquee-track{animation:none;}}
   }
@@ -757,7 +757,7 @@
   .reel-field{position:absolute;inset:0;z-index:1;perspective:1000px;transform-style:preserve-3d;}
   .reel-img{
     position:absolute;top:50%;left:50%;
-    width:min(26vw,300px);aspect-ratio:4/5;object-fit:cover;
+    width:min(26vw,300px);aspect-ratio:4/5;object-fit:cover;border-radius:20px;
     filter:brightness(.4) blur(2px) grayscale(1);
     opacity:0;will-change:transform,opacity,filter;
   }
@@ -805,7 +805,7 @@
        until its own turn came. */
     .reel-img-mobile{
       display:block;position:absolute;top:50%;left:50%;
-      width:min(55vw,260px);aspect-ratio:4/5;object-fit:cover;
+      width:min(55vw,260px);aspect-ratio:4/5;object-fit:cover;border-radius:16px;
       filter:brightness(.55) grayscale(1);opacity:0;
     }
     .reel-copy{position:absolute;inset:0;margin-bottom:0;padding:0 24px;}
@@ -2729,10 +2729,19 @@
       if (imageUv.x < 0.0 || imageUv.x > 1.0 || imageUv.y < 0.0 || imageUv.y > 1.0) {
         discard;
       }
+      // rounded corners: signed distance to a rounded rect matching the
+      // contain-fitted image area (measured in plane-height units)
+      vec2 halfSize = 0.5 * containScale * vec2(uPlaneAspect, 1.0);
+      float radius = 0.045 * min(uPlaneAspect, 1.0);
+      vec2 q = abs((vUv - 0.5) * vec2(uPlaneAspect, 1.0)) - halfSize + radius;
+      float dist = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - radius;
+      float edge = max(fwidth(dist), 1e-5);
+      float mask = 1.0 - smoothstep(-edge, edge, dist);
+      if (mask <= 0.0) discard;
       vec4 tex = texture2D(uTexture, imageUv);
       float gray = dot(tex.rgb, vec3(0.299, 0.587, 0.114));
       tex.rgb = mix(tex.rgb, vec3(gray), uGrayMix);
-      gl_FragColor = vec4(tex.rgb, 1.0);
+      gl_FragColor = vec4(tex.rgb, mask);
     }
   `;
 
@@ -2775,6 +2784,8 @@
       },
       vertexShader: VERT,
       fragmentShader: FRAG,
+      transparent: true,
+      extensions: { derivatives: true },
     });
     const mesh = new THREE.Mesh(sharedGeo, mat);
     rowGroup.add(mesh);
@@ -2791,6 +2802,8 @@
     },
     vertexShader: VERT,
     fragmentShader: FRAG,
+    transparent: true,
+      extensions: { derivatives: true },
   });
   const viewMoreMesh = new THREE.Mesh(sharedGeo, viewMoreMat);
   // no image panel for this slot -- it only holds a position in the pan/focus

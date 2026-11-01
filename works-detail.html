@@ -104,7 +104,7 @@
   }
 
   /* ---- page layout ---- */
-  .wd-page{padding-top:72px;min-height:100vh;}
+  .wd-page{padding-top:112px;min-height:100vh;}
   .wd-container{max-width:1400px;margin:0 auto;padding:0 40px 0;}
 
   .wd-head{margin-top:0;}
@@ -159,6 +159,20 @@
   .wd-contact-btn{display:flex;align-items:center;justify-content:center;width:100%;padding:16px;border-radius:99px;background:var(--ink);color:#fff;font-family:var(--mono);font-weight:700;font-size:12.5px;letter-spacing:.06em;transition:background .25s ease;}
   .wd-contact-btn:hover{background:var(--teal);}
 
+  /* スマホ: サマリーカードの縦を少しだけ詰める */
+  @media (max-width:768px){
+    .wd-card{padding:24px 22px;gap:16px;}
+    .wd-stat{padding:13px 18px;}
+    .wd-stat-head{margin:0 0 6px;}
+    .wd-stat-value{font-size:25px;}
+    .wd-contact-btn{padding:14px;}
+  }
+
+  /* 1カラム時はギャラリー直下に置かれる(JSで移動)ので前後の余白を整える */
+  @media (max-width:960px){
+    .wd-main > .wd-card{margin:20px 0 36px;}
+  }
+
   @media (max-width:960px){
     .wd-layout{grid-template-columns:1fr;gap:40px;}
     .wd-sidebar{position:static;}
@@ -182,7 +196,7 @@
   .wd-more-card{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;transition-delay:calc(var(--i) * .06s);}
   .wd-more-card.is-inview{opacity:1;transform:translateY(0);}
 
-  .wd-more-link-card{display:block;background:#fff;border:1px solid rgba(0,0,0,.07);overflow:hidden;transition:box-shadow .3s ease,transform .3s ease;}
+  .wd-more-link-card{display:block;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:18px;overflow:hidden;transition:box-shadow .3s ease,transform .3s ease;}
   .wd-more-link-card:hover{box-shadow:0 24px 50px -30px rgba(9,9,11,.35);transform:translateY(-4px);}
 
   .wd-more-thumb{position:relative;aspect-ratio:16/10;overflow:hidden;background:#000;}
@@ -201,6 +215,11 @@
 
   @media (max-width:768px){
     .nav{padding-left:10px;padding-right:10px;}
+    .wd-page{padding-top:88px;}
+    .wd-layout{gap:26px;}
+    .wd-title{font-size:22px;line-height:1.3;}
+    .wd-client{margin-top:8px;font-size:13px;}
+    .wd-date{margin-top:6px;font-size:11.5px;}
     .wd-container{padding-left:30px;padding-right:30px;}
     .site-footer{padding-left:30px;padding-right:30px;}
     .wd-layout{padding-bottom:70px;}
@@ -259,6 +278,7 @@
   .view-stalker.is-active .vs-arrow{transform:translate(1px,-1px);}
   @media (max-width:768px), (hover:none){.view-stalker{display:none;}}
 </style>
+<link rel="stylesheet" href="assets/works-gallery.css">
 </head>
 <body>
 
@@ -391,9 +411,7 @@
         </aside>
 
         <div class="wd-main" id="wdMain">
-          <div class="wd-hero">
-            <img src="assets/works/coke-santa-cam-phones.webp" alt="日本コカ・コーラ Coke Web ARカメラ Santa CAM メインビジュアル" width="864" height="507" loading="lazy">
-          </div>
+          <div class="wdv" id="wdv"  data-items="[{&quot;src&quot;: &quot;assets/works/preview/kingu-1.jpg&quot;, &quot;t&quot;: &quot;今日はご褒美でマネージャーさんたちとご飯です&quot;}, {&quot;src&quot;: &quot;assets/works/preview/kingu-2.jpg&quot;, &quot;t&quot;: &quot;KING&#x27;S HAWAIIANコラボの焼肉きんぐスライダー&quot;}, {&quot;src&quot;: &quot;assets/works/preview/kingu-3.jpg&quot;, &quot;t&quot;: &quot;焼肉きんぐ ハワイフェア食べ放題&quot;}, {&quot;src&quot;: &quot;assets/works/preview/kingu-4.jpg&quot;, &quot;t&quot;: &quot;禁断のしあわせ メープルトースト&quot;}]"></div>
 
           <p class="wd-desc">クリスマスシーズンに合わせ、Web ARカメラ「Santa CAM」を軸としたプロモーションキャンペーンを企画・制作。ユーザーがブラウザ上でサンタクロースの姿になれるARフィルターと、それをSNSでシェアしたくなる導線設計により、TikTok・Instagramの両プラットフォームで大規模なUGC拡散を実現しました。企画立案からクリエイティブ制作、インフルエンサーキャスティング、投稿運用までをワンストップで担当しています。</p>
 
@@ -508,6 +526,22 @@
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // 1カラム(スマホ/タブレット)では Views・ENG%・CONTACT のカードを画像ギャラリーの下へ移動
+  (function(){
+    var card = document.querySelector('.wd-card');
+    var sidebar = document.getElementById('wdSidebar');
+    var gallery = document.getElementById('wdv');
+    if (!card || !sidebar || !gallery) return;
+    var mq = window.matchMedia('(max-width: 960px)');
+    function place(){
+      if (mq.matches) gallery.insertAdjacentElement('afterend', card);
+      else sidebar.appendChild(card);
+    }
+    place();
+    if (mq.addEventListener) mq.addEventListener('change', place);
+    else if (mq.addListener) mq.addListener(place);
+  })();
+
   var revealTargets = document.querySelectorAll('#wdMain, #wdSidebar, .wd-more-card');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(entries){
@@ -578,5 +612,6 @@
   }
 })();
 </script>
+<script src="assets/works-gallery.js"></script>
 </body>
 </html>

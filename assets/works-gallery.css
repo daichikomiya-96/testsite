@@ -1,0 +1,56 @@
+/* works-detail 縦型スクショ ギャラリー（3Dカルーセル）
+   #wdv コンテナ内だけに効くスコープ付きスタイル。works-gallery.js とセットで使う。 */
+.wdv{container-type:inline-size;position:relative;}
+.wdv *{box-sizing:border-box;}
+.wdv img{display:block;max-width:none;}
+.wdv button{font:inherit;cursor:pointer;border:0;background:none;color:inherit;padding:0;}
+
+/* ---- phone mock ---- */
+.wdv-phone{--pw:240px;position:relative;flex:none;width:var(--pw);aspect-ratio:9/16.6;border-radius:calc(var(--pw)*.15);padding:calc(var(--pw)*.03);background:linear-gradient(145deg,#2c2c33,#0c0c0f 42%,#1d1d22);box-shadow:inset 0 0 0 1.5px #3b3b44,0 40px 80px -30px rgba(0,0,0,.55),0 10px 24px rgba(0,0,0,.22);}
+.wdv-phone::before{content:"";position:absolute;z-index:5;top:calc(var(--pw)*.058);left:50%;width:calc(var(--pw)*.24);height:calc(var(--pw)*.068);transform:translateX(-50%);background:#000;border-radius:99px;}
+.wdv-phone::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.14),transparent 30%);pointer-events:none;z-index:6;}
+.wdv-screen{position:relative;width:100%;height:100%;border-radius:calc(var(--pw)*.12);overflow:hidden;background:#000;}
+.wdv-screen img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none;}
+
+/* ---- shared panels ---- */
+.wdv-panel{position:relative;padding:0 0 12px;background:none;color:var(--ink);}
+.wdv-panel>*{position:relative;z-index:2;}
+
+/* ---- V4 3D Carousel ---- */
+.wdv-v4-scene{position:relative;height:calc(var(--pw)*2.4);--pw:clamp(130px,25cqw,220px);perspective:1700px;display:grid;place-items:center;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;}
+.wdv-v4-scene.drag{cursor:grabbing;}
+.wdv-v4-ring{position:relative;z-index:2;transform-style:preserve-3d;width:0;height:0;}
+.wdv-v4-item{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.wdv-v4-item .wdv-phone{--pw:clamp(130px,25cqw,220px);position:absolute;left:calc(var(--pw)*-.5);top:calc(var(--pw)*-.922);margin:0;will-change:transform;}
+.wdv-v4-floor{position:absolute !important;left:50%;bottom:6%;width:80%;height:50px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent);filter:blur(12px);pointer-events:none;z-index:1 !important;}
+.wdv-clip{overflow-x:clip;overflow-y:visible;}
+.wdv-v4-fx{position:absolute;inset:0;pointer-events:none;z-index:6;}
+.wdv-v4-scene.popped{cursor:zoom-out;}
+.wdv-panel>.wdv-ctl{z-index:1;}
+.wdv-ctl{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:44px;color:var(--ink);}
+.wdv-ctl button{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:16px;line-height:1;transition:background .2s,color .2s;}
+.wdv-ctl button:hover{background:var(--ink);color:#fff;}
+
+/* スマホ: 左右の影・端末が親の余白(30px)で途中でぷつっと切れて見えるため、
+   ギャラリーを画面の左右端まで広げ、切れ目を画面の端に逃がす */
+@media (max-width:768px){
+  .wdv-clip{margin-left:-30px;margin-right:-30px;}
+  /* 画像(カルーセル)の縦を詰める: 端末を少し小さく、上下の余白も圧縮 */
+  .wdv-v4-scene{--pw:130px;height:calc(var(--pw)*2.65);}
+  .wdv-v4-item .wdv-phone{--pw:130px;}
+  .wdv-panel{padding:0 0 28px;}
+  /* スマホはスワイプで操作できるので ←→ ボタンは非表示 */
+  .wdv-ctl{display:none;}
+}
+
+/* PC幅ではカルーセル全体を小さめに */
+@media (min-width:961px){
+  .wdv-v4-scene{--pw:clamp(120px,21.5cqw,200px);}
+  .wdv-v4-item .wdv-phone{--pw:clamp(120px,21.5cqw,200px);}
+}
+
+/* ---- hearts (double-tap) ---- */
+.wdv-heart{position:absolute;width:26px;height:26px;fill:var(--pink);filter:drop-shadow(0 2px 6px rgba(255,61,122,.5));animation:wdvRise 1.9s cubic-bezier(.2,.7,.3,1) forwards;}
+@keyframes wdvRise{0%{opacity:0;transform:translate(0,0) scale(.3);}12%{opacity:1;transform:translate(0,-14px) scale(1.1);}100%{opacity:0;transform:translate(var(--dx),-240px) scale(.8) rotate(var(--r));}}
+
+@media (prefers-reduced-motion:reduce){.wdv-heart{animation-duration:.01s;}
