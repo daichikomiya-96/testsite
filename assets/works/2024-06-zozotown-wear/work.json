@@ -1,0 +1,34 @@
+{
+  "no": 3,
+  "date": "2024.6.1",
+  "client": "ZOZOTOWN",
+  "product": "WEARリニューアル",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "2024年5月にファッションコーディネートアプリ「WEAR」がリニューアル",
+    "新しくなったWEARの良さを複数名のTikTokerに動画投稿してもらい拡散"
+  ],
+  "details": "TikTok投稿、Spark Ads、Instagram広告",
+  "tags": [
+    "TikTok",
+    "Instagram"
+  ],
+  "stats": [
+    {
+      "label": "Views",
+      "label_ja": "再生回数",
+      "value": "11000000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "14",
+      "unit": "%"
+    }
+  ]
+}

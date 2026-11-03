@@ -137,7 +137,10 @@
   .work-item.is-inview{opacity:1;transform:translateY(0);}
   .work-item-link{position:relative;display:block;overflow:hidden;}
   .work-item-thumb{position:relative;width:100%;height:100%;overflow:hidden;background:#000;}
-  .work-item-thumb img{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 1s ease;}
+  /* 画像が未登録の案件: 準備中の枠 */
+  .work-item-thumb--empty{display:grid;place-items:center;background:#e4e4e8;}
+  .work-item-thumb--empty span{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.14em;color:#9a9aa2;}
+  .work-item-thumb img{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 1s ease;}
   .work-item-link:hover .work-item-thumb img{transform:scale(1.06);}
   .work-item-link:after{content:"";position:absolute;inset:0;background:rgba(9,9,11,.44);opacity:0;transition:opacity .4s ease;}
   .work-item-link:hover:after{opacity:1;}
@@ -147,13 +150,10 @@
   .work-item-title{font-size:15px;font-weight:700;line-height:1.5;margin:0;}
 
   @media (min-width:769px){
-    .works-list{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,clamp(140px,16vw,260px));gap:3px;}
-    .work-item:nth-child(1){grid-column:1/3;grid-row:1/3;}
-    .work-item:nth-child(2){grid-column:3/4;grid-row:1/2;}
-    .work-item:nth-child(3){grid-column:3/4;grid-row:2/3;}
-    .work-item:nth-child(4){grid-column:1/2;grid-row:3/4;}
-    .work-item:nth-child(5){grid-column:2/3;grid-row:3/4;}
-    .work-item:nth-child(6){grid-column:3/4;grid-row:3/4;}
+    /* 6件で1ブロック: 1件目は大(2x2)、2・3件目は右に縦2つ、4〜6件目は下に3つ。
+       7件目以降も同じパターンが繰り返されるので、案件が増えてもCSSの変更は不要 */
+    .works-list{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:clamp(140px,16vw,260px);gap:3px;}
+    .work-item:nth-child(6n+1){grid-column:span 2;grid-row:span 2;}
     .work-item-link,.work-item-thumb{height:100%;}
   }
   @media (max-width:768px){
@@ -362,51 +362,134 @@
       </div>
 
       <ul class="works-list" id="worksList" data-view="grid">
+        <!-- WORKS:LIST:START (tools/build_works.py が自動生成。手で編集しないでください) -->
         <li class="work-item" style="--i:1">
-          <a class="work-item-link" href="works-detail.html" data-view-cursor>
-            <div class="work-item-thumb"><img src="assets/s-1200x630_v-fms_webp_7750ebe5-c03e-4b23-a26e-3ee9d0440f36_small.webp" alt="" loading="lazy"></div>
+          <a class="work-item-link" href="works/012.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2026-07-coca-cola-fifa-world-cup-26/thumb.webp" alt="" loading="lazy"></div>
             <div class="work-item-info">
-              <p class="work-item-company">日本コカ・コーラ株式会社</p>
-              <h2 class="work-item-title">Web ARカメラ「Santa CAM」プロモーション</h2>
+              <p class="work-item-company">2026.7</p>
+              <h2 class="work-item-title">FIFA World Cup 26</h2>
             </div>
           </a>
         </li>
         <li class="work-item" style="--i:2">
-          <a class="work-item-link" href="works-detail.html" data-view-cursor>
-            <div class="work-item-thumb"><img src="assets/s-1440x810_726507e5-68e6-4868-b54e-99631e793649.webp" alt="" loading="lazy"></div>
+          <a class="work-item-link" href="works/011.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2026-04-coca-cola-fanta-battle-fantastic/thumb.webp" alt="" loading="lazy"></div>
             <div class="work-item-info">
-              <p class="work-item-company">日本コカ・コーラ株式会社</p>
-              <h2 class="work-item-title">Qoo ハロウィンキャンペーン ビジュアル制作</h2>
+              <p class="work-item-company">2026.4</p>
+              <h2 class="work-item-title">ファンタ Battle Fantastic</h2>
             </div>
           </a>
         </li>
         <li class="work-item" style="--i:3">
-          <a class="work-item-link" href="works-detail.html" data-view-cursor>
-            <div class="work-item-thumb"><img src="assets/s-1600x900_v-fms_webp_9133d27f-7b9a-4fb1-874e-65aa53cf7aac_small.webp" alt="" loading="lazy"></div>
+          <a class="work-item-link" href="works/010.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2026-02-lotte-ghana-valentine/thumb.webp" alt="" loading="lazy"></div>
             <div class="work-item-info">
-              <p class="work-item-company">株式会社ZOZO</p>
-              <h2 class="work-item-title">WEAR by ZOZO リニューアル訴求クリエイティブ</h2>
+              <p class="work-item-company">2026.2</p>
+              <h2 class="work-item-title">ロッテ「ガーナバレンタイン」</h2>
             </div>
           </a>
         </li>
         <li class="work-item" style="--i:4">
-          <a class="work-item-link" href="works-detail.html" data-view-cursor>
-            <div class="work-item-thumb"><img src="assets/s-1920x1080_a4ad862e-8b6c-4aaf-b673-e4b2fc632927.webp" alt="" loading="lazy"></div>
+          <a class="work-item-link" href="works/014.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2026-08-palcy-manga-app/thumb.webp" alt="" loading="lazy"></div>
             <div class="work-item-info">
-              <p class="work-item-company">アサヒ飲料株式会社</p>
-              <h2 class="work-item-title">カルピス「夏の部活大調査」キャンペーンビジュアル</h2>
+              <p class="work-item-company">2026.8</p>
+              <h2 class="work-item-title">Palcy漫画アプリ</h2>
             </div>
           </a>
         </li>
         <li class="work-item" style="--i:5">
-          <a class="work-item-link" href="works-detail.html" data-view-cursor>
-            <div class="work-item-thumb"><img src="assets/s-2400x1350_v-frms_webp_4ca074f8-9ad3-4ca4-9ce2-ad545a809881_small.webp" alt="" loading="lazy"></div>
+          <a class="work-item-link" href="works/013.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2026-07-yakiniku-king-hawaii-fair/thumb.webp" alt="" loading="lazy"></div>
             <div class="work-item-info">
-              <p class="work-item-company">株式会社U-NEXT</p>
-              <h2 class="work-item-title">U-NEXT ブランドキービジュアル制作</h2>
+              <p class="work-item-company">2026.7</p>
+              <h2 class="work-item-title">焼肉きんぐハワイフェア</h2>
             </div>
           </a>
         </li>
+        <li class="work-item" style="--i:6">
+          <a class="work-item-link" href="works/009.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-11-coca-cola-coke/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.11.30</p>
+              <h2 class="work-item-title">日本コカ・コーラ　Coke</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:7">
+          <a class="work-item-link" href="works/008.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-09-unext/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.9.6</p>
+              <h2 class="work-item-title">U-NEXT</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:8">
+          <a class="work-item-link" href="works/007.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-09-coca-cola-qoo/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.9.2</p>
+              <h2 class="work-item-title">日本コカ・コーラ　Qoo</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:9">
+          <a class="work-item-link" href="works/006.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-08-coca-cola-jack-and-coke/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.8.30</p>
+              <h2 class="work-item-title">日本コカ・コーラ　Jack&amp;Coke</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:10">
+          <a class="work-item-link" href="works/005.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-08-rohto-yukurizumu/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.8.29</p>
+              <h2 class="work-item-title">ロート製薬　ユクリズム</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:11">
+          <a class="work-item-link" href="works/004.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-08-asahi-calpis/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.8.5</p>
+              <h2 class="work-item-title">アサヒ飲料　カルピス</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:12">
+          <a class="work-item-link" href="works/003.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-06-zozotown-wear/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.6.1</p>
+              <h2 class="work-item-title">ZOZOTOWN　WEARリニューアル</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:13">
+          <a class="work-item-link" href="works/002.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2024-02-coca-cola-qoo/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2024.2.5</p>
+              <h2 class="work-item-title">日本コカ・コーラ　Qoo</h2>
+            </div>
+          </a>
+        </li>
+        <li class="work-item" style="--i:14">
+          <a class="work-item-link" href="works/001.html" data-view-cursor>
+            <div class="work-item-thumb"><img src="assets/works/2023-10-coca-cola-fanta/thumb.webp" alt="" loading="lazy"></div>
+            <div class="work-item-info">
+              <p class="work-item-company">2023.10.31</p>
+              <h2 class="work-item-title">日本コカ・コーラ　FANTA</h2>
+            </div>
+          </a>
+        </li>
+        <!-- WORKS:LIST:END -->
       </ul>
     </div>
   </main>

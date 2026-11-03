@@ -1,0 +1,37 @@
+{
+  "no": 2,
+  "date": "2024.2.5",
+  "client": "日本コカ・コーラ",
+  "product": "Qoo",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "リバイバル企画の一環としてモーニング娘。の「ザピース」という曲をQoo verにアレンジ",
+    "当時の「モーニング娘。メンバー」を数名起用＋著名芸人のイベント出演",
+    "投稿媒体は親子世代に相性のいいInstagram＋TikTokで展開",
+    "拡散要因として若者に人気のTikTokクリエイターを起用"
+  ],
+  "details": "PRイベントキャスティング、Instagramリール投稿、TikTok投稿",
+  "tags": [
+    "Instagram",
+    "TikTok",
+    "Event"
+  ],
+  "stats": [
+    {
+      "label": "Followers",
+      "label_ja": "フォロワー数",
+      "value": "3500000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "7",
+      "unit": "%"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "no": 14,
+  "date": "2026.8",
+  "client": "講談社",
+  "client_full": "株式会社講談社",
+  "title": "Palcy漫画アプリ",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp",
+    "02.webp",
+    "03.webp"
+  ],
+  "promotion": [
+    "講談社の漫画アプリPalcyのYouTubeタイアップ施策。",
+    "自分たちの胸きゅんシチュエーションをぼる塾に語り合ってもらうことで、ターゲットの感情を刺激し、共感を得ることができた。"
+  ],
+  "tags": [
+    "YouTube"
+  ],
+  "stats": [
+    {
+      "label": "IMP",
+      "label_ja": "インプレッション数",
+      "value": "6500000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "1.44",
+      "unit": "%"
+    }
+  ]
+}

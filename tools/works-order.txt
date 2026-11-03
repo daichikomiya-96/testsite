@@ -1,0 +1,21 @@
+# Works(一覧・「他の実績」)の表示順。上から順に表示されます。1行に1案件(assets/works/ 内のフォルダ名)。
+# 順番を変えたいときは、行を入れ替えて python3 tools/build_works.py を実行してください。
+# ここに書いていない案件は、末尾に日付の新しい順で並びます(生成時に知らせます)。
+
+# --- スプレッドシートの順 ---
+2026-07-coca-cola-fifa-world-cup-26
+2026-04-coca-cola-fanta-battle-fantastic
+2026-02-lotte-ghana-valentine
+2026-08-palcy-manga-app
+2026-07-yakiniku-king-hawaii-fair
+
+# --- 既存の案件(日付の新しい順) ---
+2024-11-coca-cola-coke
+2024-09-unext
+2024-09-coca-cola-qoo
+2024-08-coca-cola-jack-and-coke
+2024-08-rohto-yukurizumu
+2024-08-asahi-calpis
+2024-06-zozotown-wear
+2024-02-coca-cola-qoo
+2023-10-coca-cola-fanta

@@ -1,0 +1,33 @@
+{
+  "no": 1,
+  "date": "2023.10.31",
+  "client": "日本コカ・コーラ",
+  "product": "FANTA",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "「FANTA片手にハジけるハロウィン」をテーマに",
+    "スカイピース☆イニさんに音源制作から振付、TikTok投稿まで依頼"
+  ],
+  "details": "音源制作、振付制作、TikTok投稿",
+  "tags": [
+    "TikTok"
+  ],
+  "stats": [
+    {
+      "label": "Views",
+      "label_ja": "再生回数",
+      "value": "11000000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "3.1",
+      "unit": "%"
+    }
+  ]
+}

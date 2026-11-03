@@ -1,0 +1,36 @@
+{
+  "no": 11,
+  "date": "2026.4",
+  "client": "日本コカ・コーラ",
+  "client_full": "日本コカ・コーラ株式会社",
+  "title": "ファンタ Battle Fantastic",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp",
+    "02.webp",
+    "03.webp",
+    "04.webp"
+  ],
+  "promotion": [
+    "コカ・コーラ社のブランド「ファンタ」のSNS施策「Battle Fantastic」のキャスティングを担当。",
+    "Teen向けにTikTokのブランドミッションをタレント・インフルエンサーにプレイしていただき、投稿のディレクションを行った。"
+  ],
+  "tags": [
+    "TikTok"
+  ],
+  "stats": [
+    {
+      "label": "IMP",
+      "label_ja": "インプレッション数",
+      "value": "20000000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "0.31",
+      "unit": "%"
+    }
+  ]
+}

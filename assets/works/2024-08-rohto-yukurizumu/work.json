@@ -1,0 +1,33 @@
+{
+  "no": 5,
+  "date": "2024.8.29",
+  "client": "ロート製薬",
+  "product": "ユクリズム",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "疲れやストレス、不安が溜まって寝つきが悪い、ぐっすり眠れない方に向けて商品を訴求。"
+  ],
+  "details": "Instagramフィード投稿、第三者配信、TikTok投稿、Spark Ads",
+  "tags": [
+    "Instagram",
+    "TikTok"
+  ],
+  "stats": [
+    {
+      "label": "Follower",
+      "label_ja": "合計フォロワー数",
+      "value": "544000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "9.4",
+      "unit": "%"
+    }
+  ]
+}

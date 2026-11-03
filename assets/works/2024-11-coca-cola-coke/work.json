@@ -1,0 +1,33 @@
+{
+  "no": 9,
+  "date": "2024.11.30",
+  "client": "日本コカ・コーラ",
+  "product": "Coke",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "Web ARカメラ“Santa CAM”の紹介"
+  ],
+  "details": "Instagramリール投稿、TikTok投稿",
+  "tags": [
+    "TikTok",
+    "Instagram"
+  ],
+  "stats": [
+    {
+      "label": "Views",
+      "label_ja": "再生回数",
+      "value": "7500000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "5",
+      "unit": "%"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "no": 4,
+  "date": "2024.8.5",
+  "client": "アサヒ飲料",
+  "product": "カルピス",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "カルピス部活調査団 活動報告投稿"
+  ],
+  "details": "Instagramフィード投稿、Instagramリール投稿、TikTok投稿",
+  "tags": [
+    "Instagram",
+    "TikTok"
+  ],
+  "stats": [
+    {
+      "label": "Follower",
+      "label_ja": "合計フォロワー数",
+      "value": "1220000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "8.5",
+      "unit": "%"
+    }
+  ]
+}

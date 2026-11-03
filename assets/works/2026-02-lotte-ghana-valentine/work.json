@@ -1,0 +1,34 @@
+{
+  "no": 10,
+  "date": "2026.2",
+  "client": "ロッテ",
+  "client_full": "株式会社ロッテ",
+  "title": "ロッテ「ガーナバレンタイン」",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp",
+    "02.webp",
+    "03.webp",
+    "04.webp"
+  ],
+  "promotion": [
+    "ABEMA『今日、好きになりました。』で成立したカップル3組を活用したSNSタイアップ施策を担当。",
+    "ABEMAで放送されたCM企画と連動する企画をSNSでも実施。カップルの魅力を全面に引き出すPRとなり、高いエンゲージメントを獲得することに成功した。"
+  ],
+  "tags": [],
+  "stats": [
+    {
+      "label": "IMP",
+      "label_ja": "インプレッション数",
+      "value": "9600000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "12.82",
+      "unit": "%"
+    }
+  ]
+}

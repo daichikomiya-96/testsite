@@ -1,0 +1,36 @@
+{
+  "no": 7,
+  "date": "2024.9.2",
+  "client": "日本コカ・コーラ",
+  "product": "Qoo",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "「たのしクーってどうしよう！」をテーマにジェラードンさんを広告契約で起用し、",
+    "なりきりクーダンスやYoutubeタイアップ、イベント出演を依頼"
+  ],
+  "details": "広告契約、Youtubeタイアップ、Instagramリール投稿、TikTok投稿、イベント出演",
+  "tags": [
+    "YouTube",
+    "Instagram",
+    "TikTok",
+    "Event"
+  ],
+  "stats": [
+    {
+      "label": "Views",
+      "label_ja": "再生回数",
+      "value": "6600000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "6.3",
+      "unit": "%"
+    }
+  ]
+}

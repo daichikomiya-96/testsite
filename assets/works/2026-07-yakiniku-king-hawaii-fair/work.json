@@ -1,0 +1,37 @@
+{
+  "no": 13,
+  "date": "2026.7",
+  "client": "物語コーポレーション",
+  "client_full": "株式会社物語コーポレーション",
+  "title": "焼肉きんぐハワイフェア",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp",
+    "02.webp",
+    "03.webp",
+    "04.webp"
+  ],
+  "promotion": [
+    "焼肉きんぐにて7月9日から開催されるハワイフェアのTikTok施策。",
+    "若年層向けのKOL2名とグルメ系KOLを2名の計4名をアサインし、各ターゲットに対して認知拡大とX投稿キャンペーンへの参加促進を行った。"
+  ],
+  "tags": [
+    "TikTok",
+    "X"
+  ],
+  "stats": [
+    {
+      "label": "IMP",
+      "label_ja": "インプレッション数",
+      "value": "7400000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "1.51",
+      "unit": "%"
+    }
+  ]
+}

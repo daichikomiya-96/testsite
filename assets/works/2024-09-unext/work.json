@@ -1,0 +1,33 @@
+{
+  "no": 8,
+  "date": "2024.9.6",
+  "client": "U-NEXT",
+  "product": "",
+  "thumb": "thumb.webp",
+  "images": [
+    "01.webp"
+  ],
+  "promotion": [
+    "映画 / ドラマ / アニメから、マンガや雑誌といった電子書籍まで。",
+    "U-NEXTひとつで楽しめる点を訴求"
+  ],
+  "details": "TikTok投稿、Spark Ads",
+  "tags": [
+    "TikTok"
+  ],
+  "stats": [
+    {
+      "label": "Views",
+      "label_ja": "再生回数",
+      "value": "3660000",
+      "suffix": "over"
+    },
+    {
+      "label": "ENG%",
+      "label_ja": "エンゲージメント率",
+      "prefix": "AVG",
+      "value": "6.8",
+      "unit": "%"
+    }
+  ]
+}
