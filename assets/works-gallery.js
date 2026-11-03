@@ -45,7 +45,10 @@
     var HEART='<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>';
     root.innerHTML='<section class="wdv-panel wdv-clip"><div class="wdv-v4-scene"><i class="wdv-v4-floor"></i><div class="wdv-v4-ring">'
       +slots.map(function(d){return '<div class="wdv-v4-item">'+((d.type==='wide'||NOFRAME)?card(d):phone('<img src="'+esc(d.src)+'" alt="'+esc(d.t)+'" draggable="false">'))+'</div>'}).join('')
-      +'</div><div class="wdv-v4-fx"></div></div><div class="wdv-ctl"><button class="prev" aria-label="前へ">←</button><button class="next" aria-label="次へ">→</button></div></section>';
+      +'</div><div class="wdv-v4-fx"></div></div><div class="wdv-ctl"><button class="prev" aria-label="前へ">←</button><div class="wdv-dots" role="group" aria-label="画像の切り替え">'
+      +items.map(function(d,i){return '<button type="button" aria-label="'+(i+1)+'枚目 / '+NV+'枚中"></button>'}).join('')
+      +'</div><button class="next" aria-label="次へ">→</button></div>'
+      +'</section>';
     var scene=$('.wdv-v4-scene',root),ring=$('.wdv-v4-ring',root),fx=$('.wdv-v4-fx',root);
     /* 横長だけのときは、縦長端末ぶんの高さが不要なので低くする */
     if(slots.every(function(d){return d.type==='wide'}))scene.classList.add('is-wide-only');
@@ -132,6 +135,11 @@
       var dx=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:(e.shiftKey?e.deltaY:0);
       if(!dx||popped)return;e.preventDefault();ang-=dx*.28;avel=-dx*.12;snap=null;kick();
     },{passive:false});
+    /* ページドット: 現在位置の表示 + タップでその画像へ */
+    var dots=$$('.wdv-dots button',root),curDot=-1;
+    dots.forEach(function(b,i){b.onclick=function(){if(popped)setPop(false);gotoSlot(i)}});
+    function syncDots(){var f=frontSlot()%NV;if(f===curDot)return;curDot=f;dots.forEach(function(b,i){b.classList.toggle('is-on',i===f);if(i===f)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current')})}
+    syncDots();
     $('.prev',root).onclick=function(){if(popped)setPop(false);step(1)};
     $('.next',root).onclick=function(){if(popped)setPop(false);step(-1)};
 
@@ -151,6 +159,7 @@
       mx+=(tmx-mx)*.1;my+=(tmy-my)*.1;                            /* 傾き追従 */
       pop+=((popped?1:0)-pop)*.14;                                /* 飛び出し */
       var fit=Math.min(1.9,scene.clientHeight*1.08/(PW*1.844)),popExtra=Math.max(.15,fit-1.42);
+      syncDots();
       ring.style.transform='translateZ('+(-R)+'px) rotateY('+ang+'deg)';
       var vsk=clamp(avel*-.6,-13,13);
       for(var i=0;i<NS;i++){

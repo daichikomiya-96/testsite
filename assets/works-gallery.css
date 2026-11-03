@@ -43,10 +43,21 @@
   /* 画像(カルーセル)の縦を詰める: 端末を少し小さく、上下の余白も圧縮 */
   .wdv-v4-scene{--pw:130px;height:calc(var(--pw)*2.65);}
   .wdv-v4-item .wdv-phone{--pw:130px;}
-  .wdv-panel{padding:0 0 28px;}
-  /* スマホはスワイプで操作できるので ←→ ボタンは非表示 */
-  .wdv-ctl{display:none;}
+  .wdv-panel{padding:0 0 8px;}
+  /* 横に動かせることが伝わるよう、スマホでも ←→ とドットを出す(縦を取らないよう小さめ) */
+  .wdv-ctl{margin-top:14px;gap:12px;}
+  .wdv-ctl button{width:38px;height:38px;font-size:14px;}
 }
+
+/* ---- 「横に動かせる」ことを伝えるUI: ページドット ---- */
+.wdv-dots{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;max-width:60%;}
+.wdv-dots button{width:22px;height:22px;display:grid;place-items:center;border-radius:50%;border:0;}
+.wdv-dots button::before{content:"";display:block;width:7px;height:7px;border-radius:99px;background:var(--ink);opacity:.22;transition:width .35s cubic-bezier(.16,1,.3,1),opacity .3s ease;}
+.wdv-dots button.is-on::before{width:22px;opacity:1;}
+.wdv-dots button:hover{background:none;color:inherit;}
+.wdv-dots button:hover::before{opacity:.55;}
+.wdv-dots button.is-on:hover::before{opacity:1;}
+.wdv-ctl .wdv-dots button{width:22px;height:22px;border:0;}
 
 /* PC幅ではカルーセル全体を小さめに */
 @media (min-width:961px){
