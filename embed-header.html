@@ -22,6 +22,8 @@
   }
   *{box-sizing:border-box;}
   html,body{margin:0;background:transparent;color:var(--ink);font-family:var(--sans);overflow:hidden;}
+  html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;}
+  html,body{scrollbar-width:none;}
   a{color:inherit;text-decoration:none;}
   img{display:block;max-width:100%;}
   button{font:inherit;}
@@ -65,6 +67,9 @@
   .nav-burger.is-active span:nth-child(2){transform:rotate(-45deg);}
 
   .mobile-menu{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:100px 32px 48px;background:rgba(9,9,11,.97);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .4s ease,visibility .4s;overflow-y:auto;}
+  /* one scrollbar only: the open menu still scrolls, but the page keeps the visible bar */
+  .mobile-menu{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;}
+  .mobile-menu::-webkit-scrollbar{display:none;width:0;height:0;}
   .mobile-menu.is-open{opacity:1;visibility:visible;pointer-events:auto;}
   .mobile-menu-nav{display:flex;flex-direction:column;}
   .mobile-menu-row{border-bottom:1px solid var(--line);}
