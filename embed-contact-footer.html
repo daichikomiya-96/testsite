@@ -59,13 +59,13 @@
 <body>
   <footer class="site-footer" id="embedRoot">
     <div class="footer-cta-row">
-      <a class="footer-cta-link" href="contact.html" data-path="/contact">
+      <a class="footer-cta-link" href="https://recologne.co.jp/contact" data-path="/contact">
         <img class="footer-cta-bg" src="assets/contact-bg.webp" alt="" loading="lazy" decoding="async">
         <span class="footer-cta-shade"></span>
         <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
         <span class="footer-cta-word">CONTACT</span>
       </a>
-      <a class="footer-cta-link" href="recruit.html" data-path="/recruit">
+      <a class="footer-cta-link" href="https://recologne.co.jp/recruit" data-path="/recruit">
         <img class="footer-cta-bg" src="assets/recruit-bg.webp" alt="" loading="lazy" decoding="async">
         <span class="footer-cta-shade"></span>
         <span class="footer-cta-icon"><span class="h"></span><span class="v"></span></span>
@@ -74,14 +74,14 @@
     </div>
     <div class="footer-inner">
       <nav class="footer-nav">
-        <a href="index.html" data-path="/">HOME</a>
-        <a href="about.html" data-path="/about-us">ABOUT</a>
-        <a href="sns-marketing.html" data-path="/sns-marketing">SNS Marketing</a>
-        <a href="creative.html" data-path="/creative">Creative Production</a>
-        <a href="d2c.html" data-path="/d2c">D2C</a>
-        <a href="works.html" data-path="/works">WORKS</a>
-        <a href="column.html" data-path="/column">COLUMN</a>
-        <a href="recruit.html" data-path="/recruit">RECRUIT</a>
+        <a href="https://recologne.co.jp/" data-path="/">HOME</a>
+        <a href="https://recologne.co.jp/about" data-path="/about">ABOUT</a>
+        <a href="https://recologne.co.jp/sns-marketing" data-path="/sns-marketing">SNS Marketing</a>
+        <a href="https://recologne.co.jp/creative" data-path="/creative">Creative Production</a>
+        <a href="https://recologne.co.jp/d2c" data-path="/d2c">D2C</a>
+        <a href="https://recologne.co.jp/works" data-path="/works">WORKS</a>
+        <a href="https://recologne.co.jp/column" data-path="/column">COLUMN</a>
+        <a href="https://recologne.co.jp/recruit" data-path="/recruit">RECRUIT</a>
         <span class="footer-copyright">&copy; Recologne</span>
       </nav>
     </div>
@@ -90,14 +90,12 @@
 <script>
 /* Query options (put them on the iframe src):
    ?base=https://example.com  site that owns the links; links with data-path become base + data-path
-                              (without it, document.referrer's origin is used, then the relative .html links)
+                              (default: https://recologne.co.jp)
    &name=contact-footer       name sent with the height message
    The page posts {type:'recologne-embed-height', name, height} to the parent so the parent can size the iframe. */
 (function(){
   var qs = new URLSearchParams(location.search);
-  var base = qs.get('base') || '';
-  if (!base){ try { base = new URL(document.referrer).origin; } catch(e){} }
-  if (base === location.origin) base = '';
+  var base = qs.get('base') || 'https://recologne.co.jp';
   if (base){
     base = base.replace(/\/$/, '');
     document.querySelectorAll('a[data-path]').forEach(function(a){

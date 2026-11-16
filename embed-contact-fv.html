@@ -38,7 +38,7 @@
 <body>
   <div class="contact-container" id="embedRoot">
     <nav class="breadcrumb" aria-label="breadcrumb">
-      <a href="index.html" data-path="/">Home</a><span class="sep">/</span><span class="current">Contact</span>
+      <a href="https://recologne.co.jp/" data-path="/">Home</a><span class="sep">/</span><span class="current">Contact</span>
     </nav>
     <h1 class="contact-title">CONTACT</h1>
     <p class="contact-lede">サービスに関するご相談、お見積り、取材のご依頼など、お気軽にお問い合わせください。内容を確認のうえ、担当者よりご連絡いたします。</p>
@@ -47,15 +47,13 @@
 <script>
 /* Query options (put them on the iframe src):
    ?base=https://example.com  site that owns the links; links with data-path become base + data-path
-                              (without it, document.referrer's origin is used, then the relative .html links)
+                              (default: https://recologne.co.jp)
    &top=0                     top padding in px (default 72 = clears a fixed STUDIO header; 0 for none)
    &name=contact-fv           name sent with the height message
    The page posts {type:'recologne-embed-height', name, height} to the parent so the parent can size the iframe. */
 (function(){
   var qs = new URLSearchParams(location.search);
-  var base = qs.get('base') || '';
-  if (!base){ try { base = new URL(document.referrer).origin; } catch(e){} }
-  if (base === location.origin) base = '';
+  var base = qs.get('base') || 'https://recologne.co.jp';
   if (base){
     base = base.replace(/\/$/, '');
     document.querySelectorAll('a[data-path]').forEach(function(a){
