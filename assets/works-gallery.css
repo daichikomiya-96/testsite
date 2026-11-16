@@ -26,6 +26,12 @@
 .wdv-v4-item .wdv-card{--ww:calc(var(--pw)*2);position:absolute;left:calc(var(--ww)*-.5);top:calc(var(--ww)/var(--ar)*-.5);width:var(--ww);aspect-ratio:var(--ar);margin:0;border-radius:calc(var(--pw)*.07);overflow:hidden;background:#fff;box-shadow:0 36px 70px -34px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.06);will-change:transform;}
 .wdv-v4-item .wdv-card.wdv-card--tall{--ww:var(--pw);}
 .wdv-v4-scene.is-wide-only{height:calc(var(--pw)*2.1);}
+/* 高さをそろえる: 縦長・横長が混ざるギャラリーでは、全カードの高さ(--ch)を同じにして、幅は各画像の縦横比で決める。
+   (横長だけのギャラリーは、もともと縦横比が同じなので従来のまま) */
+.wdv-v4-scene{--ch:calc(var(--pw)*1.6);}
+.wdv-v4-scene.is-mixed{--ch:calc(var(--pw)*1.4);}
+.wdv-v4-scene:not(.is-wide-only) .wdv-v4-item .wdv-card,
+.wdv-v4-scene:not(.is-wide-only) .wdv-v4-item .wdv-card.wdv-card--tall{--ww:calc(var(--ch)*var(--ar));}
 .wdv-card img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none;}
 .wdv-v4-floor{position:absolute !important;left:50%;bottom:6%;width:80%;height:50px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent);filter:blur(12px);pointer-events:none;z-index:1 !important;}
 .wdv-clip{overflow-x:clip;overflow-y:visible;}

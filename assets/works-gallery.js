@@ -52,6 +52,8 @@
     var scene=$('.wdv-v4-scene',root),ring=$('.wdv-v4-ring',root),fx=$('.wdv-v4-fx',root);
     /* 横長だけのときは、縦長端末ぶんの高さが不要なので低くする */
     if(slots.every(function(d){return d.type==='wide'}))scene.classList.add('is-wide-only');
+    /* 縦長と横長が混ざるときは、カードの高さをそろえるための印(CSSの --ch) */
+    if(slots.some(function(d){return d.type==='wide'})&&slots.some(function(d){return d.type!=='wide'}))scene.classList.add('is-mixed');
     var its=$$('.wdv-v4-item',ring),phs=its.map(function(it){return it.firstElementChild});
     var angs=[],iw=[],ih=[],R=300,PW=200,ang=0,avel=0,drag=false,lx=0,snap=null,lastAct=performance.now();
     var pop=0,popped=false,mx=0,my=0,tmx=0,tmy=0,down=null,lastTap={t:0,x:0,y:0},pending=null;
