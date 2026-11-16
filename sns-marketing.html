@@ -434,5 +434,40 @@
   });
 })();
 </script>
+<script>
+/* STUDIO iframe: when this page is shown inside an iframe on https://recologne.co.jp,
+   every internal link goes to the matching recologne.co.jp URL in the top window
+   (about.html -> /about, works/001.html -> /works/001, index.html -> /).
+   Opened directly (not in an iframe) the links stay as they are. */
+(function(){
+  var ROOT = 'https://recologne.co.jp';
+  var framed = true;
+  try { framed = window.self !== window.top; } catch(e){}
+  function studioUrl(href){
+    try {
+      var u = new URL(href, location.href);
+      if (u.origin !== location.origin) return null;
+      var p = u.pathname.replace(/^\/testsite(?=\/|$)/, '');
+      if (!/(^|\/)$|\.html$/.test(p)) return null;
+      p = p.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
+      return ROOT + (p || '/') + u.search + u.hash;
+    } catch(e){ return null; }
+  }
+  window.rcGo = function(href){
+    var u = framed ? studioUrl(href) : null;
+    if (!u){ location.href = href; return; }
+    try { window.top.location.href = u; } catch(e){ location.href = href; }
+  };
+  if (!framed) return;
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) === '#') return;
+    var u = studioUrl(h);
+    if (!u) return;
+    a.href = u;
+    if (!a.getAttribute('target')) a.target = '_top';
+  });
+})();
+</script>
 </body>
 </html>
