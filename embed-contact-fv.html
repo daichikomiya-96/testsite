@@ -16,7 +16,7 @@
     --ink:#1c1c1e;--ink-dim:#6b6b70;--page-bg:#f2f2f2;
     --mono:"Orbitron", ui-monospace,"Cascadia Code","Roboto Mono","SFMono-Regular",Menlo,Consolas,"Courier New",monospace;
     --sans:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic Medium","Yu Gothic","Meiryo",system-ui,sans-serif;
-    --top:72px;
+    --top:24px; /* STUDIO already places this iframe below the 80px header */
   }
   *{box-sizing:border-box;}
   html,body{margin:0;background:transparent;color:var(--ink);font-family:var(--sans);overflow:hidden;scrollbar-width:none;}
@@ -32,8 +32,7 @@
   .contact-lede{margin:26px 0 0;max-width:720px;font-size:14px;line-height:1.9;color:var(--ink-dim);}
 
   @media (max-width:768px){
-    .contact-container{padding-left:max(32px,8vw);padding-right:max(32px,8vw);}
-    .contact-lede{max-width:none;}
+    .contact-container{padding-top:0;padding-left:30px;padding-right:30px;}
   }
 </style>
 </head>
@@ -50,7 +49,7 @@
 /* Query options (put them on the iframe src):
    ?base=https://example.com  site that owns the links; links with data-path become base + data-path
                               (default: https://recologne.co.jp)
-   &top=0                     top padding in px (default 72 = clears a fixed STUDIO header; 0 for none)
+   &top=0                     top padding in px (default 24; 0 on phones)
    &name=contact-fv           name sent with the height message
    The page posts {type:'recologne-embed-height', name, height} to the parent so the parent can size the iframe. */
 (function(){
