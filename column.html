@@ -127,7 +127,9 @@
   .col-date{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--ink-dim);font-variant-numeric:tabular-nums;}
 
   .col-title{margin:0;max-width:640px;font-family:var(--sans);font-weight:700;font-size:clamp(15px,1.6vw,19px);line-height:1.65;color:#222;transition:color .25s ease;}
-  .col-link:hover .col-title{color:var(--teal);}
+  a.col-link:hover .col-title{color:var(--teal);}
+  div.col-link:hover{background-color:transparent;}
+  .col-text{margin:8px 0 0;font-size:13px;line-height:1.8;color:var(--ink-dim);}
 
   .col-arrow{flex-shrink:0;position:relative;width:26px;height:26px;opacity:0;transform:translateX(-8px);transition:opacity .25s ease, transform .25s ease;}
   .col-link:hover .col-arrow{opacity:1;transform:translateX(0);}
@@ -312,67 +314,21 @@
 
       <ul class="col-list" id="colList">
         <li class="col-item" style="--i:1">
-          <a class="col-link" href="#" data-view-cursor>
+          <div class="col-link">
             <div class="col-body">
-              <p class="col-meta"><span class="col-date">2026.02.28</span></p>
-              <h2 class="col-title">2026年度版「グローバルITカンファレンス」に登壇が決定しました。</h2>
+              <p class="col-meta"><span class="col-date">2026.11</span></p>
+              <h2 class="col-title">ホームページをリニューアルしました</h2>
             </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
+          </div>
         </li>
         <li class="col-item" style="--i:2">
-          <a class="col-link" href="#" data-view-cursor>
+          <div class="col-link">
             <div class="col-body">
-              <p class="col-meta"><span class="col-date">2026.02.15</span></p>
-              <h2 class="col-title">サーバーメンテナンスに伴う深夜一時的なサイト停止のお知らせ</h2>
+              <p class="col-meta"><span class="col-date">2026.07</span></p>
+              <h2 class="col-title">オフィスを移転しました</h2>
+              <p class="col-text">新住所：〒153-0051 東京都目黒区上目黒3丁目6番18号 SELAS中目黒 6階</p>
             </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
-        </li>
-        <li class="col-item" style="--i:3">
-          <a class="col-link" href="#" data-view-cursor>
-            <div class="col-body">
-              <p class="col-meta"><span class="col-date">2026.01.20</span></p>
-              <h2 class="col-title">採用ページをリニューアルしました。新卒・中途エントリーはこちらから。</h2>
-            </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
-        </li>
-        <li class="col-item" style="--i:4">
-          <a class="col-link" href="#" data-view-cursor>
-            <div class="col-body">
-              <p class="col-meta"><span class="col-date">2025.12.18</span></p>
-              <h2 class="col-title">年末年始休業のお知らせ</h2>
-            </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
-        </li>
-        <li class="col-item" style="--i:5">
-          <a class="col-link" href="#" data-view-cursor>
-            <div class="col-body">
-              <p class="col-meta"><span class="col-date">2025.11.30</span></p>
-              <h2 class="col-title">新オフィス移転のお知らせ</h2>
-            </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
-        </li>
-        <li class="col-item" style="--i:6">
-          <a class="col-link" href="#" data-view-cursor>
-            <div class="col-body">
-              <p class="col-meta"><span class="col-date">2025.10.08</span></p>
-              <h2 class="col-title">設立5周年を迎えました。</h2>
-            </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
-        </li>
-        <li class="col-item" style="--i:7">
-          <a class="col-link" href="#" data-view-cursor>
-            <div class="col-body">
-              <p class="col-meta"><span class="col-date">2025.09.01</span></p>
-              <h2 class="col-title">インフルエンサーマーケティング支援サービスの提供エリアを拡大しました。</h2>
-            </div>
-            <span class="col-arrow"><img class="arrow-bg" src="assets/column-viewmore-circle.svg" alt=""><img class="arrow-fg" src="assets/column-viewmore-arrow.svg" alt=""></span>
-          </a>
+          </div>
         </li>
       </ul>
     </div>
